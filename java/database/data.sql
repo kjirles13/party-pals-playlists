@@ -2,6 +2,8 @@ BEGIN TRANSACTION;
 
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+INSERT INTO users (username,password_hash,role) VALUES ('kit','$2a$10$quBSSxGQenP59LD1J5ZHIuizWw0dqso/cAtn6LNryNotTm/aMmEw2','ROLE_ADMIN');
+INSERT INTO users (username,password_hash,role) VALUES ('ari','$2a$10$uDyopGzbawG8kag13M6qK.LwYvxUwnM7mcZwbZ5cy0y8FNk2OovHa','ROLE_ADMIN');
 
 INSERT INTO artist (artist_id, name) VALUES ('1moxjboGR7GNWYIMWsRjgG', 'Florence and the Machine');
 INSERT INTO artist (artist_id, name) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', 'Florence and the Machine');
@@ -23,5 +25,18 @@ INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '
 INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '0judK8TqYfvwUohBngUxrE');
 INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '410ZZP746AQeiywhKvXWCo');
 INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '1nwkSqzTyXBk6XF796EOav');
+
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('1YLJVmuzeM2YSUkCCaTNUB', 3, 5);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('7H7SHw3YWXhb4zYqyoPNa1', 3, 3);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('7KA4W4McWYRpgf0fWsJZWB', 3, 4);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('0judK8TqYfvwUohBngUxrE', 3, 2);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('1nwkSqzTyXBk6XF796EOav', 3, 4);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('5XSU59wtE5CRCAEyHmmGy4', 2, 2);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('410ZZP746AQeiywhKvXWCo', 2, 3);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('7KA4W4McWYRpgf0fWsJZWB', 2, 1);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('31ABtQJdfloNaGz7ZhXaN5', 2, 5);
+INSERT INTO dj_song (song_id, user_id, song_rating) VALUES ('7H7SHw3YWXhb4zYqyoPNa1', 2, 3);
+
+-- ROLLBACK TRANSACTION
 
 COMMIT TRANSACTION;
