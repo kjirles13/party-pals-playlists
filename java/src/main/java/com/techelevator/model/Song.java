@@ -9,17 +9,21 @@ public class Song {
     private List<Genre> genres;
     private int rating;
     private int votes;
+    private String preview;
+    private String spotifyUri;
 
     public Song() {
     }
 
-    public Song(int id, String name, List<Artist> artists, List<Genre> genres, int rating, int votes) {
+    public Song(int id, String name, List<Artist> artists, List<Genre> genres, int rating, int votes, String preview, String spotifyUri) {
         this.id = id;
         this.name = name;
         this.artists = artists;
         this.genres = genres;
         this.rating = rating;
         this.votes = votes;
+        this.preview = preview;
+        this.spotifyUri = spotifyUri;
     }
 
     public int getId() {
@@ -70,15 +74,33 @@ public class Song {
         this.votes = votes;
     }
 
+    public String getPreview() {
+        return preview;
+    }
+
+    public void setPreview(String preview) {
+        this.preview = preview;
+    }
+
+    public String getSpotifyUri() {
+        return spotifyUri;
+    }
+
+    public void setSpotifyUri(String spotifyUri) {
+        this.spotifyUri = spotifyUri;
+    }
+
     @Override
     public String toString() {
         return "Song{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", artist='" + artists + '\'' +
+                ", artists=" + artists +
                 ", genres=" + genres +
                 ", rating=" + rating +
                 ", votes=" + votes +
+                ", preview='" + preview + '\'' +
+                ", spotifyUri='" + spotifyUri + '\'' +
                 '}';
     }
 }

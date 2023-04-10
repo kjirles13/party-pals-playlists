@@ -1,5 +1,7 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.Song;
+
 import java.security.Principal;
 import java.util.List;
 

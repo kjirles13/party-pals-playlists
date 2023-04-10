@@ -1,7 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Event;
-import org.apache.catalina.Host;
+import com.techelevator.model.Host;
 
 import java.security.Principal;
 import java.util.List;
