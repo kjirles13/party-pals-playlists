@@ -16,6 +16,6 @@ public interface EventDao {
 
     public Host addHostToEvent(int eventId, Host host);
 
-    public void deleteHostFromEvent(int eventId, Host host)
+    public void deleteHostFromEvent(int eventId, Host host);
 
 }
