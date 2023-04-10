@@ -5,13 +5,13 @@ import java.util.List;
 public class Playlist {
     private String name;
     private String description;
-    private List<String> genres;
+    private List<Genre> genres;
     private List<Song> songs;
 
     public Playlist() {
     }
 
-    public Playlist(String name, String description, List<String> genres, List<Song> songs) {
+    public Playlist(String name, String description, List<Genre> genres, List<Song> songs) {
         this.name = name;
         this.description = description;
         this.genres = genres;
@@ -34,11 +34,11 @@ public class Playlist {
         this.description = description;
     }
 
-    public List<String> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<String> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 

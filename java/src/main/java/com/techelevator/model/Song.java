@@ -5,7 +5,7 @@ import java.util.List;
 public class Song {
     private int id;
     private String name;
-    private String artist;
+    private List<Artist> artists;
     private List<Genre> genres;
     private int rating;
     private int votes;
@@ -13,10 +13,10 @@ public class Song {
     public Song() {
     }
 
-    public Song(int id, String name, String artist, List<Genre> genres, int rating, int votes) {
+    public Song(int id, String name, List<Artist> artists, List<Genre> genres, int rating, int votes) {
         this.id = id;
         this.name = name;
-        this.artist = artist;
+        this.artists = artists;
         this.genres = genres;
         this.rating = rating;
         this.votes = votes;
@@ -38,12 +38,12 @@ public class Song {
         this.name = name;
     }
 
-    public String getArtist() {
-        return artist;
+    public List<Artist> getArtists() {
+        return artists;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
+    public void setArtists(List<Artist> artists) {
+        this.artists = artists;
     }
 
     public List<Genre> getGenres() {
@@ -75,7 +75,7 @@ public class Song {
         return "Song{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", artist='" + artist + '\'' +
+                ", artist='" + artists + '\'' +
                 ", genres=" + genres +
                 ", rating=" + rating +
                 ", votes=" + votes +
