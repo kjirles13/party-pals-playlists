@@ -1,6 +1,10 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.Event;
+import com.techelevator.model.Host;
+
 import java.security.Principal;
+import java.util.List;
 
 public interface EventDao {
 
