@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,25 @@ public class JdbcSongDao implements SongDao {
 //        private String preview;
 //        private String spotifyUri;
 
-
+//        Song song = new Song();
+//        song.setId(rs.getInt("id"));
+//        song.setName(rs.getString("name"));
+//        song.setRating(rs.getInt("rating"));
+//        song.setVotes(rs.getInt("votes"));
+//        song.setPreview(rs.getString("preview"));
+//        song.setSpotifyUri(rs.getString("spotifyUri"));
+//
+//        List<Artist> artists = new ArrayList<>();
+//        Array artistsArray = rs.getList("artists");
+//        if (artistsArray != null) {
+//            Object[] artistObjects = (Object[]) artistsArray.getArray();
+//            for (Object artistObject : artistObjects) {
+//                Artist artist = new Artist();
+//                artist.setName((String) artistObject);
+//                artists.add(artist);
+//            }
+//        }
+//        song.setArtists(artists);
 
         return song;
     }
