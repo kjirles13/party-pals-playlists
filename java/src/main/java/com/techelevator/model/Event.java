@@ -10,17 +10,27 @@ public class Event {
     private LocalDateTime dateTime;
     private Playlist playlist;
     private List<Host> hosts;
+    private String theme;
 
     public Event() {
     }
 
-    public Event(int id, String name, String description, LocalDateTime dateTime, Playlist playlist, List<Host> hosts) {
+    public Event(int id, String name, String description, LocalDateTime dateTime, Playlist playlist, List<Host> hosts, String theme) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.dateTime = dateTime;
         this.playlist = playlist;
         this.hosts = hosts;
+        this.theme = theme;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     public int getId() {
