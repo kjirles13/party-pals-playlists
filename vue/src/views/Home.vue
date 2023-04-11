@@ -1,9 +1,16 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    <p>You must be authenticated to see this</p>
+    
+    <p>You are now authenticated</p>
     <test/>
-  </div>
+  <div class="grid-container">
+
+</div>
+
+</div>
+
+
 </template>
 
 <script>
@@ -15,3 +22,10 @@ export default {
   }
 };
 </script>
+
+<style>
+.grid-container {
+  display: grid;
+  grid: 1fr,
+}
+</style>
