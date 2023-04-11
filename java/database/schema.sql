@@ -59,17 +59,13 @@ FOREIGN KEY (song_id) REFERENCES songs (song_id)
 
 CREATE TABLE events (
 event_id SERIAL PRIMARY KEY,
-user_id int NOT NULL,
-role_id int NOT NULL,
-from_date DATE NOT NULL,
-to_date DATE NOT NULL,
+dj_id int NOT NULL,
 description varchar(250) NOT NULL,
 playlist_id int NOT NULL,
 date_time TIMESTAMP NOT NULL,
 theme varchar(100),
-FOREIGN KEY (user_id) REFERENCES users(user_id),
-FOREIGN KEY (role_id) REFERENCES roles(role_id),
-FOREIGN KEY (playlist_id) REFERENCES playlists (playlist_id)
+FOREIGN KEY (dj_id) REFERENCES users(user_id),
+FOREIGN KEY (playlist_id) REFERENCES playlists(playlist_id)
 );
 
 CREATE TABLE host_event (
@@ -91,11 +87,11 @@ FOREIGN KEY (song_id) REFERENCES songs (song_id)
 
 CREATE TABLE dj_song (
 song_id varchar(50) NOT NULL,
-user_id int NOT NULL,
+dj_id int NOT NULL,
 song_rating int NOT NULL,
-PRIMARY KEY (song_id, user_id),
+PRIMARY KEY (song_id, dj_id),
 FOREIGN KEY (song_id) REFERENCES songs (song_id),
-FOREIGN KEY (user_id) REFERENCES users (user_id)
+FOREIGN KEY (dj_id) REFERENCES users (user_id)
 );
 
 CREATE TABLE genre_song (
