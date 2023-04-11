@@ -13,6 +13,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/songs")
 public class SongController {
 
     private SongDao songDao;
@@ -23,27 +24,20 @@ public class SongController {
         this.userDao = userDao;
     }
 
-
-    @GetMapping("/songs")
+    @GetMapping("")
     public List<Song> listSongs(Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         return songDao.getAllSongs(userId);
     }
 
-    @GetMapping("/songs/{songId}")
-    public Song getSongById(@PathVariable String songId) {
-        return songDao.getSongById(songId);
-    }
-
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/songs")
-    public Song addSong(Principal principal, @RequestBody Song song) {
+    public Song addSong(@RequestBody Song song, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         return songDao.addSong(userId, song);
-        //TODO test addSong
     }
 
-    @PutMapping("/songs")
+    @PutMapping("")
     public void updateSong(@RequestBody SongDto songDto) {
 
         try {
@@ -54,6 +48,15 @@ public class SongController {
         //TODO test updateSong
     }
 
-    //TODO add deleteSong
-    //TODO test deleteSong
+    @GetMapping("/{songId}")
+    public Song getSongById(@PathVariable String songId) {
+        return songDao.getSongById(songId);
+    }
+
+    @DeleteMapping("/{songId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteSong(@PathVariable String songId, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        songDao.deleteSong(songId, userId);
+    }
 }

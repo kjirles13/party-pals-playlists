@@ -1,28 +1,43 @@
 package com.techelevator.model;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class Event {
     private int id;
     private String name;
     private String description;
-    private LocalDateTime dateTime;
-    private Playlist playlist;
+    private Date date;
+    private Time time;
+    private int playlistId;
     private List<Host> hosts;
     private String theme;
+    private int djId;
+
 
     public Event() {
     }
 
-    public Event(int id, String name, String description, LocalDateTime dateTime, Playlist playlist, List<Host> hosts, String theme) {
+    public Event(int id, String name, String description, Date date, Time time, int playlistId, List<Host> hosts, String theme, int djId) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.dateTime = dateTime;
-        this.playlist = playlist;
+        this.date = date;
+        this.time = time;
+        this.playlistId = playlistId;
         this.hosts = hosts;
         this.theme = theme;
+        this.djId = djId;
+    }
+
+    public int getDjId() {
+        return djId;
+    }
+
+    public void setDjId(int djId) {
+        this.djId = djId;
     }
 
     public String getTheme() {
@@ -57,20 +72,28 @@ public class Event {
         this.description = description;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Playlist getPlaylist() {
-        return playlist;
+    public Time getTime() {
+        return time;
     }
 
-    public void setPlaylist(Playlist playlist) {
-        this.playlist = playlist;
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public int getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(int playlistId) {
+        this.playlistId = playlistId;
     }
 
     public List<Host> getHosts() {
@@ -87,9 +110,12 @@ public class Event {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", dateTime=" + dateTime +
-                ", playlist=" + playlist +
+                ", date=" + date +
+                ", time=" + time +
+                ", playlistId=" + playlistId +
                 ", hosts=" + hosts +
+                ", theme='" + theme + '\'' +
+                ", djId=" + djId +
                 '}';
     }
 }

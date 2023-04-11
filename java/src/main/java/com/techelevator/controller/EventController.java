@@ -9,9 +9,12 @@ import com.techelevator.model.Host;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/events")
 public class EventController {
 
     private UserDao userDao;
@@ -19,46 +22,49 @@ public class EventController {
     private PlaylistDao playlistDao;
     private EventDao eventDao;
 
-    public EventController(UserDao userDao, SongDao songDao, PlaylistDao playlistDao) {
+    //TODO clean up code
+
+    public EventController(UserDao userDao, SongDao songDao, PlaylistDao playlistDao, EventDao eventDao) {
         this.userDao = userDao;
         this.songDao = songDao;
         this.playlistDao = playlistDao;
+        this.eventDao = eventDao;
     }
 
-    @GetMapping("/users/{userId}/events")
-    public List<Event> getAllEvents(@PathVariable int userId) {
-        return eventDao.getAllEvents(userId);
+    @GetMapping("")
+    public List<Event> getAllEvents() {
+        return eventDao.getAllEvents();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/users/{userId}/events")
-    public Event createEvent(@RequestBody Event event, @PathVariable int userId) {
+    @PostMapping("")
+    public Event createEvent(@RequestBody Event event, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
         return eventDao.createEvent(event, userId);
     }
 
-
-    @GetMapping("/events/{eventId}")
+    @GetMapping("/{eventId}")
     public Event getEventById(@PathVariable int eventId) {
         return eventDao.getEventById(eventId);
     }
 
-    @PutMapping("/events/{eventId}")
+    @PutMapping("/{eventId}")
     public void updateEvent(@RequestBody Event event, @PathVariable int eventId) {
         event.setId(eventId);
         eventDao.updateEvent(event.getId());
     }
 
-    @DeleteMapping("/events/{eventId}")
+    @DeleteMapping("/{eventId}")
     public void deleteEvent(@PathVariable int eventId) {
         eventDao.deleteEvent(eventId);
     }
 
-    @PostMapping("/events/{eventId}/hosts")
+    @PostMapping("/{eventId}/hosts")
     public Host addHostToEvent(@RequestBody Host host, @PathVariable int eventId) {
         return eventDao.addHostToEvent(eventId, host);
     }
 
-    @DeleteMapping("/events/{eventId}/hosts/{hostId}")
+    @DeleteMapping("/{eventId}/hosts/{hostId}")
     public void deleteHostFromEvent(@PathVariable int eventId, @PathVariable int hostId) {
         Host host = new Host();
         host.setId(hostId);

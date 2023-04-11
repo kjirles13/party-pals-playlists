@@ -28,7 +28,7 @@ public class JdbcUserDao implements UserDao {
 
         int userId;
         try {
-            userId = jdbcTemplate.queryForObject("select user_id from users where username = ?", int.class, username);
+            userId = jdbcTemplate.queryForObject("select user_id from users where username = ?", Integer.class, username);
         } catch (EmptyResultDataAccessException e) {
             throw new UsernameNotFoundException("User " + username + " was not found.");
         }

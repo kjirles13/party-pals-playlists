@@ -34,7 +34,7 @@ spotify_id varchar(50)
 
 CREATE TABLE songs (
 	song_id varchar(50) NOT NULL PRIMARY KEY,
-	title varchar(50) NOT NULL,
+	title varchar(100) NOT NULL,
 	spotify_link varchar(250),
 	preview varchar(250)
 );
@@ -63,7 +63,8 @@ event_name varchar(50) NOT NULL,
 dj_id int NOT NULL,
 description varchar(250) NOT NULL,
 playlist_id int NOT NULL,
-date_time TIMESTAMP NOT NULL,
+date DATE NOT NULL,
+time TIME NOT NULL,
 theme varchar(100),
 FOREIGN KEY (dj_id) REFERENCES users(user_id),
 FOREIGN KEY (playlist_id) REFERENCES playlists(playlist_id)
