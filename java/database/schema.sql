@@ -59,6 +59,7 @@ FOREIGN KEY (song_id) REFERENCES songs (song_id)
 
 CREATE TABLE events (
 event_id SERIAL PRIMARY KEY,
+event_name varchar(50) NOT NULL,
 dj_id int NOT NULL,
 description varchar(250) NOT NULL,
 playlist_id int NOT NULL,
