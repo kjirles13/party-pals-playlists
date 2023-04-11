@@ -30,6 +30,11 @@ public class SongController {
         return songDao.getAllSongs(userId);
     }
 
+    @GetMapping("/songs/{songId}")
+    public Song getSongById(@PathVariable String songId) {
+        return songDao.getSongById(songId);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/songs")
     public Song addSong(Principal principal, @RequestBody Song song) {

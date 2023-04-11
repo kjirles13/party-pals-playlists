@@ -25,7 +25,6 @@ public class JdbcSongDao implements SongDao {
         String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, dj_song.song_rating " +
                 "FROM public.songs " +
                 "LEFT JOIN dj_song ON dj_song.song_id = songs.song_id " +
-                "LEFT JOIN playlist_song ON playlist_song.song_id = songs.song_id " +
                 "WHERE dj_song.dj_id = ?;";
 
         SqlRowSet songResults = jdbcTemplate.queryForRowSet(songSql, userId);
@@ -45,9 +44,7 @@ public class JdbcSongDao implements SongDao {
             List<Artist> artists = new ArrayList<>();
 
             while (artistResults.next()) {
-                Artist artist = new Artist();
-
-                artist = mapRowToArtist(artistResults);
+                Artist artist = mapRowToArtist(artistResults);
 
                 artists.add(artist);
             }
@@ -102,13 +99,53 @@ public class JdbcSongDao implements SongDao {
 
     @Override
     public Song getSongById(String songId) {
-        String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, dj_song.song_rating " +
+        String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview " +
                 "FROM public.songs " +
-                "LEFT JOIN dj_song ON dj_song.song_id = songs.song_id " +
-                "LEFT JOIN playlist_song ON playlist_song.song_id = songs.song_id " +
-                "WHERE dj_song.dj_id = ?;";
+                "WHERE songs.song_id = ?;";
+
+        SqlRowSet songResults = jdbcTemplate.queryForRowSet(songSql, songId);
+
+        Song song = new Song();
+
+        if (songResults.next()) {
+            song = mapRowToSong(songResults);
+
+            String artistSql = "SELECT artist.artist_id, artist.name " +
+                    "FROM public.artist " +
+                    "JOIN artist_song ON artist_song.artist_id = artist.artist_id " +
+                    "WHERE artist_song.song_id = ?";
+
+            SqlRowSet artistResults = jdbcTemplate.queryForRowSet(artistSql, songId);
+
+            List<Artist> artists = new ArrayList<>();
+
+            while (artistResults.next()) {
+                Artist artist = mapRowToArtist(artistResults);
+
+                artists.add(artist);
+            }
+
+            song.setArtists(artists);
+
+            String genreSql = "SELECT genres.genre_id, genres.name " +
+                    "FROM public.genres " +
+                    "JOIN genre_song ON genre_song.genre_id = genres.genre_id " +
+                    "WHERE genre_song.song_id = ?";
+
+            SqlRowSet genreResults = jdbcTemplate.queryForRowSet(genreSql, songId);
+
+            List<Genre> genres = new ArrayList<>();
+
+            while (genreResults.next()) {
+                Genre genre = mapRowToGenre(genreResults);
+
+                genres.add(genre);
+            }
+
+            song.setGenres(genres);
+        }
         //TODO implement getSongById
-        return null;
+        return song;
     }
 
     private Song mapRowToSong(SqlRowSet rs) {
