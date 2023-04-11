@@ -2,8 +2,6 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Song;
 import com.techelevator.model.SongDto;
-
-import java.security.Principal;
 import java.util.List;
 
 public interface SongDao {
@@ -13,7 +11,7 @@ public interface SongDao {
 
     public void updateSong(SongDto songDto);
 
-    public void deleteSong(int songId, int userId);
+    public void deleteSong(String songId, int userId);
 
     public Song getSongById(String songId);
 
