@@ -42,9 +42,17 @@ public class JdbcSongDao implements SongDao {
 
             SqlRowSet artistResults = jdbcTemplate.queryForRowSet(artistSql, songId);
 
-            if (artistResults.next()) {
-                song.setArtists(mapRowToArtists(artistResults));
+            List<Artist> artists = new ArrayList<>();
+
+            while (artistResults.next()) {
+                Artist artist = new Artist();
+
+                artist = mapRowToArtist(artistResults);
+
+                artists.add(artist);
             }
+
+            song.setArtists(artists);
 
             String genreSql = "SELECT genres.genre_id, genres.name " +
                     "FROM public.genres " +
@@ -53,9 +61,15 @@ public class JdbcSongDao implements SongDao {
 
             SqlRowSet genreResults = jdbcTemplate.queryForRowSet(genreSql, songId);
 
-            if (genreResults.next()) {
-                song.setGenres(mapRowToGenres(genreResults));
+            List<Genre> genres = new ArrayList<>();
+
+            while (genreResults.next()) {
+                Genre genre = mapRowToGenre(genreResults);
+
+                genres.add(genre);
             }
+
+            song.setGenres(genres);
 
             allSongs.add(song);
         }
@@ -100,29 +114,21 @@ public class JdbcSongDao implements SongDao {
         return song;
     }
 
-    private List<Artist> mapRowToArtists(SqlRowSet rs) {
-        List<Artist> artists = new ArrayList<>();
+    private Artist mapRowToArtist(SqlRowSet rs) {
+        Artist artist = new Artist();
 
-        while (rs.next()) {
-            Artist artist = new Artist();
-            artist.setId((rs.getString("artist_id")));
-            artist.setName(rs.getString("name"));
-            artists.add(artist);
-        }
+        artist.setId((rs.getString("artist_id")));
+        artist.setName(rs.getString("name"));
 
-        return artists;
+        return artist;
     }
 
-    private List<Genre> mapRowToGenres(SqlRowSet rs) {
-        List<Genre> genres = new ArrayList<>();
+    private Genre mapRowToGenre(SqlRowSet rs) {
+        Genre genre = new Genre();
 
-        while (rs.next()) {
-            Genre genre = new Genre();
-            genre.setId((rs.getInt("genre_id")));
-            genre.setName(rs.getString("name"));
-            genres.add(genre);
-        }
+        genre.setId((rs.getInt("genre_id")));
+        genre.setName(rs.getString("name"));
 
-        return genres;
+        return genre;
     }
 }
