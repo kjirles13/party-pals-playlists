@@ -19,19 +19,16 @@
   </div>
   </nav>
 </template>
+
 <script>
 export default {
   name: "navbar",
-  
 }
-
-
-
 </script>
+
 <style>
 .nav-bar {
-
-  position: fixed;
+  
   top: 0;
   left: 0;
   bottom: 0;
@@ -40,8 +37,7 @@ export default {
 }
 ul {
   display: flex;
-    flex-direction: column;
-
+ flex-direction: column;
 }
 .nav-bar ul {
   display: flex;
