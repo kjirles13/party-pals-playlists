@@ -7,15 +7,25 @@ public class Playlist {
     private String description;
     private List<Genre> genres;
     private List<Song> songs;
+    private int playlistId;
 
     public Playlist() {
     }
 
-    public Playlist(String name, String description, List<Genre> genres, List<Song> songs) {
+    public Playlist(String name, String description, List<Genre> genres, List<Song> songs, int playlistId) {
         this.name = name;
         this.description = description;
         this.genres = genres;
         this.songs = songs;
+        this.playlistId = playlistId;
+    }
+
+    public int getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(int playlistId) {
+        this.playlistId = playlistId;
     }
 
     public String getName() {
@@ -57,6 +67,7 @@ public class Playlist {
                 ", description='" + description + '\'' +
                 ", genres=" + genres +
                 ", songs=" + songs +
+                ", playlistId=" + playlistId +
                 '}';
     }
 }
