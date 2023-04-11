@@ -9,6 +9,7 @@ INSERT INTO users (username,password_hash,role) VALUES ('blake','$2a$10$4.ovOGPl
 
 INSERT INTO artist (artist_id, name) VALUES ('1moxjboGR7GNWYIMWsRjgG', 'Florence and the Machine');
 INSERT INTO artist (artist_id, name) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', 'Tyler, The Creator');
+INSERT INTO artist (artist_id, name) VALUES ('1U1el3k54VvEUzo3ybLPlM', 'Kali Uchis');
 
 INSERT INTO songs (song_id, title, spotify_link, preview) VALUES ('1YLJVmuzeM2YSUkCCaTNUB', 'Dog Days Are Over', 'https://open.spotify.com/track/1YLJVmuzeM2YSUkCCaTNUB', 'https://p.scdn.co/mp3-preview/d1c97f83c052039d9e5105ed70261a5c59fd7f53?cid=ff7f710ce2564ce19c72faebda1dfa0e');
 INSERT INTO songs (song_id, title, spotify_link, preview) VALUES ('7H7SHw3YWXhb4zYqyoPNa1', 'Free', 'https://open.spotify.com/track/7H7SHw3YWXhb4zYqyoPNa1', 'https://p.scdn.co/mp3-preview/a6b318f3834a1a35d91717821b786a9c3d65f132?cid=ff7f710ce2564ce19c72faebda1dfa0e');
@@ -27,6 +28,8 @@ INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '
 INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '0judK8TqYfvwUohBngUxrE');
 INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '410ZZP746AQeiywhKvXWCo');
 INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '1nwkSqzTyXBk6XF796EOav');
+INSERT INTO artist_song (artist_id, song_id) VALUES ('1U1el3k54VvEUzo3ybLPlM', '7KA4W4McWYRpgf0fWsJZWB');
+
 
 INSERT INTO dj_song (song_id, dj_id, song_rating) VALUES ('1YLJVmuzeM2YSUkCCaTNUB', 3, 5);
 INSERT INTO dj_song (song_id, dj_id, song_rating) VALUES ('7H7SHw3YWXhb4zYqyoPNa1', 3, 3);
@@ -58,13 +61,13 @@ INSERT INTO genre_song (song_id, genre_id) VALUES ('5XSU59wtE5CRCAEyHmmGy4', 3);
 INSERT INTO genre_song (song_id, genre_id) VALUES ('31ABtQJdfloNaGz7ZhXaN5', 1);
 INSERT INTO genre_song (song_id, genre_id) VALUES ('31ABtQJdfloNaGz7ZhXaN5', 3);
 INSERT INTO genre_song (song_id, genre_id) VALUES ('7KA4W4McWYRpgf0fWsJZWB', 2);
-INSERT INTO genre_song (song_id, genre_id) VALUES ('7KA4W4McWYRpgf0fWsJZWB', 7);
+INSERT INTO genre_song (song_id, genre_id) VALUES ('7KA4W4McWYRpgf0fWsJZWB', 8);
 INSERT INTO genre_song (song_id, genre_id) VALUES ('0judK8TqYfvwUohBngUxrE', 2);
-INSERT INTO genre_song (song_id, genre_id) VALUES ('0judK8TqYfvwUohBngUxrE', 7);
+INSERT INTO genre_song (song_id, genre_id) VALUES ('0judK8TqYfvwUohBngUxrE', 8);
 INSERT INTO genre_song (song_id, genre_id) VALUES ('410ZZP746AQeiywhKvXWCo', 2);
-INSERT INTO genre_song (song_id, genre_id) VALUES ('410ZZP746AQeiywhKvXWCo', 7);
+INSERT INTO genre_song (song_id, genre_id) VALUES ('410ZZP746AQeiywhKvXWCo', 8);
 INSERT INTO genre_song (song_id, genre_id) VALUES ('1nwkSqzTyXBk6XF796EOav', 2);
-INSERT INTO genre_song (song_id, genre_id) VALUES ('1nwkSqzTyXBk6XF796EOav', 7);
+INSERT INTO genre_song (song_id, genre_id) VALUES ('1nwkSqzTyXBk6XF796EOav', 8);
 
 INSERT INTO playlists (name, description) VALUES ('Cookout Jamz', 'This is a playlist for a potluck');
 INSERT INTO playlists (name, description) VALUES ('Wedding Vibes', 'Someone is getting married!');
