@@ -74,12 +74,17 @@ public class JdbcSongDao implements SongDao {
             allSongs.add(song);
         }
 
-        // TODO implement getAllSongs
         return allSongs;
     }
 
     @Override
     public Song addSong(int userId, Song song) {
+        String sql = "INSERT INTO public.songs( " +
+                " song_id, title, spotify_link, preview) " +
+                " VALUES (?, ?, ?, ?);";
+
+        jdbcTemplate.queryForObject(sql, String.class, song.getId(), song.getName(), song.getSpotifyUri(), song.getPreview());
+
         // TODO implement addSong
         return null;
     }
@@ -97,17 +102,30 @@ public class JdbcSongDao implements SongDao {
 
     @Override
     public Song getSongById(String songId) {
+        String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, dj_song.song_rating " +
+                "FROM public.songs " +
+                "LEFT JOIN dj_song ON dj_song.song_id = songs.song_id " +
+                "LEFT JOIN playlist_song ON playlist_song.song_id = songs.song_id " +
+                "WHERE dj_song.dj_id = ?;";
         //TODO implement getSongById
         return null;
     }
 
     private Song mapRowToSong(SqlRowSet rs) {
-        //TODO implement mapRowToSong
         Song song = new Song();
 
         song.setId(rs.getString("song_id"));
         song.setName(rs.getString("title"));
-        song.setRating(rs.getInt("song_rating"));
+        try {
+            song.setRating(rs.getInt("song_rating"));
+        } catch (Exception e) {
+            song.setRating(0);
+        }
+        try {
+            song.setVotes(rs.getInt("votes"));
+        } catch (Exception e) {
+            song.setVotes(0);
+        }
         song.setPreview(rs.getString("preview"));
         song.setSpotifyUri(rs.getString("spotify_link"));
 

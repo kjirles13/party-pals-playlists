@@ -34,10 +34,8 @@ public class SongController {
     @PostMapping("/songs")
     public Song addSong(Principal principal, @RequestBody Song song) {
         int userId = userDao.findIdByUsername(principal.getName());
-
-        Song addedSong = songDao.addSong(userId, song);
-
-        return addedSong;
+        return songDao.addSong(userId, song);
+        //TODO test addSong
     }
 
     @PutMapping("/songs")
@@ -48,7 +46,9 @@ public class SongController {
         } catch (ResponseStatusException e) {
             e.getMessage();
         }
+        //TODO test updateSong
     }
 
     //TODO add deleteSong
+    //TODO test deleteSong
 }
