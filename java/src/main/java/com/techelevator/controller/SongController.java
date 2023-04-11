@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.sql.SQLException;
 import java.util.List;
 
 @CrossOrigin
@@ -30,18 +31,17 @@ public class SongController {
         return songDao.getAllSongs(userId);
     }
 
+    @PostMapping("/songs")
+    public Song addSong(@RequestBody Song song, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return songDao.addSong(userId, song);
+    }
+
     @GetMapping("/songs/{songId}")
     public Song getSongById(@PathVariable String songId) {
         return songDao.getSongById(songId);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/songs")
-    public Song addSong(Principal principal, @RequestBody Song song) {
-        int userId = userDao.findIdByUsername(principal.getName());
-        return songDao.addSong(userId, song);
-        //TODO test addSong
-    }
 
     @PutMapping("/songs")
     public void updateSong(@RequestBody SongDto songDto) {

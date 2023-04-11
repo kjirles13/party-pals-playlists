@@ -11,11 +11,12 @@ public class Song {
     private int votes;
     private String preview;
     private String spotifyUri;
+    private int playlistId;
 
     public Song() {
     }
 
-    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int votes, String preview, String spotifyUri) {
+    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int votes, String preview, String spotifyUri, int playlistId) {
         this.id = id;
         this.name = name;
         this.artists = artists;
@@ -24,6 +25,7 @@ public class Song {
         this.votes = votes;
         this.preview = preview;
         this.spotifyUri = spotifyUri;
+        this.playlistId = playlistId;
     }
 
     public String getId() {
@@ -90,6 +92,14 @@ public class Song {
         this.spotifyUri = spotifyUri;
     }
 
+    public int getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(int playlistId) {
+        this.playlistId = playlistId;
+    }
+
     @Override
     public String toString() {
         return "Song{" +
@@ -101,6 +111,7 @@ public class Song {
                 ", votes=" + votes +
                 ", preview='" + preview + '\'' +
                 ", spotifyUri='" + spotifyUri + '\'' +
+                ", playlistId=" + playlistId +
                 '}';
     }
 }
