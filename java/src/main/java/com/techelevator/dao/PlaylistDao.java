@@ -5,12 +5,15 @@ import com.techelevator.model.Song;
 
 public interface PlaylistDao {
 
-    public void updatePlaylist(int playlistId, Playlist playlist);
+    public void updatePlaylist(Playlist playlist, String playlistId);
 
-    public Song addSongToPlaylist(int playlistId, int songId);
+    //don't think we need this method
+    public Song addSongToPlaylist(String playlistId, String songId);
 
-    public void deleteSongFromPlaylist(int playlistId, int songId);
+    public void deleteSongFromPlaylist(String playlistId, String songId);
 
-    public void updateVotesForSong(int eventId, int songId);
+    public void updateVotesForSong(int eventId, String songId);
+
+    public Playlist getPlayListById(String id);
 
 }

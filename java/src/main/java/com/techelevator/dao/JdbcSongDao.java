@@ -50,6 +50,11 @@ public class JdbcSongDao implements SongDao {
 
     }
 
+    @Override
+    public Song getSongById(String songId) {
+        return null;
+    }
+
     private Song mapRowToSong(SqlRowSet rs) {
         Song song = new Song();
 
