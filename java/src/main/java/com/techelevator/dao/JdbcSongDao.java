@@ -125,7 +125,7 @@ public class JdbcSongDao implements SongDao {
     }
 
     @Override
-    public void deleteSong(int songId, Principal principal) {
+    public void deleteSong(int songId, int userId) {
         //TODO implement deleteSong
     }
 

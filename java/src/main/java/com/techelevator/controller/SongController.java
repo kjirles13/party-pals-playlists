@@ -54,6 +54,14 @@ public class SongController {
         //TODO test updateSong
     }
 
+    @DeleteMapping
+    public void deleteSong(int id){
+
+    }
+
+
+
+
     //TODO add deleteSong
     //TODO test deleteSong
 }
