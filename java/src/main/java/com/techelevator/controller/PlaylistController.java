@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-public class PlaylistController {
+@CrossOrigin
+public class PlaylistController{
 
     private UserDao userDao;
     private SongDao songDao;

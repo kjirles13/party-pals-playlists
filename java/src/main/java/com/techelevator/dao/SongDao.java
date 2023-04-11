@@ -7,9 +7,9 @@ import java.security.Principal;
 import java.util.List;
 
 public interface SongDao {
-    public List<Song> getAllSongs(Principal principal);
+    public List<Song> getAllSongs(int userId);
 
-    public Song addSong(String username, Song song);
+    public Song addSong(int userId, Song song);
 
     public void updateSong(SongDto songDto);
 

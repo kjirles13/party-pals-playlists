@@ -25,35 +25,31 @@ public class SongController {
 
 
     @GetMapping("/songs")
-    public List<Song> listSongs(Principal principal){
-        return songDao.getAllSongs(principal);
+    public List<Song> listSongs(Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return songDao.getAllSongs(userId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/songs")
-    public Song addSong(Principal principal, @RequestBody Song song){
-            song.setId(0);
+    public Song addSong(Principal principal, @RequestBody Song song) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        song.setId(0);
 
-            Song addedSong = songDao.addSong(principal.getName(), song);
+        Song addedSong = songDao.addSong(userId, song);
 
-            return addedSong;
+        return addedSong;
     }
 
     @PutMapping("/songs")
-    public void updateSong(@RequestBody SongDto songDto){
+    public void updateSong(@RequestBody SongDto songDto) {
 
-      try {
-          songDao.updateSong(songDto);
-      }
-      catch (ResponseStatusException e){
-          e.getMessage();
-      }
-
-
+        try {
+            songDao.updateSong(songDto);
+        } catch (ResponseStatusException e) {
+            e.getMessage();
+        }
     }
 
-
-
-
-
+    //TODO add deleteSong
 }
