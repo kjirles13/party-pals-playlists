@@ -1,9 +1,6 @@
 package com.techelevator.model;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public class Event {
@@ -84,7 +81,7 @@ public class Event {
         return playlistId;
     }
 
-    public void setPlaylistId(int playlist) {
+    public void setPlaylistId(int playlistId) {
         this.playlistId = playlistId;
     }
 
