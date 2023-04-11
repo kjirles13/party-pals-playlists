@@ -34,7 +34,6 @@ public class SongController {
     @PostMapping("/songs")
     public Song addSong(Principal principal, @RequestBody Song song) {
         int userId = userDao.findIdByUsername(principal.getName());
-        song.setId(0);
 
         Song addedSong = songDao.addSong(userId, song);
 

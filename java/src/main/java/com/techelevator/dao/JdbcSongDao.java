@@ -91,43 +91,13 @@ public class JdbcSongDao implements SongDao {
         //TODO implement mapRowToSong
         Song song = new Song();
 
-        song.setId(rs.getInt("song_id"));
+        song.setId(rs.getString("song_id"));
         song.setName(rs.getString("title"));
-        song.setRating(rs.getInt("rating"));
-//        song.setVotes(rs.getInt("votes"));
+        song.setRating(rs.getInt("song_rating"));
         song.setPreview(rs.getString("preview"));
         song.setSpotifyUri(rs.getString("spotify_link"));
 
         return song;
-
-//        private int id;
-//        private String name;
-//        private List<Artist> artists;
-//        private List<Genre> genres;
-//        private int rating;
-//        private int votes;
-//        private String preview;
-//        private String spotifyUri;
-
-//        Song song = new Song();
-//        song.setId(rs.getInt("id"));
-//        song.setName(rs.getString("name"));
-//        song.setRating(rs.getInt("rating"));
-//        song.setVotes(rs.getInt("votes"));
-//        song.setPreview(rs.getString("preview"));
-//        song.setSpotifyUri(rs.getString("spotifyUri"));
-//
-//        List<Artist> artists = new ArrayList<>();
-//        Array artistsArray = rs.getList("artists");
-//        if (artistsArray != null) {
-//            Object[] artistObjects = (Object[]) artistsArray.getArray();
-//            for (Object artistObject : artistObjects) {
-//                Artist artist = new Artist();
-//                artist.setName((String) artistObject);
-//                artists.add(artist);
-//            }
-//        }
-//        song.setArtists(artists);
     }
 
     private List<Artist> mapRowToArtists(SqlRowSet rs) {

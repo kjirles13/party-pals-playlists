@@ -3,7 +3,7 @@ package com.techelevator.model;
 import java.util.List;
 
 public class Song {
-    private int id;
+    private String id;
     private String name;
     private List<Artist> artists;
     private List<Genre> genres;
@@ -15,7 +15,7 @@ public class Song {
     public Song() {
     }
 
-    public Song(int id, String name, List<Artist> artists, List<Genre> genres, int rating, int votes, String preview, String spotifyUri) {
+    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int votes, String preview, String spotifyUri) {
         this.id = id;
         this.name = name;
         this.artists = artists;
@@ -26,11 +26,11 @@ public class Song {
         this.spotifyUri = spotifyUri;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -93,7 +93,7 @@ public class Song {
     @Override
     public String toString() {
         return "Song{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", artists=" + artists +
                 ", genres=" + genres +
