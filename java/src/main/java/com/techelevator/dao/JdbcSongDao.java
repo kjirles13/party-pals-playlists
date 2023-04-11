@@ -23,9 +23,9 @@ public class JdbcSongDao implements SongDao {
         List<Song> allSongs = new ArrayList<>();
 
         String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, dj_song.song_rating " +
-                "FROM public.songs " +
-                "LEFT JOIN dj_song ON dj_song.song_id = songs.song_id " +
-                "WHERE dj_song.dj_id = ?;";
+                         "FROM public.songs " +
+                         "LEFT JOIN dj_song ON dj_song.song_id = songs.song_id " +
+                         "WHERE dj_song.dj_id = ?;";
 
         SqlRowSet songResults = jdbcTemplate.queryForRowSet(songSql, userId);
 
@@ -35,9 +35,9 @@ public class JdbcSongDao implements SongDao {
             String songId = songResults.getString("song_id");
 
             String artistSql = "SELECT artist.artist_id, artist.name " +
-                    "FROM public.artist " +
-                    "JOIN artist_song ON artist_song.artist_id = artist.artist_id " +
-                    "WHERE artist_song.song_id = ?";
+                              "FROM public.artist " +
+                              "JOIN artist_song ON artist_song.artist_id = artist.artist_id " +
+                              "WHERE artist_song.song_id = ?";
 
             SqlRowSet artistResults = jdbcTemplate.queryForRowSet(artistSql, songId);
 
@@ -52,9 +52,9 @@ public class JdbcSongDao implements SongDao {
             song.setArtists(artists);
 
             String genreSql = "SELECT genres.genre_id, genres.name " +
-                    "FROM public.genres " +
-                    "JOIN genre_song ON genre_song.genre_id = genres.genre_id " +
-                    "WHERE genre_song.song_id = ?";
+                              "FROM public.genres " +
+                              "JOIN genre_song ON genre_song.genre_id = genres.genre_id " +
+                              "WHERE genre_song.song_id = ?";
 
             SqlRowSet genreResults = jdbcTemplate.queryForRowSet(genreSql, songId);
 
@@ -77,10 +77,32 @@ public class JdbcSongDao implements SongDao {
     @Override
     public Song addSong(int userId, Song song) {
         String sql = "INSERT INTO public.songs( " +
-                " song_id, title, spotify_link, preview) " +
-                " VALUES (?, ?, ?, ?);";
+                     " song_id, title, spotify_link, preview) " +
+                     " VALUES (?, ?, ?, ?);";
 
         jdbcTemplate.queryForObject(sql, String.class, song.getId(), song.getName(), song.getSpotifyUri(), song.getPreview());
+
+        for (Artist artist : song.getArtists()) {
+            String sqlCreateArtist = "INSERT INTO public.artist( " +
+                                     " artist_id, name) " +
+                                     " VALUES (?, ?);";
+
+            jdbcTemplate.update(sqlCreateArtist, artist.getId(), artist.getName());
+
+            String sqlLinkArtistSong = "INSERT INTO public.artist_song( " +
+                                       " artist_id, song_id) " +
+                                       " VALUES (?, ?);";
+
+            jdbcTemplate.update(sqlLinkArtistSong, artist.getId(), song.getId());
+        }
+
+        for (Genre genre : song.getGenres()) {
+            String sqlLinkGenreSong = "INSERT INTO public.genre_song( " +
+                                      " song_id, genre_id) " +
+                                      " VALUES (?, ?);";
+
+            jdbcTemplate.update(sqlLinkGenreSong, song.getId(), genre.getId());
+        }
 
         // TODO implement addSong
         return null;
@@ -144,7 +166,7 @@ public class JdbcSongDao implements SongDao {
 
             song.setGenres(genres);
         }
-        //TODO implement getSongById
+
         return song;
     }
 
