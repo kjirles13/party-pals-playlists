@@ -1,13 +1,9 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    
     <p>You are now authenticated</p>
     <test/>
-  <div class="grid-container">
-
-</div>
-
+    
 </div>
 
 
@@ -24,8 +20,5 @@ export default {
 </script>
 
 <style>
-.grid-container {
-  display: grid;
-  grid: 1fr,
-}
+
 </style>
