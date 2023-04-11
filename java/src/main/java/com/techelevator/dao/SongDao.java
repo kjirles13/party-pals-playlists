@@ -15,5 +15,7 @@ public interface SongDao {
 
     public void deleteSong(int songId, Principal principal);
 
+    public Song getSongById(String songId);
+
 
 }

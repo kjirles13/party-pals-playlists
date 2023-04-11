@@ -1,22 +1,22 @@
 package com.techelevator.model;
 
 public class Artist {
-    private int id;
+    private String id;
     private String name;
 
     public Artist() {
     }
 
-    public Artist(int id, String name) {
+    public Artist(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
