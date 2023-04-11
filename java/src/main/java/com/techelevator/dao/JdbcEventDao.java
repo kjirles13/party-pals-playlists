@@ -8,7 +8,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class JdbcEventDao implements EventDao {
     @Override
     public List<Event> getAllEvents() {
         List<Event> allEvents = new ArrayList<>();
-        String sql = "SELECT event_id, event_name, dj_id, description, playlist_id, date_time, theme " +
+        String sql = "SELECT event_id, event_name, dj_id, description, playlist_id, date, time, theme " +
                 "FROM public.events";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
@@ -51,7 +53,6 @@ public class JdbcEventDao implements EventDao {
 
             event.setHosts(hosts);
             allEvents.add(event);
-
         }
 
         return allEvents;
@@ -89,13 +90,15 @@ public class JdbcEventDao implements EventDao {
 
     private Event mapRowToEvent(SqlRowSet rs) {
         Event event = new Event();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
         event.setId(rs.getInt("event_id"));
         event.setName(rs.getString("event_name"));
         event.setDjId(rs.getInt("dj_id"));
         event.setDescription(rs.getString("description"));
         event.setPlaylistId(rs.getInt("playlist_id"));
-        event.setDateTime(rs.getTimestamp("date_time"));
+        event.setDate(rs.getDate("date"));
+        event.setTime(rs.getTime("time"));
         event.setTheme(rs.getString("theme"));
 
         return event;

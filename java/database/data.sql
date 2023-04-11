@@ -86,8 +86,8 @@ INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (1, 3);
 INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (2, 8);
 INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (2, 2);
 
-INSERT INTO events (dj_id, event_name, description, playlist_id, date_time, theme) VALUES (3, 'Birthday Cookout.', 'Join us for Brian''s birthday party!', 1, '2023-01-06T14:00:00.000-05:00' , 'Luau');
-INSERT INTO events (dj_id, event_name, description, playlist_id, date_time, theme) VALUES (4, 'Dave and Stacy''s Wedding', 'Stacy''s mom and I are getting married!', 2, '2023-06-10T17:30:00.000-05:00', 'Star Wars');
+INSERT INTO events (dj_id, event_name, description, playlist_id, date, time, theme) VALUES (3, 'Birthday Cookout.', 'Join us for Brian''s birthday party!', 1, '2023-01-06', '14:00:00' , 'Luau');
+INSERT INTO events (dj_id, event_name, description, playlist_id, date, time, theme) VALUES (4, 'Dave and Stacy''s Wedding', 'Stacy''s mom and I are getting married!', 2, '2023-06-10', '17:30:00', 'Star Wars');
 
 INSERT INTO host_event (user_id, event_id) VALUES (6, 1);
 INSERT INTO host_event (user_id, event_id) VALUES (6, 2);
