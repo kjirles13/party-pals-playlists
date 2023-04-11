@@ -1,9 +1,11 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -125,21 +127,6 @@ public class JdbcSongDao implements SongDao {
     }
 
     @Override
-    public void deleteSong(int songId, int userId) {
-
-        String sql = "DELETE FROM public.songs\n" +
-                "\tWHERE song_id = ?";
-
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, songId);
-
-        //TODO finish this method when brain works again
-
-
-
-        //TODO implement deleteSong
-    }
-
-    @Override
     public Song getSongById(String songId) {
         String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview " +
                 "FROM public.songs " +
@@ -188,6 +175,17 @@ public class JdbcSongDao implements SongDao {
         }
 
         return song;
+    }
+
+    @Override
+    public void deleteSong(String songId, int userId) {
+        String sql = "DELETE FROM public.dj_song " +
+                "WHERE song_id = ? " +
+                "AND dj_id = ?;";
+
+        jdbcTemplate.update(sql, songId, userId);
+
+        //TODO work on try/catch statements
     }
 
     private Song mapRowToSong(SqlRowSet rs) {
