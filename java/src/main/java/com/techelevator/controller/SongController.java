@@ -5,6 +5,7 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.Song;
 import com.techelevator.model.SongDto;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -54,9 +55,15 @@ public class SongController {
         //TODO test updateSong
     }
 
-    @DeleteMapping
-    public void deleteSong(int id){
+    @DeleteMapping("/songs/{songId}")
+    public void deleteSong(@PathVariable int songId,@AuthenticationPrincipal(expression = "userId") int userId){
 
+        try {
+                songDao.deleteSong(songId, userId);
+            }
+            catch (ResponseStatusException e){
+                e.getMessage();
+            }
     }
 
 

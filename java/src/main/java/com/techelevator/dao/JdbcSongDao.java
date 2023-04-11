@@ -126,6 +126,16 @@ public class JdbcSongDao implements SongDao {
 
     @Override
     public void deleteSong(int songId, int userId) {
+
+        String sql = "DELETE FROM public.songs\n" +
+                "\tWHERE song_id = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, songId);
+
+        //TODO finish this method when brain works again
+
+
+
         //TODO implement deleteSong
     }
 
