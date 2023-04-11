@@ -5,6 +5,11 @@ import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
+import Events from '../views/Events.vue'
+import Playlists from '../views/Playlists.vue'
+import Songs from '../views/Songs.vue'
+
+
 
 
 Vue.use(Router)
@@ -47,6 +52,30 @@ const router = new Router({
       }
     },
     {
+      path: "/events",
+      name: "events",
+      component: Events,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/songs",
+      name: "songs",
+      component: Songs,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/playlists",
+      name: "playlists",
+      component: Playlists,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
       path: "/register",
       name: "register",
       component: Register,
@@ -59,14 +88,10 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // Determine if the route requires Authentication
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-
-  // If it does and they are not logged in, send the user to "/login"
   if (requiresAuth && store.state.token === '') {
     next("/login");
   } else {
-    // Else let them go to their next destination
     next();
   }
 });

@@ -8,7 +8,9 @@
 </template>
 
 <script>
+
 import testService from "../services/TestService"
+
 export default {
     name: 'test',
     data(){

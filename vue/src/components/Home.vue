@@ -1,6 +1,6 @@
 <template>
   <div class = "home">
-      <button @click="Events">Click here for Events</button> 
+      
 
   </div>
 </template>
@@ -29,12 +29,5 @@ export default {
 </script>
 
 <style>
-.home{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 2rem;
-}
+
 </style>
