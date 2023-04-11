@@ -1,28 +1,42 @@
 package com.techelevator.model;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class Event {
     private int id;
     private String name;
     private String description;
-    private LocalDateTime dateTime;
-    private Playlist playlist;
+    private Timestamp dateTime;
+    private int playlistId;
     private List<Host> hosts;
     private String theme;
+    private int djId;
+
 
     public Event() {
     }
 
-    public Event(int id, String name, String description, LocalDateTime dateTime, Playlist playlist, List<Host> hosts, String theme) {
+    public Event(int id, String name, String description, Timestamp dateTime, int playlistId, List<Host> hosts, String theme, int djId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.dateTime = dateTime;
-        this.playlist = playlist;
+        this.playlistId = playlistId;
         this.hosts = hosts;
         this.theme = theme;
+        this.djId = djId;
+    }
+
+    public int getDjId() {
+        return djId;
+    }
+
+    public void setDjId(int djId) {
+        this.djId = djId;
     }
 
     public String getTheme() {
@@ -57,20 +71,21 @@ public class Event {
         this.description = description;
     }
 
-    public LocalDateTime getDateTime() {
+
+    public Timestamp getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(Timestamp dateTime) {
         this.dateTime = dateTime;
     }
 
-    public Playlist getPlaylist() {
-        return playlist;
+    public int getPlaylistId() {
+        return playlistId;
     }
 
-    public void setPlaylist(Playlist playlist) {
-        this.playlist = playlist;
+    public void setPlaylistId(int playlist) {
+        this.playlistId = playlistId;
     }
 
     public List<Host> getHosts() {
@@ -88,8 +103,10 @@ public class Event {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", dateTime=" + dateTime +
-                ", playlist=" + playlist +
+                ", playlistId=" + playlistId +
                 ", hosts=" + hosts +
+                ", theme='" + theme + '\'' +
+                ", djId=" + djId +
                 '}';
     }
 }

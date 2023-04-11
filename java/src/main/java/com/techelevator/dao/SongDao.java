@@ -13,7 +13,7 @@ public interface SongDao {
 
     public void updateSong(SongDto songDto);
 
-    public void deleteSong(int songId, Principal principal);
+    public void deleteSong(int songId, int userId);
 
     public Song getSongById(String songId);
 

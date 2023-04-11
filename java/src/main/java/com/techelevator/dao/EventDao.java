@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface EventDao {
 
-    public List<Event> getAllEvents(int userId);
+    public List<Event> getAllEvents();
 
     public Event createEvent(Event event, int userId);
 
