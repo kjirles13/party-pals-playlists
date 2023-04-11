@@ -1,17 +1,5 @@
 package com.techelevator.dao;
 
-<<<<<<< HEAD
-import com.techelevator.model.Song;
-import com.techelevator.model.SongDto;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.security.Principal;
-import java.util.List;
-
-public class JdbcSongDao implements SongDao{
-
-        private JdbcTemplate jdbcTemplate;
-=======
 import com.techelevator.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -31,24 +19,11 @@ public class JdbcSongDao implements SongDao {
 
     public JdbcSongDao() {
     }
->>>>>>> 7284964d3196e39dea7eee1ef2e4c7c0d461e6de
 
     public JdbcSongDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-<<<<<<< HEAD
-
-    @Override
-    public List<Song> getAllSongs(Principal principal) {
-      String sql = "SELECT * FROM songs";
-      return jdbcTemplate.query(sql, ((resultSet, rowNum) -> {
-          Song song = new Song();
-          song.setSongId(resultSet.getInt("song_id"));
-          song.setTitle
-
-        })
-=======
     @Override
     public List<Song> getAllSongs(Principal principal) {
 
@@ -58,7 +33,6 @@ public class JdbcSongDao implements SongDao {
 
 
         return null;
->>>>>>> 7284964d3196e39dea7eee1ef2e4c7c0d461e6de
     }
 
     @Override
@@ -75,8 +49,6 @@ public class JdbcSongDao implements SongDao {
     public void deleteSong(int songId, Principal principal) {
 
     }
-<<<<<<< HEAD
-=======
 
     @Override
     public Song getSongById(String songId) {
@@ -121,5 +93,4 @@ public class JdbcSongDao implements SongDao {
 
         return song;
     }
->>>>>>> 7284964d3196e39dea7eee1ef2e4c7c0d461e6de
 }
