@@ -19,15 +19,18 @@ public class EventController {
     private PlaylistDao playlistDao;
     private EventDao eventDao;
 
-    public EventController(UserDao userDao, SongDao songDao, PlaylistDao playlistDao) {
+    //TODO clean up code
+
+    public EventController(UserDao userDao, SongDao songDao, PlaylistDao playlistDao, EventDao eventDao) {
         this.userDao = userDao;
         this.songDao = songDao;
         this.playlistDao = playlistDao;
+        this.eventDao = eventDao;
     }
 
-    @GetMapping("/users/{userId}/events")
-    public List<Event> getAllEvents(@PathVariable int userId) {
-        return eventDao.getAllEvents(userId);
+    @GetMapping("/events")
+    public List<Event> getAllEvents() {
+        return eventDao.getAllEvents();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
