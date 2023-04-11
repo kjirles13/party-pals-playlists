@@ -1,5 +1,5 @@
 BEGIN TRANSACTION;
-
+-- ROLLBACK TRANSACTION
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 INSERT INTO users (username,password_hash,role) VALUES ('kit','$2a$10$quBSSxGQenP59LD1J5ZHIuizWw0dqso/cAtn6LNryNotTm/aMmEw2','ROLE_USER');
@@ -73,7 +73,7 @@ INSERT INTO playlists (name, description) VALUES ('Cookout Jamz', 'This is a pla
 INSERT INTO playlists (name, description) VALUES ('Wedding Vibes', 'Someone is getting married!');
 -- INSERT INTO playlists (name, description) VALUES ('Friday Night Dance Party', 'TGIF');
 -- INSERT INTO playlists (name, description) VALUES ('Game Night', 'Grab a game and stay in');
-ROLLBACK TRANSACTION
+
 INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '1YLJVmuzeM2YSUkCCaTNUB', 12);
 INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '5XSU59wtE5CRCAEyHmmGy4', 5);
 INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '7H7SHw3YWXhb4zYqyoPNa1', 6);
@@ -86,8 +86,8 @@ INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (1, 3);
 INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (2, 8);
 INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (2, 2);
 
-INSERT INTO events (dj_id, event_name, description, playlist_id, date_time, theme) VALUES (3, 'Birthday Cookout.', 'Join us for Brian''s birthday party!', 1, '2023-06-10T12:00:00' , 'Luau');
-INSERT INTO events (dj_id, event_name, description, playlist_id, date_time, theme) VALUES (4, 'Dave and Stacy''s Wedding', 'Stacy''s mom and I are getting married!', 2, '2023-01-06T14:00:00', 'Star Wars');
+INSERT INTO events (dj_id, event_name, description, playlist_id, date, time, theme) VALUES (3, 'Birthday Cookout.', 'Join us for Brian''s birthday party!', 1, '2023-01-06', '14:00:00' , 'Luau');
+INSERT INTO events (dj_id, event_name, description, playlist_id, date, time, theme) VALUES (4, 'Dave and Stacy''s Wedding', 'Stacy''s mom and I are getting married!', 2, '2023-06-10', '17:30:00', 'Star Wars');
 
 INSERT INTO host_event (user_id, event_id) VALUES (6, 1);
 INSERT INTO host_event (user_id, event_id) VALUES (6, 2);
