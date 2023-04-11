@@ -34,7 +34,7 @@ spotify_id varchar(50)
 
 CREATE TABLE songs (
 	song_id varchar(50) NOT NULL PRIMARY KEY,
-	title varchar(50) NOT NULL,
+	title varchar(100) NOT NULL,
 	spotify_link varchar(250),
 	preview varchar(250)
 );
