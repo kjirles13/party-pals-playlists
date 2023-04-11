@@ -73,7 +73,7 @@ INSERT INTO playlists (name, description) VALUES ('Cookout Jamz', 'This is a pla
 INSERT INTO playlists (name, description) VALUES ('Wedding Vibes', 'Someone is getting married!');
 -- INSERT INTO playlists (name, description) VALUES ('Friday Night Dance Party', 'TGIF');
 -- INSERT INTO playlists (name, description) VALUES ('Game Night', 'Grab a game and stay in');
-
+ROLLBACK TRANSACTION
 INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '1YLJVmuzeM2YSUkCCaTNUB', 12);
 INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '5XSU59wtE5CRCAEyHmmGy4', 5);
 INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '7H7SHw3YWXhb4zYqyoPNa1', 6);
@@ -86,11 +86,11 @@ INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (1, 3);
 INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (2, 8);
 INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (2, 2);
 
-INSERT INTO events (dj_id, event_name, description, playlist_id, date_time, theme) VALUES (3, 'Birthday Cookout.', 'Join us for Brian''s birthday party!', 1, '2023-06-10 12:00:00' , 'Luau');
-INSERT INTO events (dj_id, event_name, description, playlist_id, date_time, theme) VALUES (4, 'Dave and Stacy''s Wedding', 'Stacy''s mom and I are getting married!', 2, '2023-01-06 14:00:00', 'Star Wars');
+INSERT INTO events (dj_id, event_name, description, playlist_id, date_time, theme) VALUES (3, 'Birthday Cookout.', 'Join us for Brian''s birthday party!', 1, '2023-06-10T12:00:00' , 'Luau');
+INSERT INTO events (dj_id, event_name, description, playlist_id, date_time, theme) VALUES (4, 'Dave and Stacy''s Wedding', 'Stacy''s mom and I are getting married!', 2, '2023-01-06T14:00:00', 'Star Wars');
 
-INSERT INTO host_event (user_id, event_id) VALUES (4, 1);
-INSERT INTO host_event (user_id, event_id) VALUES (4, 2);
+INSERT INTO host_event (user_id, event_id) VALUES (6, 1);
+INSERT INTO host_event (user_id, event_id) VALUES (6, 2);
 INSERT INTO host_event (user_id, event_id) VALUES (5, 2);
 
 COMMIT TRANSACTION;
