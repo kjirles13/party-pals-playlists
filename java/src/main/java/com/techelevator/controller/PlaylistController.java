@@ -33,27 +33,27 @@ public class PlaylistController{
         return playlistDao.getPlayListById(playlistId, userId);
     }
 
-    @PutMapping("/song")
-    public void addSong(@RequestBody PlaylistSongDto playlistSongDto, Principal principal) {
+    @PutMapping("/{playlistId}/song/{songId}")
+    public void addSong(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
-        playlistDao.addSongToPlaylist(playlistSongDto.getPlaylistId(), playlistSongDto.getSongId(), userId);
+        playlistDao.addSongToPlaylist(playlistId, songId, userId);
     }
 
-    @DeleteMapping("/song")
-    public ResponseEntity<Object> deleteSong(@RequestBody PlaylistSongDto playlistSongDto, Principal principal) {
+    @DeleteMapping("/{playlistId}/song{songId}")
+    public ResponseEntity<Object> deleteSong(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
-        playlistDao.deleteSongFromPlaylist(playlistSongDto.getPlaylistId(), playlistSongDto.getSongId(), userId);
+        playlistDao.deleteSongFromPlaylist(playlistId, songId, userId);
         return ResponseEntity.ok().body("Song deleted from playlist successfully");
     }
 
-    @PutMapping("/song/votes")
-    public ResponseEntity<Object> updateVotes(@RequestBody PlaylistSongDto playlistSongDto, Principal principal) {
+    @PutMapping("/{playlistId}/song/{songId}/votes")
+    public ResponseEntity<Object> updateVotes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
-        playlistDao.updateVotesForSong(playlistSongDto.getPlaylistId(), playlistSongDto.getVotes(), userId);
+        playlistDao.updateVotesForSong(playlistId, songId, userId);
         return ResponseEntity.ok().body("Votes for song updated successfully");
     }
 
-    @PutMapping("")
+    @PutMapping("/{playlistId}")
     public ResponseEntity<Object> updatePlaylist(@RequestBody PlaylistSongDto playlistSongDto, Principal principal){
         int userId = userDao.findIdByUsername(principal.getName());
         try {
@@ -63,5 +63,6 @@ public class PlaylistController{
             e.getMessage();
         }
         return ResponseEntity.ok().body("Playlist updated successfully");
+        //TODO update path variable mapping
     }
 }

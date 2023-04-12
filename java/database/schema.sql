@@ -29,7 +29,7 @@ CREATE TABLE playlists(
 playlist_id SERIAL PRIMARY KEY,
 name varchar(100) NOT NULL,
 description varchar(200),
-spotify_id varchar(50)
+spotify_id varchar(100)
 );
 
 CREATE TABLE songs (

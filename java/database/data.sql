@@ -69,8 +69,8 @@ INSERT INTO genre_song (song_id, genre_id) VALUES ('410ZZP746AQeiywhKvXWCo', 8);
 INSERT INTO genre_song (song_id, genre_id) VALUES ('1nwkSqzTyXBk6XF796EOav', 2);
 INSERT INTO genre_song (song_id, genre_id) VALUES ('1nwkSqzTyXBk6XF796EOav', 8);
 
-INSERT INTO playlists (name, description) VALUES ('Cookout Jamz', 'This is a playlist for a potluck');
-INSERT INTO playlists (name, description) VALUES ('Wedding Vibes', 'Someone is getting married!');
+INSERT INTO playlists (name, description, spotify_id) VALUES ('Cookout Jamz', 'This is a playlist for a potluck', '');
+INSERT INTO playlists (name, description, spotify_id) VALUES ('Wedding Vibes', 'Someone is getting married!', '');
 -- INSERT INTO playlists (name, description) VALUES ('Friday Night Dance Party', 'TGIF');
 -- INSERT INTO playlists (name, description) VALUES ('Game Night', 'Grab a game and stay in');
 

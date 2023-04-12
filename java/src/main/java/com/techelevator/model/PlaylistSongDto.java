@@ -5,6 +5,8 @@ public class PlaylistSongDto {
     private String songId;
     private int votes;
 
+    //TODO make this only String name and String description
+
     public PlaylistSongDto() {
     }
 
