@@ -38,8 +38,8 @@ public class JdbcEventDao implements EventDao {
 
             String hostSql = "SELECT users.user_id, users.username " +
                     "FROM public.users " +
-                    "inner join host_event on users.user_id = host_event.user_id " +
-                    "where host_event.event_id = ?";
+                    "JOIN host_event on users.user_id = host_event.user_id " +
+                    "WHERE host_event.event_id = ?";
 
             SqlRowSet hostResults = jdbcTemplate.queryForRowSet(hostSql, event.getId());
 
@@ -65,7 +65,34 @@ public class JdbcEventDao implements EventDao {
 
     @Override
     public Event getEventById(int eventId) {
-        return null;
+        Event event = new Event();
+
+        String sqlEvent ="SELECT event_id, event_name, dj_id, description, playlist_id, date, time, theme " +
+                "FROM public.events " +
+                "WHERE event_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlEvent, eventId);
+
+        if (results.next()) {
+            event = mapRowToEvent(results);
+        }
+
+        String hostSql = "SELECT users.user_id, users.username " +
+                "FROM public.users " +
+                "JOIN host_event on users.user_id = host_event.user_id " +
+                "WHERE host_event.event_id = ?";
+
+        SqlRowSet hostResults = jdbcTemplate.queryForRowSet(hostSql, event.getId());
+
+        List<Host> hosts = new ArrayList<>();
+
+        while (hostResults.next()) {
+            Host host = mapRowToHost(hostResults);
+            hosts.add(host);
+        }
+        event.setHosts(hosts);
+
+        return event;
     }
 
     @Override
