@@ -5,16 +5,15 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.Song;
 import com.techelevator.model.SongDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.sql.SQLException;
 import java.util.List;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/songs")
 public class SongController {
 
     private SongDao songDao;
@@ -25,26 +24,20 @@ public class SongController {
         this.userDao = userDao;
     }
 
-
-    @GetMapping("/songs")
+    @GetMapping("")
     public List<Song> listSongs(Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         return songDao.getAllSongs(userId);
     }
 
-    @PostMapping("/songs")
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     public Song addSong(@RequestBody Song song, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         return songDao.addSong(userId, song);
     }
 
-    @GetMapping("/songs/{songId}")
-    public Song getSongById(@PathVariable String songId) {
-        return songDao.getSongById(songId);
-    }
-
-
-    @PutMapping("/songs")
+    @PutMapping("")
     public void updateSong(@RequestBody SongDto songDto) {
 
         try {
@@ -55,20 +48,15 @@ public class SongController {
         //TODO test updateSong
     }
 
-    @DeleteMapping("/songs/{songId}")
-    public void deleteSong(@PathVariable int songId,@AuthenticationPrincipal(expression = "userId") int userId){
-
-        try {
-                songDao.deleteSong(songId, userId);
-            }
-            catch (ResponseStatusException e){
-                e.getMessage();
-            }
+    @GetMapping("/{songId}")
+    public Song getSongById(@PathVariable String songId) {
+        return songDao.getSongById(songId);
     }
 
-
-
-
-    //TODO add deleteSong
-    //TODO test deleteSong
+    @DeleteMapping("/{songId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteSong(@PathVariable String songId, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        songDao.deleteSong(songId, userId);
+    }
 }

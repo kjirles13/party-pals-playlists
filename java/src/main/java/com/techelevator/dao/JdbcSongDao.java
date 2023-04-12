@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +32,9 @@ public class JdbcSongDao implements SongDao {
 
             String songId = songResults.getString("song_id");
 
-            String artistSql = "SELECT artist.artist_id, artist.name " +
-                    "FROM public.artist " +
-                    "JOIN artist_song ON artist_song.artist_id = artist.artist_id " +
+            String artistSql = "SELECT artists.artist_id, artists.name " +
+                    "FROM public.artists " +
+                    "JOIN artist_song ON artist_song.artist_id = artists.artist_id " +
                     "WHERE artist_song.song_id = ?";
 
             SqlRowSet artistResults = jdbcTemplate.queryForRowSet(artistSql, songId);
@@ -83,7 +82,7 @@ public class JdbcSongDao implements SongDao {
         jdbcTemplate.update(sql, song.getId(), song.getName(), song.getSpotifyUri(), song.getPreview());
 
         for (Artist artist : song.getArtists()) {
-            String sqlCreateArtist = "INSERT INTO public.artist( " +
+            String sqlCreateArtist = "INSERT INTO public.artists( " +
                     " artist_id, name) " +
                     " VALUES (?, ?) " +
                     " ON CONFLICT DO NOTHING";
@@ -125,21 +124,6 @@ public class JdbcSongDao implements SongDao {
     }
 
     @Override
-    public void deleteSong(int songId, int userId) {
-
-        String sql = "DELETE FROM public.songs\n" +
-                "\tWHERE song_id = ?";
-
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, songId);
-
-        //TODO finish this method when brain works again
-
-
-
-        //TODO implement deleteSong
-    }
-
-    @Override
     public Song getSongById(String songId) {
         String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview " +
                 "FROM public.songs " +
@@ -152,9 +136,9 @@ public class JdbcSongDao implements SongDao {
         if (songResults.next()) {
             song = mapRowToSong(songResults);
 
-            String artistSql = "SELECT artist.artist_id, artist.name " +
-                    "FROM public.artist " +
-                    "JOIN artist_song ON artist_song.artist_id = artist.artist_id " +
+            String artistSql = "SELECT artists.artist_id, artists.name " +
+                    "FROM public.artists " +
+                    "JOIN artist_song ON artist_song.artist_id = artists.artist_id " +
                     "WHERE artist_song.song_id = ?";
 
             SqlRowSet artistResults = jdbcTemplate.queryForRowSet(artistSql, songId);
@@ -188,6 +172,17 @@ public class JdbcSongDao implements SongDao {
         }
 
         return song;
+    }
+
+    @Override
+    public void deleteSong(String songId, int userId) {
+        String sql = "DELETE FROM public.dj_song " +
+                "WHERE song_id = ? " +
+                "AND dj_id = ?;";
+
+        jdbcTemplate.update(sql, songId, userId);
+
+        //TODO work on try/catch statements
     }
 
     private Song mapRowToSong(SqlRowSet rs) {

@@ -5,6 +5,8 @@ const http = axios.create({
 export default{
     test(){
         return http.get('/test');
-    }
-
+    },
+ getSongs() {
+     return http.get('/songs');
+ }
 }
