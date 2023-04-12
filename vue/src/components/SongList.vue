@@ -1,11 +1,32 @@
 <template>
     <div class="song-list">
-        <h2>Song List</h2>
-        <ul>
-            <li v-for="song in songs" :key="song.song_id">{{ song.title }} </li>
-        </ul>
-        <div><button v-on:click= "searchSongs">DISPLAY SONGS</button></div>
+        <h1>Song List</h1>
+        <button v-on:click="searchSongs">DISPLAY SONGS</button>
+    <p v-for="line in test" v-bind:key="line.index">{{ line }}</p>
+
+    <div v-for="song in songs" v-bind:key="song.id">
+      <h3>Song: {{ song.name }}</h3>
+      <!-- <p>ID: {{ song.id }}</p> -->
+      
+      <div v-for="artist in song.artists" :key="artist.id">
+        <!-- <p>ID: {{ artist.id }}</p> -->
+        <h3>Artists: {{ artist.name }}</h3>
+        <!-- <p>Name: </p> -->
+      </div>
+      
+      <div v-for="genre in song.genres" :key="genre.id">
+          <h3>Genres: {{ genre.name }}</h3>
+        <!-- <p>ID: {{ genre.id }}</p>
+        <p>Name: </p> -->
+      </div>
+      <h4>Rating: {{ song.rating }}</h4>
+      <!-- <h4>Votes: {{ song.votes }}</h4> -->
+      <h4>Preview: <a href="song.preview">{{song.preview}}</a></h4>
+      <h4>Spotify: {{song.spotifyUri}}</h4>
+      <br />
     </div>
+    </div>
+    
 </template>
 
 <script> 
@@ -15,9 +36,15 @@ import songService from "../services/SongService"
 
 export default {
     name: 'SongList',
+    props: {
+        song:{
+            type: Object,
+            required: true
+        }
+    },
     data() {
         return {
-            songs: [],
+            songs: [{}],
             getSongs: [],
         };
     },
