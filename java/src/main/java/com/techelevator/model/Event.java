@@ -11,7 +11,7 @@ public class Event {
     private String description;
     private Date date;
     private Time time;
-    private int playlistId;
+    private Playlist playlist;
     private List<Host> hosts;
     private String theme;
     private int djId;
@@ -20,13 +20,13 @@ public class Event {
     public Event() {
     }
 
-    public Event(int id, String name, String description, Date date, Time time, int playlistId, List<Host> hosts, String theme, int djId) {
+    public Event(int id, String name, String description, Date date, Time time, Playlist playlist, List<Host> hosts, String theme, int djId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
         this.time = time;
-        this.playlistId = playlistId;
+        this.playlist = playlist;
         this.hosts = hosts;
         this.theme = theme;
         this.djId = djId;
@@ -88,12 +88,12 @@ public class Event {
         this.time = time;
     }
 
-    public int getPlaylistId() {
-        return playlistId;
+    public Playlist getPlaylist() {
+        return playlist;
     }
 
-    public void setPlaylistId(int playlistId) {
-        this.playlistId = playlistId;
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
     }
 
     public List<Host> getHosts() {
@@ -112,7 +112,7 @@ public class Event {
                 ", description='" + description + '\'' +
                 ", date=" + date +
                 ", time=" + time +
-                ", playlistId=" + playlistId +
+                ", playlist=" + playlist +
                 ", hosts=" + hosts +
                 ", theme='" + theme + '\'' +
                 ", djId=" + djId +

@@ -1,15 +1,10 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Artist;
 import com.techelevator.model.Event;
 import com.techelevator.model.Host;
-import com.techelevator.model.Playlist;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +55,14 @@ public class JdbcEventDao implements EventDao {
 
     @Override
     public Event createEvent(Event event, int userId) {
+        Event createdEvent = new Event();
+
+        String sqlEvent = "INSERT INTO public.events( " +
+                "event_name, dj_id, description, playlist_id, date, time, theme) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+//        jdbcTemplate.update(sqlEvent, event.getName(), event.getDjId(), event.getDescription())
+
         return null;
     }
 
@@ -121,7 +124,6 @@ public class JdbcEventDao implements EventDao {
         event.setName(rs.getString("event_name"));
         event.setDjId(rs.getInt("dj_id"));
         event.setDescription(rs.getString("description"));
-        event.setPlaylistId(rs.getInt("playlist_id"));
         event.setDate(rs.getDate("date"));
         event.setTime(rs.getTime("time"));
         event.setTheme(rs.getString("theme"));
