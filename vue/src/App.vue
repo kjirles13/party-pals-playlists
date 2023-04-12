@@ -20,7 +20,7 @@
 <script>
 
 import Navigation from './views/Navigation.vue'
-import Test from './components/Test.vue'
+// import Test from './components/Test.vue'
 // import Songs from './views/Songs.vue'
 // import Events from './views/Events.vue'
 export default {
@@ -28,7 +28,7 @@ export default {
   components: {
     
     Navigation,
-    Test
+    // Test
 
     // Events,
     
