@@ -1,5 +1,5 @@
 <template>
-    <div class="song-list">
+    <div class="SongList">
         <h1>Song List</h1>
         <button v-on:click="searchSongs">DISPLAY SONGS</button>
     <p v-for="line in test" v-bind:key="line.index">{{ line }}</p>

@@ -2,12 +2,12 @@
   <nav>
     <div id="app">
       <header>
-        <h1><img src="./images//DJ Performance Illustration Logo (11).png" />Party Playlist Pal </h1>
+        <h1><img src="./images//DJ Performance Illustration Logo (11).png" class="title"/>Party Playlist Pal </h1>
       </header>
       <div id="MainView">
-
-      <navigation/>
-      <router-view/>
+      
+      <navigation class="navbar"/>
+      <router-view class="main"/>
 
       </div>
       <head>
@@ -18,19 +18,12 @@
 </template>
 
 <script>
-
 import Navigation from './views/Navigation.vue'
-// import Songs from './views/Songs.vue'
-// import Events from './views/Events.vue'
+
 export default {
   name: 'App',
   components: {
-    
     Navigation,
-
-    // Events,
-    
-    
   }
 }
 </script>
@@ -38,16 +31,36 @@ export default {
 <style>
 #MainView {
   display: flex;
+  position: relative;
+  font-family: sans-serif;
+}
+.main {
+  flex-grow: 1;
+  margin-left: 115px;
+  margin-top: 100px;
+  
+}
+.title {
+  flex-grow: 1;
+  margin-left: 100px;
+}
+.navbar {
+  position: fixed;
+  width: 100px;
+  border-right-color: black 20px;
+  
 }
 header {
   display: flex;
-  /* justify-content: space-between; */
+  position: fixed;
+  justify-content: space-between;
   align-items: center;
-  /* height: 80px; */
+  height: 80px; 
   padding: 0 20px;
   background-color: rgb(145, 28, 28);
   text-align: center;
   border: solid black 1px;
+  top: 0px;
 
 }
 img {
@@ -84,9 +97,9 @@ img {
   text-decoration: none;
   color: #333;
 } */
-a:hover {
-  color: rgb(109, 10, 10);
-}
+/* a:hover {
+  color: rgb(231, 219, 219);
+} */
 .angry-grid {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;

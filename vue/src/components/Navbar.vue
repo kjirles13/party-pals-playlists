@@ -27,13 +27,15 @@ export default {
 </script>
 
 <style>
+
 .nav-bar {
-  
+  font-family:sans-serif;
   top: 0;
   left: 0;
   bottom: 0;
   width: 200px;
-  background-color: #5e4a4a !important;
+  background-color: #724d4d !important;
+  border-color: black 20px;
 }
 ul {
   display: flex;
@@ -53,7 +55,7 @@ ul {
   color: rgb(5, 0, 0);
 }
 .nav-bar a:hover {
-  color: rgb(49, 28, 28);
+  color: rgb(202, 172, 172);
 }
 </style>
 
