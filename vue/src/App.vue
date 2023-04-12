@@ -2,14 +2,20 @@
   <nav>
     <div id="app">
       <header>
-        <h1>Party Playlist Pal</h1>
+        <h1><img src="./images//DJ Performance Illustration Logo (11).png" />Party Playlist Pal </h1>
       </header>
       <div id="nav" class="angry-grid">
         <div class="navigation">
         </div>
-        <div id="item-0" class="angry-grid">&nbsp; <navigation/></div> 
-        <div id="item-1">&nbsp; <test/></div> 
-        <div id="item-2">&nbsp; </div> 
+        <div id="item-0" class="angry-grid">
+          
+          <navigation/></div> 
+        <div id="item-1"> 
+
+          <test/></div> 
+        <div id="item-2">
+
+          </div> 
       </div>
       <router-view />
       <head>
@@ -34,37 +40,49 @@ export default {
 </script>
 
 <style>
-.button{
-  
+header {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  /* height: 80px; */
+  padding: 0 20px;
+  background-color: rgb(145, 28, 28);
+
 }
-.navigation {
+img {
+  margin-right: 10px;
+  max-width: 150px;
+}
+
+/* .navigation {
   position: absolute;
   grid-column: 1/2;
-}
-.content {
+} */
+/* .content {
   margin-left: 200px;
   grid-column: 2/3;
-}
-.item-0 {
+} */
+/* .item-0 {
   grid-column: 1/2 !important;
-}
-nav-bar {
+} */
+/* nav-bar {
   grid-column: 1/2;
   position: fixed;
   background-color: #F2F2F2;
-}
-ul {
+  
+} */
+/* ul {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-li {
+} */
+/* li {
   padding: 10px;
-}
-a {
+} */
+/* a {
   text-decoration: none;
   color: #333;
-}
+} */
 a:hover {
   color: rgb(109, 10, 10);
 }
@@ -88,9 +106,7 @@ a:hover {
   grid-column-start: 2; 
   grid-row-end: 4; 
   grid-column-end: 5; 
-  
 } 
-
 #item-2 {
   background-color: #EDA556; 
   grid-row-start: 1; 
@@ -98,9 +114,9 @@ a:hover {
   grid-row-end: 4; 
   grid-column-end: 6;
 }
-.grid-container {
+/* .grid-container {
   display: grid;
   grid: 1fr,
-}
+} */
 
 </style>
