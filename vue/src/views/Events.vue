@@ -11,12 +11,15 @@
 
 <script>
 import Test from '../components/Test.vue'
+
 export default {
   name: "Events",
   components: {
     Test,
+    
   }
 };
+
 </script>
 
 <style>
