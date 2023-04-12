@@ -33,10 +33,10 @@ public class PlaylistController{
         return playlistDao.getPlayListById(playlistId, userId);
     }
 
-    @PostMapping("/song")
-    public Song addSong(@RequestBody PlaylistSongDto playlistSongDto, Principal principal) {
+    @PutMapping("/song")
+    public void addSong(@RequestBody PlaylistSongDto playlistSongDto, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
-        return playlistDao.addSongToPlaylist(playlistSongDto.getPlaylistId(), playlistSongDto.getSongId(), userId);
+        playlistDao.addSongToPlaylist(playlistSongDto.getPlaylistId(), playlistSongDto.getSongId(), userId);
     }
 
     @DeleteMapping("/song")

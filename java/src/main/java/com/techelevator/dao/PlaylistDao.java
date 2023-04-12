@@ -6,7 +6,7 @@ import com.techelevator.model.Song;
 public interface PlaylistDao {
     public Playlist getPlayListById(int playlistId, int userId);
 
-    public Song addSongToPlaylist(int playlistId, String songId, int userId);
+    public void addSongToPlaylist(int playlistId, String songId, int userId);
 
     public void deleteSongFromPlaylist(int playlistId, String songId, int userId);
 
