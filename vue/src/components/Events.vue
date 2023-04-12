@@ -1,5 +1,7 @@
 <template>
   <div class = "Events">
+    <h1>Events</h1>
+    
       
 
   </div>
