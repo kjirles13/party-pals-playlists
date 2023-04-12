@@ -2,7 +2,6 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Song;
 import com.techelevator.model.SongDto;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

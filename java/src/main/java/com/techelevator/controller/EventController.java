@@ -16,13 +16,10 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/events")
 public class EventController {
-
     private UserDao userDao;
     private SongDao songDao;
     private PlaylistDao playlistDao;
     private EventDao eventDao;
-
-    //TODO clean up code
 
     public EventController(UserDao userDao, SongDao songDao, PlaylistDao playlistDao, EventDao eventDao) {
         this.userDao = userDao;
@@ -70,6 +67,4 @@ public class EventController {
         host.setId(hostId);
         eventDao.deleteHostFromEvent(eventId, host);
     }
-
-
 }
