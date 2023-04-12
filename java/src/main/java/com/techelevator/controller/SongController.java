@@ -5,17 +5,15 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.Song;
 import com.techelevator.model.SongDto;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.security.Principal;
 import java.util.List;
 
-@CrossOrigin
 @RestController
+@CrossOrigin
 @RequestMapping("/songs")
 public class SongController {
-
     private SongDao songDao;
     private UserDao userDao;
 
@@ -38,14 +36,10 @@ public class SongController {
     }
 
     @PutMapping("")
-    public void updateSong(@RequestBody SongDto songDto) {
-
-        try {
-            songDao.updateSong(songDto);
-        } catch (ResponseStatusException e) {
-            e.getMessage();
-        }
-        //TODO test updateSong
+    public ResponseEntity<Object> updateSong(@RequestBody SongDto songDto, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        songDao.updateSong(songDto, userId);
+        return new ResponseEntity<>("Song updated successfully", HttpStatus.OK);
     }
 
     @GetMapping("/{songId}")
@@ -54,9 +48,11 @@ public class SongController {
     }
 
     @DeleteMapping("/{songId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteSong(@PathVariable String songId, Principal principal) {
+    public ResponseEntity<Object> deleteSong(@PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         songDao.deleteSong(songId, userId);
+        return new ResponseEntity<>("Song deleted successfully", HttpStatus.OK);
     }
+
+    //TODO implement try/catch for calls
 }

@@ -4,7 +4,6 @@ import com.techelevator.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,15 +111,25 @@ public class JdbcSongDao implements SongDao {
                 " ON CONFLICT DO NOTHING;";
         jdbcTemplate.update(sqlDjPlaylist, song.getId(), userId, song.getRating());
 
-        //TODO work on try/catches
-
         return this.getSongById(song.getId());
     }
 
     @Override
-    public void updateSong(SongDto songDto) {
-        //TODO implement updateSong
+    public void updateSong(SongDto songDto, int userId) {
+        for (Genre genre : songDto.getGenres()) {
+            String sqlLinkGenreSong = "INSERT INTO public.genre_song( " +
+                    " song_id, genre_id) " +
+                    " VALUES (?, ?)" +
+                    " ON CONFLICT DO NOTHING;";
 
+            jdbcTemplate.update(sqlLinkGenreSong, songDto.getId(), genre.getId());
+        }
+
+        String sqlDjPlaylist = "INSERT INTO public.dj_song( " +
+                " song_id, dj_id, song_rating) " +
+                " VALUES (?, ?, ?) " +
+                " ON CONFLICT DO NOTHING;";
+        jdbcTemplate.update(sqlDjPlaylist, songDto.getId(), userId, songDto.getRating());
     }
 
     @Override
@@ -181,8 +190,6 @@ public class JdbcSongDao implements SongDao {
                 "AND dj_id = ?;";
 
         jdbcTemplate.update(sql, songId, userId);
-
-        //TODO work on try/catch statements
     }
 
     private Song mapRowToSong(SqlRowSet rs) {

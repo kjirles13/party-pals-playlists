@@ -15,6 +15,7 @@
 
 <script>
 import axios from 'axios';
+// import getAllEvents from "../services/EventService.vue"
 
 const http = axios.create({
   baseURL: 'http://localhost:9000'
