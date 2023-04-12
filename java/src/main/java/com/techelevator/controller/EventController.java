@@ -17,7 +17,6 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/events")
 public class EventController {
-
     private UserDao userDao;
     private SongDao songDao;
     private PlaylistDao playlistDao;

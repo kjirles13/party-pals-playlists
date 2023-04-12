@@ -1,29 +1,29 @@
 import axios from 'axios';
 
 
-const apiClient = axios.create({
-    baseURL: 'http://localhost:9000',
-    headers: {
-        Accept: 'application/json',
-        'Content-Type' : 'application/json'
-    }
-});
+// const apiClient = axios.create({
+//     baseURL: 'http://localhost:9000',
+//     headers: {
+//         Accept: 'application/json',
+//         'Content-Type' : 'application/json'
+//     }
+// });
 
 export default {
     getSongs() {
-        return apiClient.get('/songs');
+        return axios.get('/songs');
     },
     getSong(id) {
-        return apiClient.get(`/songs/${id}`);
+        return axios.get(`/songs/${id}`);
     },
     createSong(song) {
-        return apiClient.post('/songs', song);
+        return axios.post('/songs', song);
     },
     updateSong(id, song) {
-        return apiClient.put(`/songs/${id}`, song)
+        return axios.put(`/songs/${id}`, song)
     },
     deleteSong(id) {
-        return apiClient.delete(`/songs/${id}`);
+        return axios.delete(`/songs/${id}`);
     }
 
 }
