@@ -3,9 +3,8 @@
     <h1>Songs</h1>
     <ul>
       <li v-for="song in songs" :key="song.id"> {{ song.title }}</li>
-      <li><songs/></li>
     </ul>
-    <p>Songs Listed here</p>
+    <p>Songs Listed here<songs/></p>
     <test/>
   
 
@@ -14,7 +13,7 @@
 
 <script>
 import axios from 'axios';
-import Songs from './views/Songs.vue'
+import songs from '../components/SongList.vue'
 const http = axios.create({
     baseURL: 'http://localhost:9000'
 });
@@ -22,7 +21,7 @@ export default{
   
   name: 'Songs',
   components: {
-    Songs,
+    songs,
   },
   
   data() {
