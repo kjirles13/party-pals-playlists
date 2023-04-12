@@ -3,18 +3,14 @@ package com.techelevator.dao;
 import com.techelevator.model.Playlist;
 import com.techelevator.model.Song;
 
-import java.security.Principal;
-
 public interface PlaylistDao {
-    //playlist dto? // TODO playlist dto or playlist (I think we should change songs one at a time and only update title and description with this)
-    public void updatePlaylist(Playlist playlist, String playlistId);
+    public Playlist getPlayListById(int playlistId, int userId);
 
-    public Song addSongToPlaylist(Song song, int userId);
+    public Song addSongToPlaylist(int playlistId, String songId, int userId);
 
-    public void deleteSongFromPlaylist(String playlistId, String songId);
+    public void deleteSongFromPlaylist(int playlistId, String songId, int userId);
 
-    public void updateVotesForSong(int eventId, String songId);
+    public void updateVotesForSong(int playlistId, int votes, int userId);
 
-    public Playlist getPlayListById(String id);
-
+    public void updatePlaylist(int playlistId, String songId, int userId);
 }

@@ -4,12 +4,17 @@ import com.techelevator.dao.PlaylistDao;
 import com.techelevator.dao.SongDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Playlist;
+import com.techelevator.model.PlaylistSongDto;
 import com.techelevator.model.Song;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
+
 @RestController
 @CrossOrigin
+@RequestMapping("/playlist")
 public class PlaylistController{
 
     private UserDao userDao;
@@ -22,43 +27,41 @@ public class PlaylistController{
         this.playlistDao = playlistDao;
     }
 
-    @PutMapping("/playlist/{id}")
-    public void updatePlaylist(@RequestBody Playlist playlist, @PathVariable String id){
+    @GetMapping("/{playlistId}")
+    public Playlist getPlaylistById(@PathVariable int playlistId, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return playlistDao.getPlayListById(playlistId, userId);
+    }
+
+    @PostMapping("/song")
+    public Song addSong(@RequestBody PlaylistSongDto playlistSongDto, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return playlistDao.addSongToPlaylist(playlistSongDto.getPlaylistId(), playlistSongDto.getSongId(), userId);
+    }
+
+    @DeleteMapping("/song")
+    public ResponseEntity<Object> deleteSong(@RequestBody PlaylistSongDto playlistSongDto, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        playlistDao.deleteSongFromPlaylist(playlistSongDto.getPlaylistId(), playlistSongDto.getSongId(), userId);
+        return ResponseEntity.ok().body("Song deleted from playlist successfully");
+    }
+
+    @PutMapping("/song/votes")
+    public ResponseEntity<Object> updateVotes(@RequestBody PlaylistSongDto playlistSongDto, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        playlistDao.updateVotesForSong(playlistSongDto.getPlaylistId(), playlistSongDto.getVotes(), userId);
+        return ResponseEntity.ok().body("Votes for song updated successfully");
+    }
+
+    @PutMapping("")
+    public ResponseEntity<Object> updatePlaylist(@RequestBody PlaylistSongDto playlistSongDto, Principal principal){
+        int userId = userDao.findIdByUsername(principal.getName());
         try {
-            playlistDao.updatePlaylist(playlist, id);
+            playlistDao.updatePlaylist(playlistSongDto.getPlaylistId(), playlistSongDto.getSongId(), userId);
         }
         catch (ResponseStatusException e){
             e.getMessage();
         }
+        return ResponseEntity.ok().body("Playlist updated successfully");
     }
-
-    @PostMapping("playlist/{id}/songs")
-    public Song addSongToPlaylist(@PathVariable String id, String songId){
-
-        Playlist playlist = playlistDao.getPlayListById(id);
-
-        Song song = songDao.getSongById(songId);
-
-        playlist.getSongs().add(song);
-
-        playlistDao.updatePlaylist(playlist, id);
-
-        return song;
-    }
-
-
-    @DeleteMapping("/playlist/{playlistId}/songs/{songId}")
-    public void deleteSongFromPlaylist(@PathVariable String playlistId, @PathVariable String songId){
-        try {
-            playlistDao.deleteSongFromPlaylist(playlistId, songId);
-        }
-        catch (ResponseStatusException e){
-            e.getMessage();
-        }
-    }
-
-
-
-
-
 }
