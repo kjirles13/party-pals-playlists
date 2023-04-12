@@ -1,7 +1,7 @@
 <template>
   <div>
       <button v-on:click = "runTest">THE TEST BUTTON</button>
-      <button v-on:click="searchSongs">SEARCH SONGS</button>
+      <button v-on:click= "searchSongs">DISPLAY SONGS</button>
       <p v-for="line in test" v-bind:key="line.index"> {{line}} </p>
 
   </div>
@@ -16,7 +16,9 @@ export default {
     name: 'test',
     data(){
         return{
-            test: []
+            test: [],
+            getSongs: [],
+
         }
     },
     methods: {
@@ -27,7 +29,7 @@ export default {
         },
         searchSongs() {
             songService.getSongs().then(response => {
-                this.test = response.data.map(song => song.title);
+                this.getSongs = response.data;
             }).catch(error => {
                 console.log(error);
             });

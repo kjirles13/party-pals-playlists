@@ -4,20 +4,12 @@
       <header>
         <h1><img src="./images//DJ Performance Illustration Logo (11).png" />Party Playlist Pal </h1>
       </header>
-      <div id="nav" class="angry-grid">
-        <div class="navigation">
-        </div>
-        <div id="item-0" class="angry-grid">
-          
-          <navigation/></div> 
-        <div id="item-1"> 
+      <div id="MainView">
 
-          <test/></div> 
-        <div id="item-2">
+      <navigation/><test/>      
+      <router-view/>
 
-          </div> 
       </div>
-      <router-view />
       <head>
         <title></title>
       </head>
@@ -29,17 +21,26 @@
 
 import Navigation from './views/Navigation.vue'
 import Test from './components/Test.vue'
+// import Songs from './views/Songs.vue'
+// import Events from './views/Events.vue'
 export default {
   name: 'App',
   components: {
-    Test,
+    
     Navigation,
+    Test
+
+    // Events,
+    
     
   }
 }
 </script>
 
 <style>
+#MainView {
+  display: flex;
+}
 header {
   display: flex;
   /* justify-content: space-between; */
@@ -47,6 +48,8 @@ header {
   /* height: 80px; */
   padding: 0 20px;
   background-color: rgb(145, 28, 28);
+  text-align: center;
+  border: solid black 1px;
 
 }
 img {
