@@ -21,7 +21,7 @@
       </div>
       <h4>Rating: {{ song.rating }}</h4>
       <!-- <h4>Votes: {{ song.votes }}</h4> -->
-      <h4>Preview: <a href="song.preview">{{song.preview}}</a></h4>
+      <h4> <a href="song.preview">Preview{{song.preview}}</a></h4>
       <h4>Spotify: {{song.spotifyUri}}</h4>
       <br />
     </div>
