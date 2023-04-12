@@ -1,7 +1,7 @@
 <template>
   <div>
-      <button v-on:click = "runTest">THE TEST BUTTON
-      </button>
+      <button v-on:click = "runTest">THE TEST BUTTON</button>
+      <button v-on:click="searchSongs">SEARCH SONGS</button>
       <p v-for="line in test" v-bind:key="line.index"> {{line}} </p>
 
   </div>
@@ -10,6 +10,7 @@
 <script>
 
 import testService from "../services/TestService"
+import songService from "/Users/Student/workspace/nlr-12-module-3-final-capstone-party-playlist/vue/src/services/SongService"
 
 export default {
     name: 'test',
@@ -22,6 +23,11 @@ export default {
         runTest(){
             testService.test().then(response => {
                 this.test = response.data;
+            })
+        },
+        searchSongs() {
+            songService.getSongs().then(response => {
+                console.log(response.data);
             })
         }
     }
