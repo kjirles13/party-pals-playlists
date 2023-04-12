@@ -7,9 +7,9 @@ INSERT INTO users (username,password_hash,role) VALUES ('ari','$2a$10$uDyopGzbaw
 INSERT INTO users (username,password_hash,role) VALUES ('dan','$2a$10$f4LoPR0O9Y9.DUoQ5jvYmePIBzSa1g0/2tHEgjqzpA.5F7cCT6yH.','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('blake','$2a$10$4.ovOGPlkY5whyJ8l7s3pulDLfZdJc/tb./AHzpBnGdhoZvUwqwea','ROLE_USER');
 
-INSERT INTO artist (artist_id, name) VALUES ('1moxjboGR7GNWYIMWsRjgG', 'Florence and the Machine');
-INSERT INTO artist (artist_id, name) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', 'Tyler, The Creator');
-INSERT INTO artist (artist_id, name) VALUES ('1U1el3k54VvEUzo3ybLPlM', 'Kali Uchis');
+INSERT INTO artists (artist_id, name) VALUES ('1moxjboGR7GNWYIMWsRjgG', 'Florence and the Machine');
+INSERT INTO artists (artist_id, name) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', 'Tyler, The Creator');
+INSERT INTO artists (artist_id, name) VALUES ('1U1el3k54VvEUzo3ybLPlM', 'Kali Uchis');
 
 INSERT INTO songs (song_id, title, spotify_link, preview) VALUES ('1YLJVmuzeM2YSUkCCaTNUB', 'Dog Days Are Over', 'https://open.spotify.com/track/1YLJVmuzeM2YSUkCCaTNUB', 'https://p.scdn.co/mp3-preview/d1c97f83c052039d9e5105ed70261a5c59fd7f53?cid=ff7f710ce2564ce19c72faebda1dfa0e');
 INSERT INTO songs (song_id, title, spotify_link, preview) VALUES ('7H7SHw3YWXhb4zYqyoPNa1', 'Free', 'https://open.spotify.com/track/7H7SHw3YWXhb4zYqyoPNa1', 'https://p.scdn.co/mp3-preview/a6b318f3834a1a35d91717821b786a9c3d65f132?cid=ff7f710ce2564ce19c72faebda1dfa0e');
