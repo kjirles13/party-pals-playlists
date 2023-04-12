@@ -70,21 +70,19 @@ public class JdbcEventDao implements EventDao {
 
     @Override
     public void updateEvent(int eventId) {
-
     }
 
     @Override
     public void deleteEvent(int eventId) {
-
     }
 
     @Override
-    public Host addHostToEvent(int eventId, Host host) {
+    public Host addHostToEvent(int eventId, List<Host> hosts) {
         return null;
     }
 
     @Override
-    public void deleteHostFromEvent(int eventId, Host host) {
+    public void deleteHostFromEvent(int eventId, List<Host> hosts) {
 
     }
 

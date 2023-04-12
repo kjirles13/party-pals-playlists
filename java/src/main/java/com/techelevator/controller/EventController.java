@@ -7,6 +7,7 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.Event;
 import com.techelevator.model.Host;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,8 +23,6 @@ public class EventController {
     private PlaylistDao playlistDao;
     private EventDao eventDao;
 
-    //TODO clean up code
-
     public EventController(UserDao userDao, SongDao songDao, PlaylistDao playlistDao, EventDao eventDao) {
         this.userDao = userDao;
         this.songDao = songDao;
@@ -36,8 +35,8 @@ public class EventController {
         return eventDao.getAllEvents();
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     public Event createEvent(@RequestBody Event event, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         return eventDao.createEvent(event, userId);
@@ -49,9 +48,10 @@ public class EventController {
     }
 
     @PutMapping("/{eventId}")
-    public void updateEvent(@RequestBody Event event, @PathVariable int eventId) {
+    public ResponseEntity<Object> updateEvent(@RequestBody Event event, @PathVariable int eventId) {
         event.setId(eventId);
         eventDao.updateEvent(event.getId());
+        return ResponseEntity.ok().body("Event updated successfully");
     }
 
     @DeleteMapping("/{eventId}")
@@ -60,16 +60,14 @@ public class EventController {
     }
 
     @PostMapping("/{eventId}/hosts")
-    public Host addHostToEvent(@RequestBody Host host, @PathVariable int eventId) {
-        return eventDao.addHostToEvent(eventId, host);
+    public ResponseEntity<Object> addHostToEvent(@RequestBody List<Host> hosts, @PathVariable int eventId) {
+        eventDao.addHostToEvent(eventId, hosts);
+        return ResponseEntity.ok().body("Hosts added to event successfully");
     }
 
-    @DeleteMapping("/{eventId}/hosts/{hostId}")
-    public void deleteHostFromEvent(@PathVariable int eventId, @PathVariable int hostId) {
-        Host host = new Host();
-        host.setId(hostId);
-        eventDao.deleteHostFromEvent(eventId, host);
+    @DeleteMapping("/{eventId}/hosts")
+    public ResponseEntity<Object> deleteHostFromEvent(@PathVariable int eventId, @RequestBody List<Host> hosts) {
+        eventDao.deleteHostFromEvent(eventId, hosts);
+        return ResponseEntity.ok().body("Hosts deleted from event successfully");
     }
-
-
 }
