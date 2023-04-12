@@ -39,7 +39,7 @@ CREATE TABLE songs (
 	preview varchar(250)
 );
 
-CREATE TABLE artist (
+CREATE TABLE artists (
 artist_id varchar(50) NOT NULL PRIMARY KEY,
 name varchar(50) NOT NULL
 );
@@ -53,7 +53,7 @@ CREATE TABLE artist_song (
 artist_id varchar(50) NOT NULL,
 song_id varchar(50) NOT NULL,
 PRIMARY KEY (artist_id, song_id),
-FOREIGN KEY (artist_id) REFERENCES artist (artist_id),
+FOREIGN KEY (artist_id) REFERENCES artists (artist_id),
 FOREIGN KEY (song_id) REFERENCES songs (song_id)
 );
 

@@ -1,13 +1,10 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +32,9 @@ public class JdbcSongDao implements SongDao {
 
             String songId = songResults.getString("song_id");
 
-            String artistSql = "SELECT artist.artist_id, artist.name " +
-                    "FROM public.artist " +
-                    "JOIN artist_song ON artist_song.artist_id = artist.artist_id " +
+            String artistSql = "SELECT artists.artist_id, artists.name " +
+                    "FROM public.artists " +
+                    "JOIN artist_song ON artist_song.artist_id = artists.artist_id " +
                     "WHERE artist_song.song_id = ?";
 
             SqlRowSet artistResults = jdbcTemplate.queryForRowSet(artistSql, songId);
@@ -85,7 +82,7 @@ public class JdbcSongDao implements SongDao {
         jdbcTemplate.update(sql, song.getId(), song.getName(), song.getSpotifyUri(), song.getPreview());
 
         for (Artist artist : song.getArtists()) {
-            String sqlCreateArtist = "INSERT INTO public.artist( " +
+            String sqlCreateArtist = "INSERT INTO public.artists( " +
                     " artist_id, name) " +
                     " VALUES (?, ?) " +
                     " ON CONFLICT DO NOTHING";
@@ -139,9 +136,9 @@ public class JdbcSongDao implements SongDao {
         if (songResults.next()) {
             song = mapRowToSong(songResults);
 
-            String artistSql = "SELECT artist.artist_id, artist.name " +
-                    "FROM public.artist " +
-                    "JOIN artist_song ON artist_song.artist_id = artist.artist_id " +
+            String artistSql = "SELECT artists.artist_id, artists.name " +
+                    "FROM public.artists " +
+                    "JOIN artist_song ON artist_song.artist_id = artists.artist_id " +
                     "WHERE artist_song.song_id = ?";
 
             SqlRowSet artistResults = jdbcTemplate.queryForRowSet(artistSql, songId);
