@@ -18,8 +18,8 @@ public interface EventDao {
 
     public void deleteEvent(int eventId);
 
-    public Host addHostToEvent(int eventId, Host host);
+    public Host addHostToEvent(int eventId, List<Host> hosts);
 
-    public void deleteHostFromEvent(int eventId, Host host);
+    public void deleteHostFromEvent(int eventId, List<Host> hosts);
 
 }

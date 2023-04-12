@@ -1,5 +1,5 @@
 <template>
-    <div class="song-list">
+    <div class="SongList">
         <h1>Song List</h1>
         <button v-on:click="searchSongs">DISPLAY SONGS</button>
     <p v-for="line in test" v-bind:key="line.index">{{ line }}</p>
@@ -21,7 +21,10 @@
       </div>
       <h4>Rating: {{ song.rating }}</h4>
       <!-- <h4>Votes: {{ song.votes }}</h4> -->
+      <audio controls>
+          <source :src="song.preview" type="audio/mpeg">
       <h4> <a href="song.preview">Preview{{song.preview}}</a></h4>
+      </audio>
       <h4>Spotify: {{song.spotifyUri}}</h4>
       <br />
     </div>

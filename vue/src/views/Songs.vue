@@ -1,11 +1,12 @@
 <template>
   <div class="Songs">
-    <h1>Songs</h1>
+   
+    
+    <p>Songs Listed here<songs/></p>
     <ul>
       <li v-for="song in songs" :key="song.id"> {{ song.title }}</li>
     </ul>
-    <p>Songs Listed here<songs/></p>
-    <test/>
+    
   
 
 </div>

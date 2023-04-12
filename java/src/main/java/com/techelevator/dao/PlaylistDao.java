@@ -10,7 +10,7 @@ public interface PlaylistDao {
 
     public void deleteSongFromPlaylist(int playlistId, String songId, int userId);
 
-    public void updateVotesForSong(int playlistId, int votes, int userId);
+    public void updateVotesForSong(int playlistId, String songId, int userId);
 
     public void updatePlaylist(int playlistId, String songId, int userId);
 }
