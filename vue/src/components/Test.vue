@@ -27,8 +27,10 @@ export default {
         },
         searchSongs() {
             songService.getSongs().then(response => {
-                console.log(response.data);
-            })
+                this.test = response.data.map(song => song.title);
+            }).catch(error => {
+                console.log(error);
+            });
         }
     }
     
