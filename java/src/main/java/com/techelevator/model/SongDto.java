@@ -3,24 +3,24 @@ package com.techelevator.model;
 import java.util.List;
 
 public class SongDto {
-    private int id;
+    private String id;
     private List<Genre> genres;
     private int rating;
 
     public SongDto() {
     }
 
-    public SongDto(int id, List<Genre> genres, int rating) {
+    public SongDto(String id, List<Genre> genres, int rating) {
         this.id = id;
         this.genres = genres;
         this.rating = rating;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
