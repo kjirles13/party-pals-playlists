@@ -4,26 +4,26 @@
         <table>
             <thead>
                 <tr>
-                    <th>Event ID</th>
+                    <!-- <th>Event ID</th>
                     <th>User ID</th>
                     <th>Role ID</th>
                     <th>From Date</th>
-                    <th>To Date</th>
+                    <th>To Date</th> -->
                     <th>Description</th>
-                    <th>Playlist ID</th>
+                    <!-- <th>Playlist ID</th> -->
                     <th>Date Time</th>
                     <th>Theme</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="event in events" :key="event.event_id">
-                    <td>{{ event.event_id}}</td>
+                    <!-- <td>{{ event.event_id}}</td>
                     <td>{{ event.user_id }}</td>
                     <td>{{ event.role_id }}</td>
                     <td>{{ event.from_date }}</td>
-                    <td>{{ event.to_date }}</td>
+                    <td>{{ event.to_date }}</td> -->
                     <td>{{ event.description }}</td>
-                    <td>{{ event.playlist_id }}</td>
+                    <!-- <td>{{ event.playlist_id }}</td> -->
                     <td>{{ event.date_time }}</td>
                     <td>{{ event.theme }}</td>
                 </tr>
