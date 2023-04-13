@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
     name: 'PlaylistDetail',
@@ -25,41 +24,5 @@ export default {
             required:true
         }
     },
-    data() {
-        return {
-            playlist: {}
-        }
-    },
-    created() {
-        axios.get(`http://localhost:9000/playlists/${this.$route.params.id}`)
-        .then(response => {
-            this.playlist = response.data;
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    },
-    methods: {
-        like(song) {
-            song.likes++;
-            axios.put(`http://localhost:9000/songs/${song.song_id}`, song)
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        },
-        dislike(song){
-            song.dislikes--;
-            axios.put(`http://localhost:9000/songs/${song.song_id}`, song)
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }
-    }
 }
 </script>

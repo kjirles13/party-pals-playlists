@@ -1,16 +1,14 @@
 import axios from 'axios';
-const http = axios.create({
-    baseURL: 'http://localhost:9000'
-});
+
 
 
 
 export default {
     getSongs(principal) {
-        return http.get(`/songs?principal=${principal}`)
+        return axios.get(`/songs?principal=${principal}`)
     },
     addSong(song, principal) {
-        return http.post('/songs', song, {
+        return axios.post('/songs', song, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             },
@@ -20,7 +18,7 @@ export default {
         })
     },
     deleteSong(songId, principal) {
-        return http.delete(`/songs/${songId}`, {
+        return axios.delete(`/songs/${songId}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             },
@@ -30,7 +28,7 @@ export default {
         })
     },
     updateSong(playlistId, dto) {
-        return http.patch(`/songs/${playlistId}`, {
+        return axios.patch(`/songs/${playlistId}`, {
             genre: dto.genre,
             rating: dto.rating
         }, {
@@ -40,6 +38,6 @@ export default {
         })
     },
     getPlaylist() {
-        return http.get('/playlist')
+        return axios.get('/playlist')
     }
 }
