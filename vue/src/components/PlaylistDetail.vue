@@ -4,7 +4,12 @@
         <p>{{ playlist.description }}</p>
         <ul>
             <li v-for="song in playlist.songs" :key="song.song_id">
-                {{ song.title }}</li>
+                <p>{{ song.title }}</p>
+                <p>Rating: {{ song.rating }} </p>
+                <p>Votes: {{ song.votes }} </p>
+                <button @click="like(song)">Like</button>
+                <button @click="dislike(song)">Dislike</button>
+                </li>
         </ul>
     </div>
 </template>
@@ -27,6 +32,28 @@ export default {
         .catch(error => {
             console.log(error);
         });
+    },
+    methods: {
+        like(song) {
+            song.votes++;
+            axios.put(`http://localhost:9000/songs/${song.song_id}`, song)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
+        dislike(song){
+            song.votes--;
+            axios.put(`http://localhost:9000/songs/${song.song_id}`, song)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
     }
 }
 </script>
