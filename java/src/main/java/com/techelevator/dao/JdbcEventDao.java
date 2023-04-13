@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Event;
 import com.techelevator.model.Host;
+import com.techelevator.model.Playlist;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -11,20 +12,20 @@ import java.util.List;
 
 @Component
 public class JdbcEventDao implements EventDao {
-
     private JdbcTemplate jdbcTemplate;
-    private Host host;
-    private Event event;
+    private PlaylistDao playlistDao;
 
-    public JdbcEventDao(JdbcTemplate jdbcTemplate) {
+    public JdbcEventDao(JdbcTemplate jdbcTemplate, PlaylistDao playlistDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.playlistDao = playlistDao;
     }
 
     @Override
     public List<Event> getAllEvents() {
         List<Event> allEvents = new ArrayList<>();
-        String sql = "SELECT event_id, event_name, dj_id, description, playlist_id, date, time, theme " +
-                "FROM public.events";
+        String sql = "SELECT events.event_id, events.event_name, events.description, events.playlist_id, events.date, events.\"time\", events.theme, events.dj_id, users.username " +
+                "FROM public.events " +
+                "JOIN users on events.dj_id = users.user_id";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 
@@ -42,12 +43,13 @@ public class JdbcEventDao implements EventDao {
             List<Host> hosts = new ArrayList<>();
 
             while (hostResults.next()) {
-                Host host = mapRowToHost(hostResults);
-
-                hosts.add(host);
+                hosts.add(mapRowToHost(hostResults));
             }
-
             event.setHosts(hosts);
+
+            Playlist playlist = playlistDao.getPlayListById(results.getInt("playlist_id"), results.getInt("dj_id"));
+            event.setPlaylist(playlist);
+
             allEvents.add(event);
         }
 
@@ -144,11 +146,11 @@ public class JdbcEventDao implements EventDao {
 
         event.setId(rs.getInt("event_id"));
         event.setName(rs.getString("event_name"));
-        event.setDjId(rs.getInt("dj_id"));
         event.setDescription(rs.getString("description"));
         event.setDate(rs.getDate("date"));
         event.setTime(rs.getTime("time"));
         event.setTheme(rs.getString("theme"));
+        event.setDjUsername(rs.getString("username"));
 
         return event;
     }
