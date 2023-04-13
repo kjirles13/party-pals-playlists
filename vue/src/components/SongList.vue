@@ -1,35 +1,23 @@
 <template>
-    <div class="SongList">
-        <h1>Song List</h1>
-        <button v-on:click="searchSongs">DISPLAY SONGS</button>
-    <p v-for="line in test" v-bind:key="line.index">{{ line }}</p>
-
-    <div v-for="song in songs" v-bind:key="song.id">
+  <div class="SongList">
+    <h1>Song List</h1>
+    <button v-on:click="searchSongs">DISPLAY SONGS</button>
+    <div v-for="song in songs" v-bind:key="song.id" class="song">
       <h3>Song: {{ song.name }}</h3>
-      <!-- <p>ID: {{ song.id }}</p> -->
-      
       <div v-for="artist in song.artists" :key="artist.id">
-        <!-- <p>ID: {{ artist.id }}</p> -->
         <h3>Artists: {{ artist.name }}</h3>
-        <!-- <p>Name: </p> -->
       </div>
-      
       <div v-for="genre in song.genres" :key="genre.id">
-          <h3>Genres: {{ genre.name }}</h3>
-        <!-- <p>ID: {{ genre.id }}</p>
-        <p>Name: </p> -->
+        <h3>Genres: {{ genre.name }}</h3>
       </div>
       <h4>Rating: {{ song.rating }}</h4>
-      <!-- <h4>Votes: {{ song.votes }}</h4> -->
-      <audio controls>
-          <source :src="song.preview" type="audio/mpeg">
-      <h4> <a href="song.preview">Preview{{song.preview}}</a></h4>
+      <audio controls @play="setVolume">
+        <source :src="song.preview" type="audio/mpeg">
+        <h4><a href="song.preview">Preview{{song.preview}}</a></h4>
       </audio>
-      <h4>Spotify: {{song.spotifyUri}}</h4>
-      <br />
+      <a :href="song.spotifyUri"><img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" width="56" height="56"></a>
     </div>
-    </div>
-    
+  </div>
 </template>
 
 <script> 
@@ -67,13 +55,27 @@ export default {
             }).catch(error => {
                 console.log(error);
             });
-        }
+        },
+        setVolume(event) {
+      event.target.volume = 0.2; 
+    }
     }
 };
 </script>
 
 
 <style scoped>
+
+.img {
+    size: 20px;
+}
+.song {
+    background-color: rgb(166, 167, 166);
+    border: 1px solid black;
+    margin-bottom: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    padding: 8px;
+}
 .song-list {
     margin-top: 20px;
 }
