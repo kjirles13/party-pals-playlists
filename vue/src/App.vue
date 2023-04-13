@@ -62,7 +62,7 @@ header {
   background-color: rgb(145, 28, 28);
   text-align: center;
   top: 0px;
-  z-index: 1; /* set a higher z-index for the header */
+  z-index: 1; 
 }
 p1{
   font-family: sans-serif;
@@ -72,7 +72,7 @@ img {
   margin-right: 10px;
   max-width: 150px;
 }
-.angry-grid {
+/* .angry-grid {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -99,5 +99,5 @@ img {
   grid-column-start: 5; 
   grid-row-end: 4; 
   grid-column-end: 6;
-}
+} */
 </style>
