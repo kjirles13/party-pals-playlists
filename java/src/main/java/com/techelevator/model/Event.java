@@ -1,15 +1,15 @@
 package com.techelevator.model;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public class Event {
     private int id;
     private String name;
     private String description;
-    private Date date;
+    private LocalDate date;
     private Time time;
     private Playlist playlist;
     private List<Host> hosts;
@@ -20,7 +20,7 @@ public class Event {
     public Event() {
     }
 
-    public Event(int id, String name, String description, Date date, Time time, Playlist playlist, List<Host> hosts, String theme, String djUsername) {
+    public Event(int id, String name, String description, LocalDate date, Time time, Playlist playlist, List<Host> hosts, String theme, String djUsername) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -72,14 +72,6 @@ public class Event {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public Time getTime() {
         return time;
     }
@@ -102,6 +94,14 @@ public class Event {
 
     public void setHosts(List<Host> hosts) {
         this.hosts = hosts;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override

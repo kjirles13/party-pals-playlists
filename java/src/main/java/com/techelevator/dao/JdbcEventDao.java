@@ -6,7 +6,13 @@ import com.techelevator.model.Playlist;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,24 +64,25 @@ public class JdbcEventDao implements EventDao {
 
     @Override
     public Event createEvent(Event event, int userId) {
-        Event createdEvent = new Event();
+        int playlistId = playlistDao.createPlaylist(event.getPlaylist()).getPlaylistId();
 
         String sqlEvent = "INSERT INTO public.events( " +
                 "event_name, dj_id, description, playlist_id, date, time, theme) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+                "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING event_id";
 
-//        jdbcTemplate.update(sqlEvent, event.getName(), event.getDjId(), event.getDescription())
+        int eventId = jdbcTemplate.queryForObject(sqlEvent, int.class, event.getName(), userId, event.getDescription(), playlistId, event.getDate(), event.getTime(), event.getTheme());
 
-        return null;
+        return this.getEventById(eventId);
     }
 
     @Override
     public Event getEventById(int eventId) {
         Event event = new Event();
 
-        String sqlEvent ="SELECT event_id, event_name, dj_id, description, playlist_id, date, time, theme " +
+        String sqlEvent = "SELECT events.event_id, events.event_name, events.description, events.playlist_id, events.date, events.\"time\", events.theme, events.dj_id, users.username " +
                 "FROM public.events " +
-                "WHERE event_id = ?;";
+                "JOIN users on events.dj_id = users.user_id " +
+                "WHERE events.event_id = ?";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlEvent, eventId);
 
@@ -98,31 +105,23 @@ public class JdbcEventDao implements EventDao {
         }
         event.setHosts(hosts);
 
+        Playlist playlist = playlistDao.getPlayListById(results.getInt("playlist_id"), results.getInt("dj_id"));
+        event.setPlaylist(playlist);
+
         return event;
     }
 
     @Override
     public void updateEvent(Event event, int eventId) {
 
-        String sql = "UPDATE public.events\n" +
-                "\tSET event_name=?, description=?, date=?, time=?, theme=?\n" +
-                "\tWHERE event_id =?";
-
-        jdbcTemplate.update(sql, event.getName(), event.getDescription(), event.getDate(),
-                event.getTime(), event.getTheme(), eventId);
-
-//        String hostSql = "UPDATE public.host_event\n" +
-//                "\tSET user_id=?, event_id=?\n" +
+//        String sql = "UPDATE public.events\n" +
+//                "\tSET event_name=?, description=?, date=?, time=?, theme=?\n" +
 //                "\tWHERE event_id =?";
-
-        String deleteSql = "DELETE FROM public.host_event WHERE event_id = ?";
-        jdbcTemplate.update(deleteSql, eventId);
-
-        String insertSql = "INSERT INTO public.host_event (user_id, event_id) VALUES (?, ?)";
-        List<Host> hosts = event.getHosts();
-        for (Host host : hosts) {
-            jdbcTemplate.update(insertSql, host.getId(), eventId);
-        }
+//
+//        jdbcTemplate.update(sql, event.getName(), event.getDescription(), event.getDate(),
+//                event.getTime(), event.getTheme(), eventId);
+//
+//        this.updateHosts(eventId, eve);
 
     }
 
@@ -131,23 +130,24 @@ public class JdbcEventDao implements EventDao {
     }
 
     @Override
-    public Host addHostToEvent(int eventId, List<Host> hosts) {
-        return null;
-    }
+    public void updateHosts(int eventId, List<Host> hosts) {
+        String deleteSql = "DELETE FROM public.host_event WHERE event_id = ?";
+        jdbcTemplate.update(deleteSql, eventId);
 
-    @Override
-    public void deleteHostFromEvent(int eventId, List<Host> hosts) {
+        String insertSql = "INSERT INTO public.host_event (user_id, event_id) VALUES (?, ?)";
 
+        for (Host host : hosts) {
+            jdbcTemplate.update(insertSql, host.getId(), eventId);
+        }
     }
 
     private Event mapRowToEvent(SqlRowSet rs) {
         Event event = new Event();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
         event.setId(rs.getInt("event_id"));
         event.setName(rs.getString("event_name"));
         event.setDescription(rs.getString("description"));
-        event.setDate(rs.getDate("date"));
+        event.setDate(LocalDate.parse(rs.getString("date")));
         event.setTime(rs.getTime("time"));
         event.setTheme(rs.getString("theme"));
         event.setDjUsername(rs.getString("username"));
@@ -163,5 +163,4 @@ public class JdbcEventDao implements EventDao {
 
         return host;
     }
-
 }

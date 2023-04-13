@@ -118,6 +118,27 @@ public class JdbcPlaylistDao implements PlaylistDao{
     }
 
     @Override
+    public Playlist createPlaylist(Playlist playlist) {
+        String sql = "INSERT INTO public.playlists( " +
+                "name, description, spotify_id) " +
+                "VALUES (?, ?, ?) RETURNING playlist_id";
+        int playlistId = jdbcTemplate.queryForObject(sql, Integer.class, playlist.getName(), playlist.getDescription(), playlist.getSpotifyId());
+        playlist.setPlaylistId(playlistId);
+
+        List<Genre> genres = playlist.getGenres();
+
+        String sqlGenre = "INSERT INTO public.playlist_genre( " +
+                "playlist_id, genre_id) " +
+                "VALUES (?, ?);";
+
+        for (Genre genre : genres) {
+            jdbcTemplate.update(sqlGenre, playlist.getPlaylistId(), genre.getId());
+        }
+
+        return playlist;
+    }
+
+    @Override
     public void addSongToPlaylist(int playlistId, String songId, int userId) {
         if (verifyUser(userId, playlistId)) {
 
