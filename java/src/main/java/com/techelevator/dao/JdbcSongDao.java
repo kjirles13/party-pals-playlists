@@ -111,7 +111,7 @@ public class JdbcSongDao implements SongDao {
                 " ON CONFLICT DO NOTHING;";
         jdbcTemplate.update(sqlDjPlaylist, song.getId(), userId, song.getRating());
 
-        return this.getSongById(song.getId());
+        return song;
     }
 
     @Override
@@ -203,9 +203,14 @@ public class JdbcSongDao implements SongDao {
             song.setRating(0);
         }
         try {
-            song.setVotes(rs.getInt("votes"));
+            song.setLikes(rs.getInt("likes"));
         } catch (Exception e) {
-            song.setVotes(0);
+            song.setLikes(0);
+        }
+        try {
+            song.setLikes(rs.getInt("dislikes"));
+        } catch (Exception e) {
+            song.setDislikes(0);
         }
         song.setPreview(rs.getString("preview"));
         song.setSpotifyUri(rs.getString("spotify_link"));

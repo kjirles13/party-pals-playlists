@@ -8,7 +8,6 @@ import com.techelevator.model.PlaylistSongDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.security.Principal;
 
 @RestController
@@ -33,23 +32,30 @@ public class PlaylistController{
     }
 
     @PutMapping("/{playlistId}/song/{songId}")
-    public void addSong(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
+    public ResponseEntity<Object> addSong(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         playlistDao.addSongToPlaylist(playlistId, songId, userId);
+        return ResponseEntity.ok().body("Song added to playlist successfully");
     }
 
-    @DeleteMapping("/{playlistId}/song{songId}")
+    @DeleteMapping("/{playlistId}/song/{songId}")
     public ResponseEntity<Object> deleteSong(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         playlistDao.deleteSongFromPlaylist(playlistId, songId, userId);
         return ResponseEntity.ok().body("Song deleted from playlist successfully");
     }
 
-    @PutMapping("/{playlistId}/song/{songId}/votes")
-    public ResponseEntity<Object> updateVotes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
+    @PutMapping("/{playlistId}/song/{songId}/likes")
+    public ResponseEntity<Object> updateLikes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
-        playlistDao.updateVotesForSong(playlistId, songId, userId);
-        return ResponseEntity.ok().body("Votes for song updated successfully");
+        playlistDao.updateLikes(playlistId, songId, userId);
+        return ResponseEntity.ok().body("Likes for song updated successfully");
+    }
+    @PutMapping("/{playlistId}/song/{songId}/dislikes")
+    public ResponseEntity<Object> updateDislikes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        playlistDao.updateDislikes(playlistId, songId, userId);
+        return ResponseEntity.ok().body("Dislikes for song updated successfully");
     }
 
     @PutMapping("/{playlistId}")
