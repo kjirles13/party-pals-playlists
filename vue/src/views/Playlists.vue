@@ -6,7 +6,7 @@
         <router-link :to="{ name: 'Playlist', params: { id: playlist.id}}">
           {{ playlist.name }}
         </router-link>
-        
+        <playlist/>
       </li>
     </ul>
   </div>
@@ -14,23 +14,23 @@
 
 
 <script> 
-import axios from 'axios';
+
+import playlist from '../components/Playlist.vue'
 
 export default {
-  name: 'Playlists',
+  name: "Playlist",
+ components: {
+    playlist,
+  },
+  
   data() {
     return {
-      playlists: [],
-    };
+      playlist:[]
+    }
   },
-  created() {
-    axios.get('http://localhost:9000/playlists')
-    .then(response => {
-      this.playlists = response.data;
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  },
+  
+  mounted() {
+    this.getAllSongs();
+  }
 };
 </script>

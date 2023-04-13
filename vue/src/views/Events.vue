@@ -11,11 +11,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import events from '../components/EventList.vue'
-const http = axios.create({
-    baseURL: 'http://localhost:9000'
-});
+
 export default {
   name: "Events",
  components: {
@@ -25,17 +22,6 @@ export default {
   data() {
     return {
       events:[]
-    }
-  },
-  
-  methods: {
-    async getAllEvents() {
-      try{
-        const response = await http.get('/songs');
-        this.songs = response.data;
-      } catch (error) {
-        console.log(error);
-      }
     }
   },
   mounted() {

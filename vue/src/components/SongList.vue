@@ -1,7 +1,7 @@
 <template>
   <div class="SongList">
     <h1>Song List</h1>
-    <button v-on:click="searchSongs">DISPLAY SONGS</button>
+    
     <div v-for="song in songs" v-bind:key="song.id" class="song">
       <h3>Song: {{ song.name }}</h3>
       <div v-for="artist in song.artists" :key="artist.id">
