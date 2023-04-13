@@ -18,15 +18,6 @@ export default {
  components: {
     events,
   },
-  
-  data() {
-    return {
-      events:[]
-    }
-  },
-  mounted() {
-    this.getAllEvents();
-  }
 };
 
 </script>

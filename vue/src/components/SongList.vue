@@ -21,32 +21,23 @@
 </template>
 
 <script> 
-import axios from 'axios';
 import songService from "../services/SongService"
 
 
 export default {
     name: 'SongList',
-    props: {
-        song:{
-            type: Object,
-            required: true
-        }
-    },
     data() {
         return {
-            songs: [{}],
+            songs: [],
             getSongs: [],
         };
     },
-    mounted() {
-        axios.get('http://localhost:9000/songs')
-        .then(response => {
-            this.songs = response.data;
+    created() {
+        songService.getSongs().then(response => {
+            if (response.status == 200) {
+                this.songs = response.data;
+            }
         })
-        .catch(error => {
-            console.log(error);
-        });
     },
     methods: {
         searchSongs() {
