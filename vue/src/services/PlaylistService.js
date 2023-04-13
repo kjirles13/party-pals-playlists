@@ -37,7 +37,7 @@ export default {
             }
         })
     },
-    getPlaylist() {
-        return axios.get('/playlist')
+    getPlaylist(playlistId) {
+        return axios.get(`/playlists/${playlistId}`)
     }
 }
