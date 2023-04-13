@@ -1,14 +1,9 @@
 <template>
   <div class="Songs">
-   
-    
-    <p>Songs Listed here<songs/></p>
-    <ul>
+    <songs/>
+    <!-- <ul>
       <li v-for="song in songs" :key="song.id"> {{ song.title }}</li>
-    </ul>
-    
-  
-
+    </ul> -->
 </div>
 </template>
 
