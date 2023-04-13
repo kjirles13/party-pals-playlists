@@ -16,5 +16,4 @@ export default {
     deleteSong(id) {
         return axios.delete(`/songs/${id}`);
     }
-
 }
