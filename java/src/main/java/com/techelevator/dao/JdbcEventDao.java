@@ -14,6 +14,7 @@ public class JdbcEventDao implements EventDao {
 
     private JdbcTemplate jdbcTemplate;
     private Host host;
+    private Event event;
 
     public JdbcEventDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -99,7 +100,28 @@ public class JdbcEventDao implements EventDao {
     }
 
     @Override
-    public void updateEvent(int eventId) {
+    public void updateEvent(Event event, int eventId) {
+
+        String sql = "UPDATE public.events\n" +
+                "\tSET event_name=?, description=?, date=?, time=?, theme=?\n" +
+                "\tWHERE event_id =?";
+
+        jdbcTemplate.update(sql, event.getName(), event.getDescription(), event.getDate(),
+                event.getTime(), event.getTheme(), eventId);
+
+//        String hostSql = "UPDATE public.host_event\n" +
+//                "\tSET user_id=?, event_id=?\n" +
+//                "\tWHERE event_id =?";
+
+        String deleteSql = "DELETE FROM public.host_event WHERE event_id = ?";
+        jdbcTemplate.update(deleteSql, eventId);
+
+        String insertSql = "INSERT INTO public.host_event (user_id, event_id) VALUES (?, ?)";
+        List<Host> hosts = event.getHosts();
+        for (Host host : hosts) {
+            jdbcTemplate.update(insertSql, host.getId(), eventId);
+        }
+
     }
 
     @Override

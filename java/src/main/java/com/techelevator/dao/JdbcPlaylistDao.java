@@ -6,10 +6,12 @@ import com.techelevator.model.Playlist;
 import com.techelevator.model.Song;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,10 +157,26 @@ public class JdbcPlaylistDao implements PlaylistDao{
     @Override
     public void updateVotesForSong(int playlistId, String songId, int userId) {
 
+        String sql = "UPDATE playlist_song SET votes = votes + 1 \n" +
+                "WHERE playlist_id = ? AND song_id = ?";
+
+        PreparedStatementCreator preparedStatementCreator = con -> {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, playlistId);
+            ps.setString(2, songId);
+            return ps;
+        };
+        jdbcTemplate.update(preparedStatementCreator);
+
     }
 
     @Override
-    public void updatePlaylist(int playlistId, String songId, int userId) {
+    public void updatePlaylist(int playlistId, String name, String description, int userId) {
+            String sql = "UPDATE public.playlists\n" +
+                    "\tSET name=?, description=?\n" +
+                    "\tWHERE playlist_id=?";
+
+            jdbcTemplate.update(sql, name, description, playlistId);
 
     }
 
