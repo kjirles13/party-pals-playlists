@@ -12,5 +12,5 @@ public interface PlaylistDao {
 
     public void updateVotesForSong(int playlistId, String songId, int userId);
 
-    public void updatePlaylist(int playlistId, String songId, int userId);
+    public void updatePlaylist(int playlistId, String name, String description, int userId);
 }

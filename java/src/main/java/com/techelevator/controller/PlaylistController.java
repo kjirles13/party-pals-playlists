@@ -54,10 +54,10 @@ public class PlaylistController{
     }
 
     @PutMapping("/{playlistId}")
-    public ResponseEntity<Object> updatePlaylist(@RequestBody PlaylistSongDto playlistSongDto, Principal principal){
+    public ResponseEntity<Object> updatePlaylist(@PathVariable int playlistId, @RequestBody PlaylistSongDto playlistSongDto, Principal principal){
         int userId = userDao.findIdByUsername(principal.getName());
         try {
-            playlistDao.updatePlaylist(playlistSongDto.getPlaylistId(), playlistSongDto.getSongId(), userId);
+            playlistDao.updatePlaylist(playlistId, playlistSongDto.getName(), playlistSongDto.getDescription(), userId);
         }
         catch (ResponseStatusException e){
             e.getMessage();

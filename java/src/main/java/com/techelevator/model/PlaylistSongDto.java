@@ -1,51 +1,41 @@
 package com.techelevator.model;
 
 public class PlaylistSongDto {
-    private int playlistId;
-    private String songId;
-    private int votes;
+    private String name;
+    private String description;
+
 
     //TODO make this only String name and String description
 
     public PlaylistSongDto() {
     }
 
-    public PlaylistSongDto(int playlistId, String songId, int votes) {
-        this.playlistId = playlistId;
-        this.songId = songId;
-        this.votes = votes;
+    public PlaylistSongDto(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public int getPlaylistId() {
-        return playlistId;
+    public String getName() {
+        return name;
     }
 
-    public void setPlaylistId(int playlistId) {
-        this.playlistId = playlistId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSongId() {
-        return songId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSongId(String songId) {
-        this.songId = songId;
-    }
-
-    public int getVotes() {
-        return votes;
-    }
-
-    public void setVotes(int votes) {
-        this.votes = votes;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public String toString() {
         return "PlaylistSongDto{" +
-                "playlistId=" + playlistId +
-                ", songId=" + songId +
-                ", votes=" + votes +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

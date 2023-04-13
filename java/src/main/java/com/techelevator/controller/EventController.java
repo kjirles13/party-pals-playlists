@@ -49,7 +49,7 @@ public class EventController {
     @PutMapping("/{eventId}")
     public ResponseEntity<Object> updateEvent(@RequestBody Event event, @PathVariable int eventId) {
         event.setId(eventId);
-        eventDao.updateEvent(event.getId());
+        eventDao.updateEvent(event, event.getId());
         return ResponseEntity.ok().body("Event updated successfully");
     }
 
