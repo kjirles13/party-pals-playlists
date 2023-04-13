@@ -231,12 +231,7 @@ public class JdbcPlaylistDao implements PlaylistDao{
         String sql = "SELECT events.playlist_id\n" +
                 "FROM events\n" +
                 "WHERE dj_id = ?";
-
         int result = jdbcTemplate.queryForObject(sql, Integer.class, userId);
-
-        if (result == playlistId){
-            return true;
-        }
-            return false;
+        return result == playlistId;
     }
 }
