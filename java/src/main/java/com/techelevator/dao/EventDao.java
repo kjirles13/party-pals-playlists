@@ -2,8 +2,6 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Event;
 import com.techelevator.model.Host;
-
-import java.security.Principal;
 import java.util.List;
 
 public interface EventDao {
@@ -18,8 +16,6 @@ public interface EventDao {
 
     public void deleteEvent(int eventId);
 
-    public Host addHostToEvent(int eventId, List<Host> hosts);
-
-    public void deleteHostFromEvent(int eventId, List<Host> hosts);
+    public void updateHosts(int eventId, List<Host> hosts);
 
 }
