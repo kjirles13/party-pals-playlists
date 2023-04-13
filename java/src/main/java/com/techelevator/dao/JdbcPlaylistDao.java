@@ -6,12 +6,9 @@ import com.techelevator.model.Playlist;
 import com.techelevator.model.Song;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,13 +121,12 @@ public class JdbcPlaylistDao implements PlaylistDao{
     public void addSongToPlaylist(int playlistId, String songId, int userId) {
         if (verifyUser(userId, playlistId)) {
 
-            String sql = "INSERT INTO public.playlist_song(\n" +
-                    "\tplaylist_id, song_id, likes, dislikes)\n" +
-                    "\tVALUES (?, ?, 0, 0)";
+            String sql = "INSERT INTO public.playlist_song( " +
+                    "playlist_id, song_id, likes, dislikes) " +
+                    "VALUES (?, ?, 0, 0)";
 
             jdbcTemplate.update(sql, playlistId, songId);
-        }
-        else {
+        } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "You are unauthorized to modify this playlist");
         }

@@ -53,6 +53,4 @@ public class SongController {
         songDao.deleteSong(songId, userId);
         return new ResponseEntity<>("Song deleted successfully", HttpStatus.OK);
     }
-
-    //TODO implement try/catch for calls
 }
