@@ -2,7 +2,7 @@ BEGIN TRANSACTION;
 
 DROP TABLE IF EXISTS user_role, genre_song, playlist_genre, 
 artist_song, playlist_song, dj_song, songs, genres, playlists, 
-artist, host_event, events, roles, users CASCADE;
+artists, host_event, events, roles, users CASCADE;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -81,7 +81,8 @@ FOREIGN KEY (event_id) REFERENCES events (event_id)
 CREATE TABLE playlist_song (
 playlist_id int NOT NULL,
 song_id varchar(50) NOT NULL,
-votes int NOT NULL,
+likes int,
+dislikes int,
 PRIMARY KEY (playlist_id, song_id),
 FOREIGN KEY (playlist_id) REFERENCES playlists (playlist_id),
 FOREIGN KEY (song_id) REFERENCES songs (song_id)

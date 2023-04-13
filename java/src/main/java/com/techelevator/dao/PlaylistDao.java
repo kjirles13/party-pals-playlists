@@ -1,7 +1,6 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Playlist;
-import com.techelevator.model.Song;
 
 public interface PlaylistDao {
     public Playlist getPlayListById(int playlistId, int userId);
@@ -10,7 +9,9 @@ public interface PlaylistDao {
 
     public void deleteSongFromPlaylist(int playlistId, String songId, int userId);
 
-    public void updateVotesForSong(int playlistId, String songId, int userId);
+    public void updateLikes(int playlistId, String songId, int userId);
+
+    public void updateDislikes(int playlistId, String songId, int userId);
 
     public void updatePlaylist(int playlistId, String name, String description, int userId);
 }

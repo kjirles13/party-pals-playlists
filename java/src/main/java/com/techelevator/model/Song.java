@@ -8,20 +8,22 @@ public class Song {
     private List<Artist> artists;
     private List<Genre> genres;
     private int rating;
-    private int votes;
+    private int likes;
+    private int dislikes;
     private String preview;
     private String spotifyUri;
 
     public Song() {
     }
 
-    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int votes, String preview, String spotifyUri) {
+    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int likes, int dislikes, String preview, String spotifyUri) {
         this.id = id;
         this.name = name;
         this.artists = artists;
         this.genres = genres;
         this.rating = rating;
-        this.votes = votes;
+        this.likes = likes;
+        this.dislikes = dislikes;
         this.preview = preview;
         this.spotifyUri = spotifyUri;
     }
@@ -66,12 +68,20 @@ public class Song {
         this.rating = rating;
     }
 
-    public int getVotes() {
-        return votes;
+    public int getLikes() {
+        return likes;
     }
 
-    public void setVotes(int votes) {
-        this.votes = votes;
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
     }
 
     public String getPreview() {
@@ -98,7 +108,8 @@ public class Song {
                 ", artists=" + artists +
                 ", genres=" + genres +
                 ", rating=" + rating +
-                ", votes=" + votes +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
                 ", preview='" + preview + '\'' +
                 ", spotifyUri='" + spotifyUri + '\'' +
                 '}';

@@ -5,7 +5,6 @@ import com.techelevator.dao.SongDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Playlist;
 import com.techelevator.model.PlaylistSongDto;
-import com.techelevator.model.Song;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -63,6 +62,5 @@ public class PlaylistController{
             e.getMessage();
         }
         return ResponseEntity.ok().body("Playlist updated successfully");
-        //TODO update path variable mapping
     }
 }

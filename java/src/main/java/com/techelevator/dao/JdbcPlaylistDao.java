@@ -147,15 +147,14 @@ public class JdbcPlaylistDao implements PlaylistDao{
 
             jdbcTemplate.update(sql, playlistId, songId);
 
-        }
-        else {
+        } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "You are unauthorized to modify this playlist");
         }
     }
 
     @Override
-    public void updateVotesForSong(int playlistId, String songId, int userId) {
+    public void updateLikes(int playlistId, String songId, int userId) {
 
         String sql = "UPDATE playlist_song SET votes = votes + 1 \n" +
                 "WHERE playlist_id = ? AND song_id = ?";
@@ -167,6 +166,11 @@ public class JdbcPlaylistDao implements PlaylistDao{
             return ps;
         };
         jdbcTemplate.update(preparedStatementCreator);
+
+    }
+
+    @Override
+    public void updateDislikes(int playlistId, String songId, int userId) {
 
     }
 

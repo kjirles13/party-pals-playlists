@@ -74,12 +74,12 @@ INSERT INTO playlists (name, description, spotify_id) VALUES ('Wedding Vibes', '
 -- INSERT INTO playlists (name, description) VALUES ('Friday Night Dance Party', 'TGIF');
 -- INSERT INTO playlists (name, description) VALUES ('Game Night', 'Grab a game and stay in');
 
-INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '1YLJVmuzeM2YSUkCCaTNUB', 12);
-INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '5XSU59wtE5CRCAEyHmmGy4', 5);
-INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (1, '7H7SHw3YWXhb4zYqyoPNa1', 6);
-INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (2, '0judK8TqYfvwUohBngUxrE', 2);
-INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (2, '410ZZP746AQeiywhKvXWCo', 10);
-INSERT INTO playlist_song (playlist_id, song_id, votes) VALUES (2, '1nwkSqzTyXBk6XF796EOav', 8);
+INSERT INTO playlist_song (playlist_id, song_id, likes, dislikes) VALUES (1, '1YLJVmuzeM2YSUkCCaTNUB', 12, 2);
+INSERT INTO playlist_song (playlist_id, song_id, likes, dislikes) VALUES (1, '5XSU59wtE5CRCAEyHmmGy4', 5, 7);
+INSERT INTO playlist_song (playlist_id, song_id, likes, dislikes) VALUES (1, '7H7SHw3YWXhb4zYqyoPNa1', 6, 1);
+INSERT INTO playlist_song (playlist_id, song_id, likes, dislikes) VALUES (2, '0judK8TqYfvwUohBngUxrE', 2, 0);
+INSERT INTO playlist_song (playlist_id, song_id, likes, dislikes) VALUES (2, '410ZZP746AQeiywhKvXWCo', 10, 8);
+INSERT INTO playlist_song (playlist_id, song_id, likes, dislikes) VALUES (2, '1nwkSqzTyXBk6XF796EOav', 8, 3);
 
 INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (1, 1);
 INSERT INTO playlist_genre (playlist_id, genre_id) VALUES (1, 3);
