@@ -47,10 +47,7 @@ const getEvent = (eventId) => {
 };
 
 const getAllEvents = () => {
-    return axiosInstance
-    .get('/events')
-    .then((Response) => Response)
-    .catch(handleErrors);
+    return axios.get('/events')
 };
 
 const getEventsByUser = (principal) => {

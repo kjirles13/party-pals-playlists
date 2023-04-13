@@ -33,22 +33,29 @@
 </template>
 
 <script> 
-import axios from 'axios';
+// import axios from 'axios';
+import eventService from "../services/EventService"
 
 export default{
     name: 'EventList',
     data() {
         return {
-            events: [],
+            events: this.$store.events,
         };
     },
     async created() {
-        try {
-            const response = await axios.get('/events');
-            this.events = response.data;
-        } catch (error) {
-            console.error(error);
-        }
+        // try {
+        //     const response = await axios.get('/events');
+        //     this.events = response.data;
+        // } catch (error) {
+        //     console.error(error);
+        // }
+        eventService.getAllEvents().then(response => {
+            if (response.status == 200) {
+                this.$store.commit("SET_EVENTS", response.data);
+            }
+        })
+
     },
 
 };
