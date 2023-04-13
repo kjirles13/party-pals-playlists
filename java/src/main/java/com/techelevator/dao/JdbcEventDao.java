@@ -117,6 +117,20 @@ public class JdbcEventDao implements EventDao {
 
     @Override
     public void deleteEvent(int eventId) {
+        int playlistId = jdbcTemplate.queryForObject("SELECT playlist_id FROM events WHERE event_id = ?", int.class, eventId);
+
+        String sql = "DELETE FROM public.host_event " +
+                "   WHERE event_id = ?; " +
+                "DELETE FROM public.events " +
+                "   WHERE event_id = ?; " +
+                "DELETE FROM public.playlist_song " +
+                "   WHERE playlist_id = ?; " +
+                "DELETE FROM public.playlist_genre " +
+                "   WHERE playlist_id = ?; " +
+                "DELETE FROM public.playlists " +
+                "   WHERE playlist_id = ?;";
+
+        jdbcTemplate.update(sql, eventId, eventId, playlistId, playlistId, playlistId);
     }
 
     @Override

@@ -62,8 +62,10 @@ public class EventController {
     }
 
     @DeleteMapping("/{eventId}")
-    public void deleteEvent(@PathVariable int eventId) {
+    @ResponseStatus(HttpStatus.GONE)
+    public ResponseEntity<Object> deleteEvent(@PathVariable int eventId) {
         eventDao.deleteEvent(eventId);
+        return ResponseEntity.ok().body("Event deleted successfully");
     }
 
     @PutMapping("/{eventId}/hosts")
