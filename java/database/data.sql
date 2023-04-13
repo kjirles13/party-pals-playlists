@@ -30,7 +30,6 @@ INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '
 INSERT INTO artist_song (artist_id, song_id) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', '1nwkSqzTyXBk6XF796EOav');
 INSERT INTO artist_song (artist_id, song_id) VALUES ('1U1el3k54VvEUzo3ybLPlM', '7KA4W4McWYRpgf0fWsJZWB');
 
-
 INSERT INTO dj_song (song_id, dj_id, song_rating) VALUES ('1YLJVmuzeM2YSUkCCaTNUB', 3, 5);
 INSERT INTO dj_song (song_id, dj_id, song_rating) VALUES ('7H7SHw3YWXhb4zYqyoPNa1', 3, 3);
 INSERT INTO dj_song (song_id, dj_id, song_rating) VALUES ('7KA4W4McWYRpgf0fWsJZWB', 3, 4);
@@ -71,8 +70,6 @@ INSERT INTO genre_song (song_id, genre_id) VALUES ('1nwkSqzTyXBk6XF796EOav', 8);
 
 INSERT INTO playlists (name, description, spotify_id) VALUES ('Cookout Jamz', 'This is a playlist for a potluck', '');
 INSERT INTO playlists (name, description, spotify_id) VALUES ('Wedding Vibes', 'Someone is getting married!', '');
--- INSERT INTO playlists (name, description) VALUES ('Friday Night Dance Party', 'TGIF');
--- INSERT INTO playlists (name, description) VALUES ('Game Night', 'Grab a game and stay in');
 
 INSERT INTO playlist_song (playlist_id, song_id, likes, dislikes) VALUES (1, '1YLJVmuzeM2YSUkCCaTNUB', 12, 2);
 INSERT INTO playlist_song (playlist_id, song_id, likes, dislikes) VALUES (1, '5XSU59wtE5CRCAEyHmmGy4', 5, 7);

@@ -50,9 +50,9 @@ public class SongController {
     }
 
     @DeleteMapping("/{songId}")
-    public ResponseEntity<Object> deleteSong(@PathVariable String songId, Principal principal) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSong(@PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         songDao.deleteSong(songId, userId);
-        return new ResponseEntity<>("Song deleted successfully", HttpStatus.OK);
     }
 }

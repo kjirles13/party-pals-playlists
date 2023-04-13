@@ -3,7 +3,6 @@ package com.techelevator.dao;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -27,6 +26,7 @@ public class JdbcUserDao implements UserDao {
         if (username == null) throw new IllegalArgumentException("Username cannot be null");
 
         int userId;
+
         try {
             userId = jdbcTemplate.queryForObject("select user_id from users where username = ?", Integer.class, username);
         } catch (EmptyResultDataAccessException e) {
@@ -39,7 +39,9 @@ public class JdbcUserDao implements UserDao {
 	@Override
 	public User getUserById(int userId) {
 		String sql = "SELECT * FROM users WHERE user_id = ?";
+
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+
 		if (results.next()) {
 			return mapRowToUser(results);
 		} else {
