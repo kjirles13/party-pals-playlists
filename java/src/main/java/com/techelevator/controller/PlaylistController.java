@@ -70,10 +70,4 @@ public class PlaylistController{
         }
         return ResponseEntity.ok().body("Playlist updated successfully");
     }
-
-//    @PostMapping("")
-//    public Playlist createPlaylist(@RequestBody Playlist playlist) {
-//        playlist.setPlaylistId(0);
-//        return playlistDao.createPlaylist(playlist);
-//    }
 }

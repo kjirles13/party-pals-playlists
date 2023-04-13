@@ -5,6 +5,7 @@ import com.techelevator.dao.PlaylistDao;
 import com.techelevator.dao.SongDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Event;
+import com.techelevator.model.EventDto;
 import com.techelevator.model.Host;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,9 +50,9 @@ public class EventController {
         return eventDao.createEvent(event, userId);
     }
 
-    @PutMapping("")
-    public ResponseEntity<Object> updateEvent(@RequestBody Event event) {
-        eventDao.updateEvent(event, event.getId());
+    @PutMapping("/{eventId}")
+    public ResponseEntity<Object> updateEvent(@RequestBody EventDto eventInfo, @PathVariable int eventId) {
+        eventDao.updateEvent(eventInfo, eventId);
         return ResponseEntity.ok().body("Event updated successfully");
     }
 

@@ -1,18 +1,14 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Event;
+import com.techelevator.model.EventDto;
 import com.techelevator.model.Host;
 import com.techelevator.model.Playlist;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,17 +108,11 @@ public class JdbcEventDao implements EventDao {
     }
 
     @Override
-    public void updateEvent(Event event, int eventId) {
-
-//        String sql = "UPDATE public.events\n" +
-//                "\tSET event_name=?, description=?, date=?, time=?, theme=?\n" +
-//                "\tWHERE event_id =?";
-//
-//        jdbcTemplate.update(sql, event.getName(), event.getDescription(), event.getDate(),
-//                event.getTime(), event.getTheme(), eventId);
-//
-//        this.updateHosts(eventId, eve);
-
+    public void updateEvent(EventDto eventInfo, int eventId) {
+        String sql = "UPDATE public.events " +
+                "SET event_name=?, description=?, date=?, \"time\"=?, theme=? " +
+                "WHERE event_id = ?;";
+        jdbcTemplate.update(sql, eventInfo.getName(), eventInfo.getDescription(), eventInfo.getDate(), eventInfo.getTime(), eventInfo.getTheme(), eventId);
     }
 
     @Override
