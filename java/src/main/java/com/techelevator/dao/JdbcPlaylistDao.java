@@ -195,9 +195,14 @@ public class JdbcPlaylistDao implements PlaylistDao{
             song.setRating(0);
         }
         try {
-            song.setVotes(rs.getInt("votes"));
+            song.setLikes(rs.getInt("likes"));
         } catch (Exception e) {
-            song.setVotes(0);
+            song.setLikes(0);
+        }
+        try {
+            song.setDislikes(rs.getInt("dislikes"));
+        } catch (Exception e) {
+            song.setDislikes(0);
         }
         song.setPreview(rs.getString("preview"));
         song.setSpotifyUri(rs.getString("spotify_link"));

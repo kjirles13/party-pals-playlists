@@ -48,8 +48,9 @@ public class PlaylistController{
     @PutMapping("/{playlistId}/song/{songId}/votes")
     public ResponseEntity<Object> updateVotes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
-        playlistDao.updateVotesForSong(playlistId, songId, userId);
+        playlistDao.updateLikes(playlistId, songId, userId);
         return ResponseEntity.ok().body("Votes for song updated successfully");
+        //TODO Change to update likes
     }
 
     @PutMapping("/{playlistId}")
