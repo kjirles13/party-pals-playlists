@@ -82,6 +82,11 @@ public class JdbcUserDao implements UserDao {
         return jdbcTemplate.update(insertUserSql, username, password_hash, ssRole) == 1;
     }
 
+    @Override
+    public void setHost(int userId, String hostUsername) {
+
+    }
+
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getInt("user_id"));
@@ -90,5 +95,10 @@ public class JdbcUserDao implements UserDao {
         user.setAuthorities(Objects.requireNonNull(rs.getString("role")));
         user.setActivated(true);
         return user;
+    }
+
+    private boolean verifyUserPermissions(int userId) {
+        String userRole = jdbcTemplate.queryForObject("SELECT user_role FROM users WHERE user_id = ?", String.class, userId);
+        return userRole.equals("ROLE_DJ");
     }
 }

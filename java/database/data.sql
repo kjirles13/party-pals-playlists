@@ -2,10 +2,10 @@ BEGIN TRANSACTION;
 -- ROLLBACK TRANSACTION
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
-INSERT INTO users (username,password_hash,role) VALUES ('kit','$2a$10$quBSSxGQenP59LD1J5ZHIuizWw0dqso/cAtn6LNryNotTm/aMmEw2','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('ari','$2a$10$uDyopGzbawG8kag13M6qK.LwYvxUwnM7mcZwbZ5cy0y8FNk2OovHa','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('dan','$2a$10$f4LoPR0O9Y9.DUoQ5jvYmePIBzSa1g0/2tHEgjqzpA.5F7cCT6yH.','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('blake','$2a$10$4.ovOGPlkY5whyJ8l7s3pulDLfZdJc/tb./AHzpBnGdhoZvUwqwea','ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('kit','$2a$10$quBSSxGQenP59LD1J5ZHIuizWw0dqso/cAtn6LNryNotTm/aMmEw2','ROLE_DJ');
+INSERT INTO users (username,password_hash,role) VALUES ('ari','$2a$10$uDyopGzbawG8kag13M6qK.LwYvxUwnM7mcZwbZ5cy0y8FNk2OovHa','ROLE_DJ');
+INSERT INTO users (username,password_hash,role) VALUES ('dan','$2a$10$f4LoPR0O9Y9.DUoQ5jvYmePIBzSa1g0/2tHEgjqzpA.5F7cCT6yH.','ROLE_HOST');
+INSERT INTO users (username,password_hash,role) VALUES ('blake','$2a$10$4.ovOGPlkY5whyJ8l7s3pulDLfZdJc/tb./AHzpBnGdhoZvUwqwea','ROLE_HOST');
 
 INSERT INTO artists (artist_id, name) VALUES ('1moxjboGR7GNWYIMWsRjgG', 'Florence and the Machine');
 INSERT INTO artists (artist_id, name) VALUES ('4V8LLVI7PbaPR0K2TGSxFF', 'Tyler, The Creator');

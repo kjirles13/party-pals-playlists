@@ -4,6 +4,7 @@ import com.techelevator.dao.SongDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Song;
 import com.techelevator.model.SongDto;
+import com.techelevator.model.UserDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,10 @@ public class SongController {
         this.userDao = userDao;
     }
 
-    @GetMapping("")
-    public List<Song> listSongs(Principal principal) {
-        int userId = userDao.findIdByUsername(principal.getName());
+    @PutMapping("/list")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Song> listSongs(@RequestBody UserDto user) {
+        int userId = userDao.findIdByUsername(user.getUsername());
         return songDao.getAllSongs(userId);
     }
 
