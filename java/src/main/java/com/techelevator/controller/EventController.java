@@ -8,9 +8,7 @@ import com.techelevator.model.Event;
 import com.techelevator.model.EventDto;
 import com.techelevator.model.Host;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,7 @@ public class EventController {
     }
 
     @GetMapping("")
+    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
     }
@@ -51,9 +50,8 @@ public class EventController {
     }
 
     @PutMapping("/{eventId}")
-    public ResponseEntity<Object> updateEvent(@RequestBody EventDto eventInfo, @PathVariable int eventId) {
+    public void updateEvent(@RequestBody EventDto eventInfo, @PathVariable int eventId) {
         eventDao.updateEvent(eventInfo, eventId);
-        return ResponseEntity.ok().body("Event updated successfully");
     }
 
     @GetMapping("/{eventId}")
@@ -62,15 +60,13 @@ public class EventController {
     }
 
     @DeleteMapping("/{eventId}")
-    @ResponseStatus(HttpStatus.GONE)
-    public ResponseEntity<Object> deleteEvent(@PathVariable int eventId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEvent(@PathVariable int eventId) {
         eventDao.deleteEvent(eventId);
-        return ResponseEntity.ok().body("Event deleted successfully");
     }
 
     @PutMapping("/{eventId}/hosts")
-    public ResponseEntity<Object> addHostToEvent(@RequestBody List<Host> hosts, @PathVariable int eventId) {
+    public void addHostToEvent(@RequestBody List<Host> hosts, @PathVariable int eventId) {
         eventDao.updateHosts(eventId, hosts);
-        return ResponseEntity.ok().body("Hosts added to event successfully");
     }
 }

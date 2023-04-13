@@ -15,7 +15,6 @@ public class Event {
     private String theme;
     private String djUsername;
 
-
     public Event() {
     }
 

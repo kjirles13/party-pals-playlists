@@ -184,12 +184,17 @@ public class JdbcPlaylistDao implements PlaylistDao{
     }
 
     @Override
-    public void updatePlaylist(int playlistId, String name, String description, int userId) {
-            String sql = "UPDATE public.playlists\n" +
-                    "\tSET name=?, description=?\n" +
-                    "\tWHERE playlist_id=?";
+    public void updatePlaylist(int playlistId, String name, String description, int userId){
+        if (verifyUser(userId, playlistId)) {
+            String sql = "UPDATE public.playlists " +
+                    "SET name=?, description=? " +
+                    "WHERE playlist_id=?";
 
             jdbcTemplate.update(sql, name, description, playlistId);
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "You are unauthorized to modify this playlist");
+        }
     }
 
     private Song mapRowToSong(SqlRowSet rs) {
@@ -249,10 +254,10 @@ public class JdbcPlaylistDao implements PlaylistDao{
 
 
     private boolean verifyUser(int userId, int playlistId){
-        String sql = "SELECT events.playlist_id\n" +
-                "FROM events\n" +
+        String sql = "SELECT events.playlist_id " +
+                "FROM events " +
                 "WHERE dj_id = ?";
-        int result = jdbcTemplate.queryForObject(sql, Integer.class, userId);
-        return result == playlistId;
+        int id = jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        return id == playlistId;
     }
 }

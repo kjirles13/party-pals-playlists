@@ -4,7 +4,6 @@ import com.techelevator.model.Event;
 import com.techelevator.model.EventDto;
 import com.techelevator.model.Host;
 import com.techelevator.model.Playlist;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;

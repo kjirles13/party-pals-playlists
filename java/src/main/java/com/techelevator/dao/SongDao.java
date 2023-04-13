@@ -6,14 +6,13 @@ import com.techelevator.model.SongDto;
 import java.util.List;
 
 public interface SongDao {
-    public List<Song> getAllSongs(int userId);
+    List<Song> getAllSongs(int userId);
 
-    public Song addSong(int userId, Song song);
+    Song addSong(int userId, Song song);
 
-    public void updateSong(SongDto songDto, int userId);
+    void updateSong(SongDto songDto, int userId);
 
-    public void deleteSong(String songId, int userId);
+    void deleteSong(String songId, int userId);
 
-    public Song getSongById(String songId);
-
+    Song getSongById(String songId);
 }

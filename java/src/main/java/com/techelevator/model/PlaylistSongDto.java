@@ -4,9 +4,6 @@ public class PlaylistSongDto {
     private String name;
     private String description;
 
-
-    //TODO make this only String name and String description
-
     public PlaylistSongDto() {
     }
 
