@@ -14,13 +14,13 @@ public class Event {
     private Playlist playlist;
     private List<Host> hosts;
     private String theme;
-    private int djId;
+    private String djUsername;
 
 
     public Event() {
     }
 
-    public Event(int id, String name, String description, Date date, Time time, Playlist playlist, List<Host> hosts, String theme, int djId) {
+    public Event(int id, String name, String description, Date date, Time time, Playlist playlist, List<Host> hosts, String theme, String djUsername) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,15 +29,15 @@ public class Event {
         this.playlist = playlist;
         this.hosts = hosts;
         this.theme = theme;
-        this.djId = djId;
+        this.djUsername = djUsername;
     }
 
-    public int getDjId() {
-        return djId;
+    public String getDjUsername() {
+        return djUsername;
     }
 
-    public void setDjId(int djId) {
-        this.djId = djId;
+    public void setDjUsername(String djUsername) {
+        this.djUsername = djUsername;
     }
 
     public String getTheme() {
@@ -115,7 +115,7 @@ public class Event {
                 ", playlist=" + playlist +
                 ", hosts=" + hosts +
                 ", theme='" + theme + '\'' +
-                ", djId=" + djId +
+                ", djUsername='" + djUsername + '\'' +
                 '}';
     }
 }
