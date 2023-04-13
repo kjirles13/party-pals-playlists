@@ -19,6 +19,12 @@ import axios from 'axios';
 
 export default {
     name: 'PlaylistDetail',
+    props: {
+        song: {
+            type: Object,
+            required:true
+        }
+    },
     data() {
         return {
             playlist: {}
@@ -35,7 +41,7 @@ export default {
     },
     methods: {
         like(song) {
-            song.votes++;
+            song.likes++;
             axios.put(`http://localhost:9000/songs/${song.song_id}`, song)
             .then(response => {
                 console.log(response.data);
@@ -45,7 +51,7 @@ export default {
             });
         },
         dislike(song){
-            song.votes--;
+            song.dislikes--;
             axios.put(`http://localhost:9000/songs/${song.song_id}`, song)
             .then(response => {
                 console.log(response.data);
