@@ -45,12 +45,17 @@ public class PlaylistController{
         return ResponseEntity.ok().body("Song deleted from playlist successfully");
     }
 
-    @PutMapping("/{playlistId}/song/{songId}/votes")
-    public ResponseEntity<Object> updateVotes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
+    @PutMapping("/{playlistId}/song/{songId}/likes")
+    public ResponseEntity<Object> updateLikes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         playlistDao.updateLikes(playlistId, songId, userId);
-        return ResponseEntity.ok().body("Votes for song updated successfully");
-        //TODO Change to update likes
+        return ResponseEntity.ok().body("Likes for song updated successfully");
+    }
+    @PutMapping("/{playlistId}/song/{songId}/dislikes")
+    public ResponseEntity<Object> updateDislikes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        playlistDao.updateDislikes(playlistId, songId, userId);
+        return ResponseEntity.ok().body("Dislikes for song updated successfully");
     }
 
     @PutMapping("/{playlistId}")

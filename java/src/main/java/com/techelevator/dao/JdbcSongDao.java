@@ -111,7 +111,7 @@ public class JdbcSongDao implements SongDao {
                 " ON CONFLICT DO NOTHING;";
         jdbcTemplate.update(sqlDjPlaylist, song.getId(), userId, song.getRating());
 
-        return this.getSongById(song.getId());
+        return song;
     }
 
     @Override

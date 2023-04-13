@@ -50,7 +50,7 @@ public class JdbcPlaylistDao implements PlaylistDao{
         while (songIdResults.next()) {
             String songId = songIdResults.getString("song_id");
 
-            String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, playlist_song.votes, dj_song.song_rating " +
+            String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, playlist_song.likes, playlist_song.dislikes, dj_song.song_rating " +
                     "FROM songs " +
                     "LEFT JOIN dj_song ON songs.song_id = dj_song.song_id " +
                     "LEFT JOIN playlist_song ON songs.song_id = playlist_song.song_id " +
@@ -95,7 +95,6 @@ public class JdbcPlaylistDao implements PlaylistDao{
 
                     genres.add(genre);
                 }
-
                 song.setGenres(genres);
                 songs.add(song);
             }
@@ -126,22 +125,20 @@ public class JdbcPlaylistDao implements PlaylistDao{
         if (verifyUser(userId, playlistId)) {
 
             String sql = "INSERT INTO public.playlist_song(\n" +
-                    "\tplaylist_id, song_id, votes)\n" +
-                    "\tVALUES (?, ?, ?)";
+                    "\tplaylist_id, song_id, likes, dislikes)\n" +
+                    "\tVALUES (?, ?, 0, 0)";
 
-            jdbcTemplate.update(sql, playlistId, songId, 0);
+            jdbcTemplate.update(sql, playlistId, songId);
         }
         else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "You are unauthorized to modify this playlist");
         }
-
     }
 
     @Override
     public void deleteSongFromPlaylist(int playlistId, String songId, int userId) {
         if (verifyUser(userId, playlistId)){
-
             String sql = "DELETE FROM public.playlist_song\n" +
                     "\tWHERE playlist_id = ? AND song_id = ?";
 
@@ -155,23 +152,18 @@ public class JdbcPlaylistDao implements PlaylistDao{
 
     @Override
     public void updateLikes(int playlistId, String songId, int userId) {
-
-        String sql = "UPDATE playlist_song SET votes = votes + 1 \n" +
+        String sql = "UPDATE playlist_song SET likes = likes + 1 " +
                 "WHERE playlist_id = ? AND song_id = ?";
 
-        PreparedStatementCreator preparedStatementCreator = con -> {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, playlistId);
-            ps.setString(2, songId);
-            return ps;
-        };
-        jdbcTemplate.update(preparedStatementCreator);
-
+        jdbcTemplate.update(sql, playlistId, songId);
     }
 
     @Override
     public void updateDislikes(int playlistId, String songId, int userId) {
+        String sql = "UPDATE playlist_song SET dislikes = dislikes + 1 " +
+                "WHERE playlist_id = ? AND song_id = ?";
 
+        jdbcTemplate.update(sql, playlistId, songId);
     }
 
     @Override
@@ -181,7 +173,6 @@ public class JdbcPlaylistDao implements PlaylistDao{
                     "\tWHERE playlist_id=?";
 
             jdbcTemplate.update(sql, name, description, playlistId);
-
     }
 
     private Song mapRowToSong(SqlRowSet rs) {
