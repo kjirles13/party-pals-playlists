@@ -12,7 +12,7 @@ import java.security.Principal;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/playlist")
+@RequestMapping("/playlists")
 public class PlaylistController{
 
     private UserDao userDao;
@@ -31,14 +31,14 @@ public class PlaylistController{
         return playlistDao.getPlayListById(playlistId, userId);
     }
 
-    @PutMapping("/{playlistId}/song/{songId}")
+    @PutMapping("/{playlistId}/songs/{songId}")
     public ResponseEntity<Object> addSong(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         playlistDao.addSongToPlaylist(playlistId, songId, userId);
         return ResponseEntity.ok().body("Song added to playlist successfully");
     }
 
-    @DeleteMapping("/{playlistId}/song/{songId}")
+    @DeleteMapping("/{playlistId}/songs/{songId}")
     public ResponseEntity<Object> deleteSong(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         playlistDao.deleteSongFromPlaylist(playlistId, songId, userId);
@@ -51,7 +51,8 @@ public class PlaylistController{
         playlistDao.updateLikes(playlistId, songId, userId);
         return ResponseEntity.ok().body("Likes for song updated successfully");
     }
-    @PutMapping("/{playlistId}/song/{songId}/dislikes")
+
+    @DeleteMapping("/{playlistId}/songs/{songId}/likes")
     public ResponseEntity<Object> updateDislikes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         playlistDao.updateDislikes(playlistId, songId, userId);
