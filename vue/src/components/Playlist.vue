@@ -1,8 +1,13 @@
 <template>
     <div class="Playlist">
-        <h1>{{ playlist.name }}</h1>
-        <p>{{ playlist.description }}</p>
+        <!-- button, name and description for playlist -->
+        <button v-on:click="getPlaylist">DISPLAY PLAYLISTS</button>
+        <div v-for="playlist in playlists" :key="playlist.id" class="playlist">
+        <h1>Playlist Name:{{ playlist.name }}</h1>
+        <p>Description:{{ playlist.description }}</p>
+        </div>
         <ul>
+            <!-- songs in playlist -->
             <li v-for="song in playlist.songs" :key="song.song_id">
                 <p>{{ song.title }}</p>
                 <p>Rating: {{ song.rating }} </p>
@@ -11,6 +16,7 @@
                 <button @click="dislike(song)">Dislike</button>
                 </li>
         </ul>
+        
     </div>
 </template>
 
