@@ -27,14 +27,13 @@ export default {
             required: true
         }
     },
-    data() {
+        data() {
         return {
-            songs: [{}],
-            getSongs: [],
-        };
+            playlists: [{}],
+        }
     },
     mounted() {
-        axios.get('http://localhost:9000/playlists')
+        axios.get(`http://localhost:9000/playlists/${this.$route.params.id}`)
         .then(response => {
             this.playlists = response.data;
         })
@@ -44,14 +43,35 @@ export default {
     },
     methods: {
         getPlaylist() {
-            PlaylistService.getSongs().then(response => {
-                this.getSongs = response.data;
-            }).catch(error => {
+            PlaylistService.get('http://localhost:9000/playlists')
+            .then(response => {
+                this.playlists = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
+        like(song) {
+            song.likes++;
+            axios.put(`http://localhost:9000/songs/${song.song_id}`, song)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
+        dislike(song){
+            song.dislikes--;
+            axios.put(`http://localhost:9000/songs/${song.song_id}`, song)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
                 console.log(error);
             });
         }
     }
-};
-
+}
 
 </script>
