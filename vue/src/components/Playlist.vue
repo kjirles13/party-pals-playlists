@@ -22,22 +22,19 @@
 </template>
 
 <script> 
-import axios from 'axios';
 
 export default{
     name: 'Playlist',
     data() {
         return {
-            playlist: [],
+            event: {
+            }
         };
     },
-    async created() {
-        try {
-            const response = await axios.get('/playlist');
-            this.events = response.data;
-        } catch (error) {
-            console.error(error);
-        }
+    created() {
+        this.event = this.$store.state.events.filter(event => {
+            return event.id === 1;
+        })
     },
 
 };

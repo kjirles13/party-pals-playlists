@@ -1,8 +1,9 @@
 import axios from "axios";
 
+
 export default {
     getSongs() {
-        return axios.get('/songs');
+        return axios.put('/songs/list', {username: "kit"});
     },
     getSong(id) {
         return axios.get(`/songs/${id}`);

@@ -1,36 +1,16 @@
 <template>
   <div class="Playlists">
-    <h1>Playlists</h1>
-    <ul>
-      <li v-for="playlist in playlists" :key="playlist.id">
-        <router-link :to="{ name: 'Playlist', params: { id: playlist.id}}">
-          {{ playlist.name }}
-        </router-link>
-        <playlist/>
-      </li>
-    </ul>
+    <playlist-detail />
   </div>
 </template>
 
-
-<script> 
-
-import playlist from '../components/Playlist.vue'
+<script>
+import PlaylistDetail from "../components/PlaylistDetail.vue";
 
 export default {
-  name: "Playlist",
- components: {
-    playlist,
+  name: "playlists",
+  components: {
+    PlaylistDetail,
   },
-  
-  data() {
-    return {
-      playlist:[]
-    }
-  },
-  
-  mounted() {
-    this.getAllSongs();
-  }
 };
 </script>
