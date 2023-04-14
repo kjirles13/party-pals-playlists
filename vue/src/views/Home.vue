@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import Test from '../components/Test.vue'
+
 export default {
   name: "home",
   components: {
-    Test,
+
   }
 };
 </script>
