@@ -30,7 +30,6 @@ public class EventController {
     }
 
     @GetMapping("")
-    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public List<Event> getAllEvents() {
         return eventDao.getAllEvents();
     }
