@@ -8,6 +8,7 @@ import store from '../store/index'
 import Events from '../views/Events.vue'
 import Playlists from '../views/Playlists.vue'
 import Songs from '../views/Songs.vue'
+import EventDetail from '../components/EventDetail.vue'
 
 
 
@@ -82,7 +83,16 @@ const router = new Router({
       meta: {
         requiresAuth: false
       }
+    },
+    {
+      path: "/EventDetail",
+      name: "Event Detail",
+      component: EventDetail,
+      meta: {
+        requiresAuth: false
+      }
     }
+
   
   ]
 })
