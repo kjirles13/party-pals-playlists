@@ -20,7 +20,8 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    events: []
+    events: [],
+    spotifyToken: ''
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     SET_EVENTS(state, events) {
       state.events = events;
+    },
+    SET_SPOTIFY_AUTH_TOKEN(state, token) {
+      state.spotifyToken = token;
     }
   }
 })
