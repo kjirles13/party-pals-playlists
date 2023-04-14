@@ -34,18 +34,19 @@ export default {
   left: 0;
   bottom: 0;
   width: 200px;
-  background-color: #724d4d !important;
+  background-color: #59a985;
   border-color: black 20px;
+  font-weight: bold;  
 }
 ul {
   display: flex;
- flex-direction: column;
+  flex-direction: column;
 }
 .nav-bar ul {
   display: flex;
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 62px;
 }
 .nav-bar li {
   padding: 10px;
@@ -55,8 +56,9 @@ ul {
   color: rgb(5, 0, 0);
 }
 .nav-bar a:hover {
-  color: rgb(202, 172, 172);
+  color: #61b292;
 }
+
 </style>
 
 
