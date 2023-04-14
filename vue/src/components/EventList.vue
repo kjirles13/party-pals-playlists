@@ -57,7 +57,7 @@ cursor: pointer;
 
 }
 .banner img {
-    max-width: 400px;
+    max-width: 500px;
     height: 100px;
 }
 
