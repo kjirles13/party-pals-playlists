@@ -1,16 +1,18 @@
 <template>
     <div class="event-list">
-        <h1> Event List </h1>
+<div class="banner clickable" @click="navigationToEventDetails(event)">
+    <img :src="require('@/images/defaultbanner.png')" />
+    <h2 v-if="event">{{ event.name }}</h2>
+</div>
         <table>
-            <thead>
-                <tr>
-
-                    
-                </tr>
-            </thead>
             <tbody>
                 <tr v-for="event in $store.state.events" :key="event.event_id">
-                   
+                   <td>{{ event.name }}</td>
+                   <td>{{ event.date }}</td>
+                   <td> <router-link :to="{ name: 'EventDetail', params: { id: event.event_id}}">
+                       View Details 
+                       </router-link>
+                   </td>
                 </tr>
             </tbody>
         </table>
@@ -29,13 +31,30 @@ export default{
         eventService.getAllEvents().then(response => {
             if (response.status == 200) {
                 this.$store.commit("SET_EVENTS", response.data);
+                if(response.data.length > 0) {
+                    this.event = response.data[0];
+                }
             }
         });
+    },
+    methods: {
+        navigationToEventDetails(event){
+            this.$router.push({ name: "EventDetails", params: { id: event.event_id}});
+        },
     },
 };
 </script>
 
 <style>
+.banner.clickable {
+    position: relative;
+cursor: pointer;
+
+}
+.banner img {
+    width: fixed;
+    height: fixed;
+}
 .event-list {
     margin-top: 20px;
 }
