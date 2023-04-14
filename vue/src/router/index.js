@@ -8,6 +8,7 @@ import store from '../store/index'
 import Events from '../views/Events.vue'
 import Playlists from '../views/Playlists.vue'
 import Songs from '../views/Songs.vue'
+import EventDetail from '../components/EventDetail.vue'
 import Spotify from '../views/SpotifyTestView.vue'
 
 
@@ -85,13 +86,22 @@ const router = new Router({
       }
     },
     {
-      path: "/spotify",
-      name: "spotify",
-      component: Spotify,
+      path: "/EventDetail",
+      name: "Event Detail",
+      component: EventDetail,
       meta: {
         requiresAuth: false
       }
+    },
+      {
+        path: "/spotify",
+        name: "spotify",
+        component: Spotify,
+        meta: {
+          requiresAuth: false
+        }
     }
+
   
   ]
 })

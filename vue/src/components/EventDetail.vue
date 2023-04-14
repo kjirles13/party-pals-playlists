@@ -15,7 +15,7 @@
 
 <script>
 import axios from 'axios';
-
+import eventService from '../services/EventService';
 export default {
     data() {
         return {
@@ -36,6 +36,18 @@ export default {
                 console.error(error);
             });
         },
+
+        getEventById() {
+    const eventId = this.$route.params.id;
+    eventService.getEventById(eventId)
+      .then(response => {
+        this.event = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+
     },
 };
 </script>

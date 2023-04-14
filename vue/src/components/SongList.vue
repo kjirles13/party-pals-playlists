@@ -1,21 +1,34 @@
 <template>
-  <div class="SongList">
-    <h1>Song List</h1>
-    
-    <div v-for="song in songs" v-bind:key="song.id" class="song">
-      <h3>Song: {{ song.name }}</h3>
-      <div v-for="artist in song.artists" :key="artist.id">
-        <h3>Artists: {{ artist.name }}</h3>
+  <div class="Page">
+    <div class="SongList">
+      <div v-for="song in songs" v-bind:key="song.id" class="song">
+        <div class="song-info">
+          <div>
+            <p5>Song: {{ song.name }}</p5>
+            <div class="artist-wrapper">
+              <p>Artists:</p>
+              <div v-for="artist in song.artists" :key="artist.id">
+                <p>{{ artist.name }}</p>
+              </div>
+            </div>  
+          </div>
+          <div class="Stars">
+            <p>
+              <span style="display: inline-block; text-align: right;">
+                Stars:
+                <img v-for="n in song.rating" :key="n" class="gold-star" src="../images\GoldStar.png" alt="Gold star">
+              </span>
+            </p> 
+          </div>
+        </div>
+        <div class="song-links">
+          <audio controls @play="setVolume">
+            <source :src="song.preview" type="audio/mpeg">
+            <p><a href="song.preview">Preview{{song.preview}}</a></p>
+          </audio>
+          <a :href="song.spotifyUri"><img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" width="56" height="56"></a>
+        </div>
       </div>
-      <div v-for="genre in song.genres" :key="genre.id">
-        <h3>Genres: {{ genre.name }}</h3>
-      </div>
-      <h4>Rating: {{ song.rating }}</h4>
-      <audio controls @play="setVolume">
-        <source :src="song.preview" type="audio/mpeg">
-        <h4><a href="song.preview">Preview{{song.preview}}</a></h4>
-      </audio>
-      <a :href="song.spotifyUri"><img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" width="56" height="56"></a>
     </div>
   </div>
 </template>
@@ -23,61 +36,109 @@
 <script> 
 import songService from "../services/SongService"
 
-
 export default {
-    name: 'SongList',
-    data() {
-        return {
-            songs: [],
-            getSongs: [],
-        };
+  name: 'SongList',
+  data() {
+    return {
+      songs: [],
+      getSongs: [],
+    };
+  },
+  created() {
+    songService.getSongs().then(response => {
+      if (response.status == 200) {
+        this.songs = response.data;
+      }
+    })
+  },
+  methods: {
+    searchSongs() {
+      songService.getSongs().then(response => {
+        this.getSongs = response.data;
+      }).catch(error => {
+        console.log(error);
+      });
     },
-    created() {
-        songService.getSongs().then(response => {
-            if (response.status == 200) {
-                this.songs = response.data;
-            }
-        })
-    },
-    methods: {
-        searchSongs() {
-            songService.getSongs().then(response => {
-                this.getSongs = response.data;
-            }).catch(error => {
-                console.log(error);
-            });
-        },
-        setVolume(event) {
+    setVolume(event) {
       event.target.volume = 0.2; 
     }
-    }
+  }
 };
 </script>
 
-
 <style scoped>
-
-.img {
-    size: 20px;
+.SongList{
+  margin-top: 20px;
 }
 .song {
-    background-color: rgb(166, 167, 166);
-    border: 1px solid black;
-    margin-bottom: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
-    padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, #a8896cb7, #a8896c);
+  border: 1px solid black;
+  border-radius: 19px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
 }
-.song-list {
-    margin-top: 20px;
+.Stars{
+  display: flex;
+  align-items: center;
+  margin-left: 10;
 }
-.song-list h2 {
-margin-bottom: 10px;
+.song-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.song-list ul {
-    list-style: none;
-    padding: 0;
+p5{
+  margin-top:115px;
+  margin-left: 15px;
 }
-.song-list li {
-    margin-bottom: 5px;
+.artist-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 15px;
 }
+.song-links {
+  display: flex;
+  align-items: center;
+}
+.gold-star{
+  width: 15px;
+  height: 15px;
+  margin-right: 1px;
+}
+
+
+audio::-webkit-media-controls-panel {
+  background: linear-gradient(to bottom, #a8896c, #a8896cb7);
+}
+audio::-webkit-media-controls-panel {
+  background-color: #535a3b;
+}
+audio::-webkit-media-controls-play-button {
+  background-color: #a8896cb7;
+  border-radius: 50%;
+}
+audio::-webkit-media-controls-play-button:hover {
+  background-color: #a8896c;
+}
+audio::-webkit-media-controls-current-time-display {
+  color: #fff;
+}
+audio::-webkit-media-controls-time-remaining-display {
+  color: rgb(255, 255, 255);
+}
+audio::-webkit-media-controls-mute-button {
+  background-color: #a8896cb7;
+  border-radius: 50%;
+}
+audio::-webkit-media-controls-volume-slider {
+  background-color: #a8896cb7;
+  border-radius: 25px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
 </style>
