@@ -2,7 +2,7 @@
   <div class="home">
     <h1>Home</h1>
     <p>You are now authenticated</p>
-    <test/>
+
     
 </div>
 
