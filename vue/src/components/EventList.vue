@@ -4,31 +4,19 @@
         <table>
             <thead>
                 <tr>
-                    <!-- <th>Event ID</th>
-                    <th>User ID</th>
-                    <th>Role ID</th>
-                    <th>From Date</th>
-                    <th>To Date</th> -->
-                    <th>Description</th>
-                    <!-- <th>Playlist ID</th> -->
-                    <th>Date Time</th>
-                    <th>Theme</th>
+
+                    
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="event in events" :key="event.event_id">
-                    <!-- <td>{{ event.event_id}}</td>
-                    <td>{{ event.user_id }}</td>
-                    <td>{{ event.role_id }}</td>
-                    <td>{{ event.from_date }}</td>
-                    <td>{{ event.to_date }}</td> -->
-                    <td>{{ event.description }}</td>
-                    <!-- <td>{{ event.playlist_id }}</td> -->
-                    <td>{{ event.date_time }}</td>
-                    <td>{{ event.theme }}</td>
+                <tr v-for="event in $store.state.events" :key="event.event_id">
+                   
                 </tr>
             </tbody>
         </table>
+        <div v-for="event in $store.state.events" :key="event.event_id">
+      <h3>Event: {{ event.name }}</h3>
+      </div>
     </div>
 </template>
 
@@ -37,11 +25,6 @@ import eventService from "../services/EventService"
 
 export default{
     name: 'EventList',
-    data() {
-        return {
-            events: this.$store.state.events,
-        };
-    },
     created() {
         eventService.getAllEvents().then(response => {
             if (response.status == 200) {
