@@ -1,4 +1,53 @@
 
+  <div class="SongList">
+    <h1>Song List</h1>
+    
+    <div v-for="song in songs" v-bind:key="song.id" class="song">
+      <div class="song-info">
+        <p>Song: {{ song.name }}</p>
+        <div class="artist-wrapper">
+          <p>Artists:</p>
+          <div v-for="artist in song.artists" :key="artist.id">
+            <p>{{ artist.name }}</p>
+          </div>
+        </div>
+        <p class="gold-star-wrapper">
+          Stars:
+          <img v-for="n in song.rating" :key="n" class="gold-star" src="../images\GoldStar.png" alt="Gold star">
+        </p>   
+      </div>
+      <div class="song-links">
+        <audio controls @play="setVolume">
+          <source :src="song.preview" type="audio/mpeg">
+          <p><a href="song.preview">Preview{{song.preview}}</a></p>
+        </audio>
+        <a :href="song.spotifyUri"><img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" width="56" height="56"></a>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // export default {
 //     name: 'Playlist',
 //     props: {

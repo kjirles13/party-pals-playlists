@@ -2,15 +2,12 @@
   <nav>
     <div id="app">
       <header>
-        <h1>
-          <img src="./images//DJ Performance Illustration Logo (11).png" class="title">
-        </h1>
-        <p1 style="align: center;">Party Playlist Pal</p1>
+        <img src="./images\DJ Performance Illustration Logo (11).png" alt="Header Image">
+        <p1 class="p1" style="align: center;">Party Playlist Pal</p1>
       </header>
       <div id="MainView">
       <navigation class="navbar"/>
       <router-view class="main"/>
-
       </div>
       <head>
         <title></title>
@@ -31,10 +28,20 @@ export default {
 </script>
 
 <style>
+
 #MainView {
   display: flex;
   position: relative;
   font-family: sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  background: radial-gradient(#e2d7bd, #aed09e);
+}
+.p1{
+  display:flex;
+  position: absolute;
+  text-align: center;
+  margin-left: 150px;
 }
 .main {
   flex-grow: 1;
@@ -49,9 +56,7 @@ export default {
 .navbar {
   position: fixed;
   width: 100px;
-  border-right-color: black 20px;
-  z-index: 1;
-  
+  z-index: 0;
 }
 header {
   display: flex;
@@ -59,14 +64,14 @@ header {
   align-items: center;
   height: 80px;
   width: 100%;
-  background-color: rgb(145, 28, 28);
+  background-color: #59a985;
   text-align: center;
   top: 0px;
   z-index: 1; 
 }
 p1{
-  font-family: sans-serif;
-  font-size: large;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size:x-large;
 }
 img {
   margin-right: 10px;

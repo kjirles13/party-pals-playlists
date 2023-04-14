@@ -3,7 +3,7 @@
     <h1>Events</h1>
     
     <p>Events Listed here</p>
-    <test/>
+
     <events/>
   
 
