@@ -45,7 +45,8 @@ export default{
 
 }
 .banner img {
-    max-width: 100%;
+    max-width: 500px;
+    height: 100px;
 }
 
 
