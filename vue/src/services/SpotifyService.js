@@ -1,23 +1,11 @@
-// const { Client } = require('spotify-api.js');
-
-// const client = await Client.create({
-//     token: {
-//         clientID: 'ff7f710ce2564ce19c72faebda1dfa0e', // Your spotify application client id.
-//         clientSecret: '5dfba35f85ef4c2aae0b83bfd2d1766f', // Your spotify application client secret.
-//         redirectURL: 'http://localhost:8080/callback' // The redirect url which you have used when redirected to the login page.
-//     }
-// });
-
-// console.log(client.token); // The current user token. 
-
-// export default {
-
-// }
-
+// const { Client } = require("spotify-api.js");
+// const client = new Client({ 
+//     token: { clientID: 'id', clientSecret: 'secret' },
+// })
 
 
 import axios from 'axios';
-// import store from '../store/index';
+import store from '../store/index';
 
 const tokenInstance = axios.create({
     headers: {
@@ -36,7 +24,7 @@ const data = {
 const authAxios = axios.create({
     baseURL: "https://api.spotify.com/v1/",
     headers: {
-        'Authorization': `Bearer BQAZ0eGcrT9T2fKbtrqulTkPx7_su9gbeRLfpYTfBGESZS8Oq8KkGpMRu68Md5wzRzGXnYdh-nOCeZoDnjCeoup8pRz5XvQDRBfv1ahDRK6AJTs7XbWo`,
+        'Authorization': `Bearer ${store.state.spotifyToken}`,
         'Content-Type': 'application/x-www-form-urlencoded'
     },
     withCredentials: false,
@@ -44,7 +32,7 @@ const authAxios = axios.create({
 })
 
 export default {
-    getAuthToken() {
+    getToken() {
         return tokenInstance.post(tokenURL, data);
     },
 

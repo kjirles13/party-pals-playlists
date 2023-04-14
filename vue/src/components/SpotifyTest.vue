@@ -9,7 +9,7 @@
     </p>
     <button v-on:click="getTrack">Press for track</button>
     <br>
-    <button v-on:click="setAuthToken()">Press for token</button>
+    <button v-on:click="setAuthToken">Press for token</button>
     <p>{{ $store.state.spotifyToken }}</p>
 
     <form v-on:submit.prevent="searchForTrack">
@@ -40,6 +40,10 @@
 </template>
 
 <script>
+// const { Client } = require("spotify-api.js");
+// const client = new Client({ 
+//     token: { clientID: 'id', clientSecret: 'secret' },
+// })
 import spotifyService from "../services/SpotifyService.js";
 
 export default {
@@ -57,7 +61,7 @@ export default {
         type: "track",
         limit: 10,
         offset: 0,
-      },
+      }
     };
   },
   methods: {
@@ -65,10 +69,12 @@ export default {
       spotifyService.getTrack("11dFghVXANMlKmJXsNCbNl").then((response) => {
         this.track = response.data;
       });
+    //  this.track = await client.tracks.get('id');
     },
     setAuthToken() {
-      spotifyService.getAuthToken().then((response) => {
+      spotifyService.getToken().then((response) => {
         this.$store.commit("SET_SPOTIFY_AUTH_TOKEN", response.data.access_token);
+        this.token = response.data.access_token;
       });
     },
     // searchForTrack() {
