@@ -1,7 +1,11 @@
 <template>
+<div class="container">
+
+
     <div class="event-list">
 <div class="banner clickable" @click="navigationToEventDetails(event)">
-    <img :src="require('@/images/defaultbanner.png')" />
+    <img :src="require('@/images/defaultbanner.png')"
+     />
     <h2 v-if="event">{{ event.name }}</h2>
 </div>
         <table>
@@ -9,7 +13,7 @@
                 <tr v-for="event in $store.state.events" :key="event.event_id">
                    <td>{{ event.name }}</td>
                    <td>{{ event.date }}</td>
-                   <td> <router-link :to="{ name: 'EventDetail', params: { id: event.event_id}}">
+                   <td> <router-link :to="{ name: 'Event Detail', params: { id: event.event_id}}">
                        View Details 
                        </router-link>
                    </td>
@@ -18,6 +22,7 @@
         </table>
         <div v-for="event in $store.state.events" :key="event.event_id">
       <h3>Event: {{ event.name }}</h3>
+      </div>
       </div>
     </div>
 </template>
@@ -52,9 +57,11 @@ cursor: pointer;
 
 }
 .banner img {
-    width: fixed;
-    height: fixed;
+    max-width: 400px;
+    height: 100px;
 }
+
+
 .event-list {
     margin-top: 20px;
 }
