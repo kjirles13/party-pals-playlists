@@ -4,8 +4,7 @@
       <header>
         <a href="/">
         <img src="./images\DJ Performance Illustration Logo (11).png" alt="Header Image">
-        </a>
-        <p1 class="p1" style="align: center;">Party Pals Playlist</p1>
+        <h1 class="p1" style="align: center;">Party Playlist Pal</h1>
       </header>
       <div id="MainView">
       <navigation class="navbar"/>
