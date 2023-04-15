@@ -17,8 +17,9 @@ export default{
       songs:[]
     }
   },
-  methods: {
-  },  
+  mounted() {
+    document.title = "Song List";
+  }
 }
 </script>
 

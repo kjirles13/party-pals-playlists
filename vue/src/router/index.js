@@ -86,8 +86,8 @@ const router = new Router({
       }
     },
     {
-      path: "/EventDetail",
-      name: "Event Detail",
+      path: "/events/:id",
+      name: "event-detail",
       component: EventDetail,
       meta: {
         requiresAuth: false

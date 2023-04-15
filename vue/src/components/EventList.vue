@@ -1,25 +1,25 @@
 <template>
-    <div class="event-list">
-<div class="banner clickable" @click="navigationToEventDetails(event)">
-    <img :src="require('@/images/defaultbanner.png')" />
+<div class="banner clickable">
+    <img :src="require('@/images/defaultbanner.png')"/>
+    <div v-for="event in $store.state.events" :key="event.id">
+     <h3>Event: {{ event.name }}</h3>
+      </div>
     <h2 v-if="event">{{ event.name }}</h2>
-</div>
         <table>
             <tbody>
-                <tr v-for="event in $store.state.events" :key="event.event_id">
+                <tr v-for="event in $store.state.events" :key="event.id">
                    <td>{{ event.name }}</td>
                    <td>{{ event.date }}</td>
-                   <td> <router-link :to="{ name: 'EventDetail', params: { id: event.event_id}}">
+                   <td>{{event.id}}</td>
+                   <td> <router-link :to="{ name: 'event-detail', params: { id: event.id}}">
                        View Details 
                        </router-link>
                    </td>
                 </tr>
             </tbody>
         </table>
-        <div v-for="event in $store.state.events" :key="event.event_id">
-      <h3>Event: {{ event.name }}</h3>
-      </div>
-    </div>
+</div>
+     
 </template>
 
 <script> 
@@ -27,6 +27,9 @@ import eventService from "../services/EventService"
 
 export default{
     name: 'EventList',
+    props: {
+        Array
+    },
     created() {
         eventService.getAllEvents().then(response => {
             if (response.status == 200) {
@@ -37,24 +40,20 @@ export default{
             }
         });
     },
-    methods: {
-        navigationToEventDetails(event){
-            this.$router.push({ name: "EventDetails", params: { id: event.event_id}});
-        },
-    },
-};
+}
 </script>
 
 <style>
-.banner.clickable {
+.banner-clickable {
     position: relative;
-cursor: pointer;
-
+    
 }
 .banner img {
-    width: fixed;
-    height: fixed;
+    max-width: 100%;
+   
 }
+
+
 .event-list {
     margin-top: 20px;
 }

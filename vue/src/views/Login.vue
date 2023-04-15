@@ -57,6 +57,9 @@ export default {
           }
         });
     }
+  },
+  mounted() {
+    document.title = "Login";
   }
 };
 </script>

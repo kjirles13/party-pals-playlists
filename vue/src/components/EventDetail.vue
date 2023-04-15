@@ -1,59 +1,78 @@
 <template>
+
     <div class="event-detail">
-        <h1>{{ event.title }}</h1>
-        <p>{{ event.description }}</p>
-        <p>{{ event.theme }}</p>
-        <p>{{ event.date_time }}</p>
-        <p>{{ event.playlist.name }}</p>
-        <p>{{ event.host.username }}</p>
-        <p>{{ event.role.role_name }}</p>
-        <ul>
-            <li v-for="song in event.playlist.songs" :key="song.song_id">{{ song.title }}</li>
-        </ul>
+
+        <div v-if="isLoading">Loading...</div>
+        <div>
+        <h1>{{ this.event.name }}</h1>
+        <p>Description: {{ event.description }}</p>
+        <p>Theme: {{ event.theme }}</p>
+        <p>Date: {{ event.date }}</p>
+        <p>Time: {{ event.time }}</p>
+        <p>Playlist: {{ event.playlist.name }}</p>
+        
+        <div v-for="p in event.hosts" :key="p.hostId"> 
+            <p>{{ p.name }}</p>
+            </div>
+        
+        <p>{{ event.djUsername }}</p>
+        </div>
+
+        
     </div>
 </template>
 
 <script>
-import axios from 'axios';
+// import { mapState } from "vuex";
+// import axios from 'axios';
 import eventService from '../services/EventService';
 export default {
+    name: "event-detail",
+    // props: {Object},
     data() {
         return {
-            event: null,
+            isLoading: true,
+            event: {
+                name: '',
+                description: '',
+                date: '',
+                time: '',
+                playlist: [],
+                hosts: [],
+                djUsername: ''
+                
+
+            },
+            // playlist: {
+            //     name: '',
+            //     description: ''
+            // }
         };
     },
-    mounted() {
-        this.getEvent();
-    },
-    methods: {
-        getEvent() {
-            const eventId = this.$route.params.id;
-            axios.get(`http://localhost:9000/events/${eventId}`)
-            .then(response => {
-                this.event = response.data;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        },
 
-        getEventById() {
-    const eventId = this.$route.params.id;
+  created() {
+    const eventId = parseInt(this.$route.params.id);
+    console.log(eventId)
     eventService.getEventById(eventId)
-      .then(response => {
-        this.event = response.data;
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    .then((response) => {
+       console.log(response)
+        this.event = response;
+        this.isLoading = false;
+    })
+    .catch((error) => {
+        console.log(error);
+        this.isLoading = false;
+        this.error = 'Error loading event'
+    })
+
+    
   },
 
-    },
 };
 </script>
 
 <style scoped>
 .event-detail {
-    margin: 20px;
+    margin: 100px;
 }
 </style>

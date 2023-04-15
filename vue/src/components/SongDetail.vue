@@ -17,11 +17,14 @@
       <h4>Preview: {{song.preview}}</h4>
       <h4>Spotify: {{song.spotifyUri}}</h4>
       <br />
+      <search-song :selectedsong="selectedSong"/>
     </div>
 </template>
 
 <script>
+import SearchSong from '../components/SearchSong.vue';
 export default {
+  components: { SearchSong },
     props: {
         song: {
             type: Object,

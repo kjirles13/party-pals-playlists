@@ -18,6 +18,9 @@ export default {
  components: {
     events,
   },
+  mounted() {
+    document.title = "Events";
+  }
 };
 
 </script>

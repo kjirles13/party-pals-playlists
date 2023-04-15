@@ -7,6 +7,7 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.Event;
 import com.techelevator.model.EventDto;
 import com.techelevator.model.Host;
+import com.techelevator.model.Playlist;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
@@ -67,5 +68,11 @@ public class EventController {
     @PutMapping("/{eventId}/hosts")
     public void addHostToEvent(@RequestBody List<Host> hosts, @PathVariable int eventId) {
         eventDao.updateHosts(eventId, hosts);
+    }
+
+    @GetMapping("/{eventId}/playlists{playlistId}")
+    public Playlist getPlaylistByForEventById(@PathVariable int playlistId, Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return playlistDao.getPlayListById(playlistId, userId);
     }
 }

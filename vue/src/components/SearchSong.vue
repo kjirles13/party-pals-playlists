@@ -3,13 +3,13 @@
         <h1> Search Songs </h1>
         <div class="search-form">
             <label for="title">Title:</label>
-            <input type="text" v-model="title" id="title">
+            <input type="text" v-model="title" id="title"/>
             <button @click="searchSongs">Search</button>
         </div>
         <div class="song-list">
             <h2>Results:</h2>
             <ul>
-                <li v-for="song in songs" :key="song.song_id"> {{ song.title }} </li>
+                <li v-for="song in songs" :key="song.song_id" @click="showSongDetail(song)"> {{ song.title }} </li>
             </ul>
         </div>
     </div>
@@ -17,6 +17,8 @@
 
 <script>
 import axios from 'axios';
+import { showModal } from '@/helpers/modalHelper';
+
 
 export default {
     name: 'SearchSong',
@@ -24,6 +26,7 @@ export default {
         return {
             title: '',
             songs: [],
+            selectedSong: null,
         };
     },
     methods: {
@@ -41,5 +44,14 @@ export default {
             });
         },
     },
-};
+    watch: {
+        selectedSong() {
+            this.showSongDetail(this.selectedSong);
+        },
+    },
+        showSongDetail(song) {
+            this.selectedSong = song;
+            showModal("#song-detail-modal");
+        },
+}
 </script>
