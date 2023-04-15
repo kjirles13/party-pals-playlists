@@ -17,7 +17,8 @@
 
 <script>
 import axios from 'axios';
-import { showModel } from '@/helpers/modalHelper';
+import { showModal } from '@/helpers/modalHelper';
+
 
 export default {
     name: 'SearchSong',
@@ -42,10 +43,15 @@ export default {
                 console.error(error);
             });
         },
-        showSongDetail(song) {
-            this.selectedSong = song;
-            showModel("#song-detail-modal");
+    },
+    watch: {
+        selectedSong() {
+            this.showSongDetail(this.selectedSong);
         },
     },
-};
+        showSongDetail(song) {
+            this.selectedSong = song;
+            showModal("#song-detail-modal");
+        },
+}
 </script>
