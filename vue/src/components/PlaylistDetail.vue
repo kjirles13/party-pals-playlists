@@ -2,9 +2,9 @@
   <div class="PlaylistDetail">
     <h1>Name: {{ event.playlist.name }}</h1>
     <h2>DJ: {{ event.djUsername }}</h2>
-    <h3>Date: {{ event.date }}</h3>
+    <!-- <h3>Date: {{ event.date }}</h3>
     <h3>Time: {{ event.time }}</h3>
-    <p>Description: {{ event.playlist.description }}</p>
+    <p>Description: {{ event.playlist.description }}</p> -->
     <ul>
       <div v-for="song in event.playlist.songs" v-bind:key="song.id">
         <h3>Name: {{ song.name }}</h3>

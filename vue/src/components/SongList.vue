@@ -26,7 +26,7 @@
             <source :src="song.preview" type="audio/mpeg">
             <p><a href="song.preview">Preview{{song.preview}}</a></p>
           </audio>
-          <a :href="song.spotifyUri"><img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" width="56" height="56"></a>
+         <a :href="song.spotifyUri" target="_blank"><img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" width="56" height="56"></a>
         </div>
       </div>
     </div>

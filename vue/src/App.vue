@@ -2,8 +2,14 @@
   <nav>
     <div id="app">
       <header>
+        <a href="/">
         <img src="./images\DJ Performance Illustration Logo (11).png" alt="Header Image">
+<<<<<<< HEAD
         <h1 class="p1" style="align: center;">Party Playlist Pal</h1>
+=======
+        </a>
+        <p1 class="p1" style="align: center;">Party Pals Playlist</p1>
+>>>>>>> main
       </header>
       <div id="MainView">
       <navigation class="navbar"/>
@@ -34,8 +40,9 @@ export default {
   position: relative;
   font-family: sans-serif;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
   background: radial-gradient(#e2d7bd, #aed09e);
+
 }
 .p1{
   display:flex;
@@ -70,7 +77,7 @@ header {
   z-index: 1; 
 }
 p1{
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size:x-large;
 }
 img {
