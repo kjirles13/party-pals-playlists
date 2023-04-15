@@ -10,7 +10,7 @@
                 <tr v-for="event in $store.state.events" :key="event.event_id">
                    <td>{{ event.name }}</td>
                    <td>{{ event.date }}</td>
-                   <td> <router-link :to="{ name: 'Event Detail', params: { id: event.event_id}}">
+                   <td> <router-link :to="{ name: 'Event-Detail', params: { id: event.event_id}}">
                        View Details 
                        </router-link>
                    </td>
@@ -26,6 +26,9 @@ import eventService from "../services/EventService"
 
 export default{
     name: 'EventList',
+    props: {
+        Array
+    },
     created() {
         eventService.getAllEvents().then(response => {
             if (response.status == 200) {
@@ -42,11 +45,11 @@ export default{
 <style>
 .banner-clickable {
     position: relative;
-
+    
 }
 .banner img {
-    max-width: 500px;
-    height: 100px;
+    max-width: 100%;
+   
 }
 
 

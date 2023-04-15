@@ -7,7 +7,9 @@ getAllEvents() {
 },
 
 getEventById(eventId){
+    
     return axios.get(`/events${eventId}`)
+    
 },
 
 createEvent(event) {
