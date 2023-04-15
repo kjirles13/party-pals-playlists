@@ -2,7 +2,7 @@
   <div class="about-us">
     <h1 class="about-us-heading">About Us</h1>
     <div class="about-us-content">
-      <div class="about-us-image">
+      <div class="about-us-banner">
         <img src="../images/topaboutus.png" alt="about-us-banner">
       </div>
       <div class="about-us-text">
@@ -44,17 +44,10 @@ name: 'AboutUs',
   gap: 30px;
 }
 .about-us-banner {
- max-width: 100% !important;
- height: 0 !important;
- position: relative;
- object-fit: cover;
- 
-
+ max-width: 100%;
 }
 .about-us-image {
   max-width: 100%;
-  
- 
 }
 .about-us-text {
   max-width: 800px;
