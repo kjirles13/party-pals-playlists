@@ -5,7 +5,7 @@
     <div id="nav">
       <ul>
         <li></li>
-        <li><router-link v-bind:to="{ name: 'login' }">Login</router-link></li>
+        <li><router-link v-bind:to="{ name: 'login' }" >Login</router-link></li>
         <li><router-link v-bind:to="{ name: 'home' }">Home</router-link></li>
         <li><router-link v-bind:to="{ name: 'events' }">Events</router-link ></li>
         <li><router-link v-bind:to="{ name: 'playlists' }">Playlists</router-link></li>
