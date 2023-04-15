@@ -70,7 +70,7 @@ header {
   z-index: 1; 
 }
 p1{
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size:x-large;
 }
 img {
