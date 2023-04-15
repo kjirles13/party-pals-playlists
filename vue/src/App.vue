@@ -5,10 +5,14 @@
         <a href="/">
         <img src="./images\DJ Performance Illustration Logo (11).png" alt="Header Image">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <h1 class="p1" style="align: center;">Party Playlist Pal</h1>
 =======
         </a>
         <p1 class="p1" style="align: center;">Party Pals Playlist</p1>
+>>>>>>> main
+=======
+        <h1 class="p1" style="align: center;">Party Playlist Pal</h1>
 >>>>>>> main
       </header>
       <div id="MainView">
