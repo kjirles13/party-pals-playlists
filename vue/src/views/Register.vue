@@ -70,6 +70,9 @@ export default {
       this.registrationErrorMsg = 'There were problems registering this user.';
     },
   },
+  mounted() {
+    document.title = "Register";
+  }
 };
 </script>
 

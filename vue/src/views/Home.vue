@@ -19,6 +19,9 @@ export default {
     AboutUs
 
   },
+  mounted() {
+    document.title = "Home";
+  }
 };
 </script>
 
