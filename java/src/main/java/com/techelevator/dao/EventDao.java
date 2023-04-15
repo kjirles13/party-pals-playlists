@@ -3,6 +3,8 @@ package com.techelevator.dao;
 import com.techelevator.model.Event;
 import com.techelevator.model.EventDto;
 import com.techelevator.model.Host;
+import com.techelevator.model.Playlist;
+
 import java.util.List;
 
 public interface EventDao {
@@ -18,4 +20,6 @@ public interface EventDao {
     void deleteEvent(int eventId);
 
     void updateHosts(int eventId, List<Host> hosts);
+
+    Playlist getPlaylistForEventById(int playlistId, int userId);
 }

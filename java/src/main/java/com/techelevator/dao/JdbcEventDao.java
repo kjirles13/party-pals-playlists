@@ -1,9 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Event;
-import com.techelevator.model.EventDto;
-import com.techelevator.model.Host;
-import com.techelevator.model.Playlist;
+import com.techelevator.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -144,6 +141,102 @@ public class JdbcEventDao implements EventDao {
         }
     }
 
+    @Override
+    public Playlist getPlaylistForEventById(int playlistId, int userId) {
+            Playlist playlist = new Playlist();
+
+            String sql = "SELECT playlist_id, name, description, spotify_id " +
+                    "FROM public.playlists " +
+                    "WHERE playlist_id = ?";
+
+            SqlRowSet playlistResults = jdbcTemplate.queryForRowSet(sql, playlistId);
+
+            if (playlistResults.next()) {
+                playlist = mapRowToPlaylist(playlistResults);
+            }
+
+            String sqlSong = "SELECT song_id " +
+                    "FROM playlist_song " +
+                    "WHERE playlist_id = ?";
+
+            SqlRowSet songIdResults = jdbcTemplate.queryForRowSet(sqlSong, playlistId);
+
+            List<Song> songs = new ArrayList<>();
+
+            while (songIdResults.next()) {
+                String songId = songIdResults.getString("song_id");
+
+                String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, playlist_song.likes, playlist_song.dislikes, dj_song.song_rating " +
+                        "FROM songs " +
+                        "LEFT JOIN dj_song ON songs.song_id = dj_song.song_id " +
+                        "LEFT JOIN playlist_song ON songs.song_id = playlist_song.song_id " +
+                        "WHERE songs.song_id = ? " +
+                        "AND playlist_song.playlist_id = ? ";
+
+                SqlRowSet songResults = jdbcTemplate.queryForRowSet(songSql, songId, playlistId);
+
+                Song song = new Song();
+
+                if (songResults.next()) {
+                    song = mapRowToSong(songResults);
+
+                    String artistSql = "SELECT artists.artist_id, artists.name " +
+                            "FROM public.artists " +
+                            "JOIN artist_song ON artist_song.artist_id = artists.artist_id " +
+                            "WHERE artist_song.song_id = ?";
+
+                    SqlRowSet artistResults = jdbcTemplate.queryForRowSet(artistSql, songId);
+
+                    List<Artist> artists = new ArrayList<>();
+
+                    while (artistResults.next()) {
+                        Artist artist = mapRowToArtist(artistResults);
+
+                        artists.add(artist);
+                    }
+
+                    song.setArtists(artists);
+
+                    String genreSql = "SELECT genres.genre_id, genres.name " +
+                            "FROM public.genres " +
+                            "JOIN genre_song ON genre_song.genre_id = genres.genre_id " +
+                            "WHERE genre_song.song_id = ?";
+
+                    SqlRowSet genreResults = jdbcTemplate.queryForRowSet(genreSql, songId);
+
+                    List<Genre> genres = new ArrayList<>();
+
+                    while (genreResults.next()) {
+                        Genre genre = mapRowToGenre(genreResults);
+
+                        genres.add(genre);
+                    }
+                    song.setGenres(genres);
+                    songs.add(song);
+                }
+            }
+
+            playlist.setSongs(songs);
+
+            String sqlGenres = "SELECT genres.genre_id, genres.name " +
+                    "FROM playlist_genre " +
+                    "JOIN genres ON genres.genre_id = playlist_genre.genre_id " +
+                    "WHERE playlist_genre.playlist_id = ?";
+
+            SqlRowSet genreResults = jdbcTemplate.queryForRowSet(sqlGenres, playlist.getPlaylistId());
+
+            List<Genre> genres = new ArrayList<>();
+
+            while (genreResults.next()) {
+                genres.add(mapRowToGenre(genreResults));
+            }
+
+            playlist.setGenres(genres);
+
+            return playlist;
+
+    }
+
     private Event mapRowToEvent(SqlRowSet rs) {
         Event event = new Event();
 
@@ -165,5 +258,60 @@ public class JdbcEventDao implements EventDao {
         host.setName(rs.getString("username"));
 
         return host;
+    }
+
+    private Playlist mapRowToPlaylist(SqlRowSet rs){
+        Playlist playlist = new Playlist();
+
+        playlist.setName(rs.getString("name"));
+        playlist.setDescription(rs.getString("description"));
+        playlist.setPlaylistId(rs.getInt("playlist_id"));
+        playlist.setSpotifyId(rs.getString("spotify_id"));
+
+        return playlist;
+    }
+
+    private Genre mapRowToGenre(SqlRowSet rs) {
+        Genre genre = new Genre();
+
+        genre.setId((rs.getInt("genre_id")));
+        genre.setName(rs.getString("name"));
+
+        return genre;
+    }
+
+    private Artist mapRowToArtist(SqlRowSet rs) {
+        Artist artist = new Artist();
+
+        artist.setId((rs.getString("artist_id")));
+        artist.setName(rs.getString("name"));
+
+        return artist;
+    }
+
+    private Song mapRowToSong(SqlRowSet rs) {
+        Song song = new Song();
+
+        song.setId(rs.getString("song_id"));
+        song.setName(rs.getString("title"));
+        try {
+            song.setRating(rs.getInt("song_rating"));
+        } catch (Exception e) {
+            song.setRating(0);
+        }
+        try {
+            song.setLikes(rs.getInt("likes"));
+        } catch (Exception e) {
+            song.setLikes(0);
+        }
+        try {
+            song.setDislikes(rs.getInt("dislikes"));
+        } catch (Exception e) {
+            song.setDislikes(0);
+        }
+        song.setPreview(rs.getString("preview"));
+        song.setSpotifyUri(rs.getString("spotify_link"));
+
+        return song;
     }
 }
