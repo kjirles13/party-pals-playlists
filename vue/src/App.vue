@@ -36,8 +36,9 @@ export default {
   position: relative;
   font-family: sans-serif;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
   background: radial-gradient(#e2d7bd, #aed09e);
+
 }
 .p1{
   display:flex;
