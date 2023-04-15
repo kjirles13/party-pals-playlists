@@ -5,7 +5,7 @@
         <a href="/">
         <img src="./images\DJ Performance Illustration Logo (11).png" alt="Header Image">
         </a>
-        <p1 class="p1" style="align: center;">Party Pals Playlist</p1>
+        <p class="p1" style="align: center;">Party Pals Playlist</p>
       </header>
       <div id="MainView">
       <navigation class="navbar"/>
@@ -58,7 +58,7 @@ export default {
 }
 .navbar {
   position: fixed;
-  width: 100px;
+  width: 100px !important;
   z-index: 0;
 }
 header {
@@ -72,7 +72,7 @@ header {
   top: 0px;
   z-index: 1; 
 }
-p1{
+.p1{
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-size:x-large;
 }
