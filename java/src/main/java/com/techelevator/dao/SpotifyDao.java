@@ -1,5 +1,7 @@
-//package com.techelevator.dao;
-//
-//public interface SpotifyDao {
-//    String getToken();
-//}
+package com.techelevator.dao;
+
+import com.techelevator.model.SpotifyToken;
+
+public interface SpotifyDao {
+    SpotifyToken getToken();
+}

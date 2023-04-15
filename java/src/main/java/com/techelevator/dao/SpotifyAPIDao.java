@@ -1,55 +1,62 @@
-//package com.techelevator.dao;
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.io.OutputStream;
-//import java.net.HttpURLConnection;
-//import java.net.URL;
-//import java.nio.charset.StandardCharsets;
-//
-//public class SpotifyAPIDao implements SpotifyDao{
-//    private String clientSecret = "5dfba35f85ef4c2aae0b83bfd2d1766f";
-//    private String clientId = "ff7f710ce2564ce19c72faebda1dfa0e";
-//
-//    @Override
-//    public String getToken() {
-//        String token = "";
-//        try {
-//            URL url = new URL("https://accounts.spotify.com/api/token");
-//
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("POST");
-//            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//            connection.setDoInput(true);
-//
-//            String json = "{'grant_type': 'client_credentials', 'client_id': 'ff7f710ce2564ce19c72faebda1dfa0e', 'client_secret': '5dfba35f85ef4c2aae0b83bfd2d1766f'}";
-//
-//            try(OutputStream os = connection.getOutputStream()) {
-//                byte[] input = json.getBytes(StandardCharsets.UTF_8);
-//                os.write(input, 0, input.length);
-//            }
-//
-//            connection.connect();
-//
-//            int responseCode = connection.getResponseCode();;
-//
-//            if (responseCode != 200) {
-//                throw new RuntimeException("HttpResponseCode: " + responseCode);
-//            } else {
-//                try(BufferedReader br = new BufferedReader(
-//                        new InputStreamReader(connection.getInputStream(), "utf-8"))) {
-//                    StringBuilder response = new StringBuilder();
-//                    String responseLine = null;
-//                    while ((responseLine = br.readLine()) != null) {
-//                        response.append(responseLine.trim());
-//                    }
-//                    System.out.println(response.toString());
-//                }
-//            }
-//
-//        } catch (IOException e) {
-//
-//        }
-//        return token;
-//    }
-//}
+package com.techelevator.dao;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.techelevator.model.SpotifyToken;
+import org.springframework.stereotype.Component;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Component
+public class SpotifyAPIDao implements SpotifyDao{
+    private String clientSecret = "5dfba35f85ef4c2aae0b83bfd2d1766f";
+    private String clientId = "ff7f710ce2564ce19c72faebda1dfa0e";
+
+    @Override
+    public SpotifyToken getToken() {
+        HttpClient httpClient = HttpClient.newHttpClient();
+
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("grant_type", "client_credentials");
+
+        String form = parameters.entrySet()
+                .stream()
+                .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue(), StandardCharsets.UTF_8))
+                .collect(Collectors.joining("&"));
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .header("Authorization", "Basic " +
+                        Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes()))
+                .uri(URI.create("https://accounts.spotify.com/api/token"))
+                .POST(HttpRequest.BodyPublishers.ofString(form))
+                .build();
+
+        HttpResponse<String> response = null;
+        SpotifyToken spotifyToken = new SpotifyToken();
+
+        try {
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            spotifyToken = objectMapper.readValue(response.body(), SpotifyToken.class);
+        } catch (RuntimeException | InterruptedException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+
+        return spotifyToken;
+    }
+}

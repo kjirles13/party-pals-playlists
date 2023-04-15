@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Name: {{ track.name }}</p>
+    <!-- <p>Name: {{ track.name }}</p>
     <p>Preview: {{ track.preview_url }}</p>
     <p>ID: {{ track.id }}</p>
     <p>URI: {{ track.uri }}</p>
@@ -8,12 +8,13 @@
       Artist: {{ artist.name }}
     </p>
     <button v-on:click="getTrack">Press for track</button>
-    <br>
+    <br />
     <button v-on:click="setAuthToken">Press for token</button>
     <p>{{ $store.state.spotifyToken }}</p>
 
     <form v-on:submit.prevent="searchForTrack">
-      <label for="input">Search for a song on Spotify by title or artist:</label><br/>
+      <label for="input">Search for a song on Spotify by title or artist:</label
+      ><br />
       <input
         type="text"
         name="input"
@@ -24,8 +25,6 @@
       <button type="submit" name="saveSearch">Search</button>
     </form>
 
-    <!-- <button v-on:click="searchForTrack">Search for track</button> -->
-
     <div v-for="track in searchTracks.tracks.items" v-bind:key="track.id">
       <h2>Track:</h2>
       <h4>Name: {{ track.name }}</h4>
@@ -35,15 +34,15 @@
       <ul v-for="artist in track.artists" v-bind:key="artist.id">
         <li>{{ artist.name }}</li>
       </ul>
-    </div>
+    </div> -->
+
+    <button v-on:click="getArtist">Press for Artist</button>
+    <p>{{artist.name}}</p>
+    <p>{{$store.state.spotifyToken}}</p>
   </div>
 </template>
 
 <script>
-// const { Client } = require("spotify-api.js");
-// const client = new Client({ 
-//     token: { clientID: 'id', clientSecret: 'secret' },
-// })
 import spotifyService from "../services/SpotifyService.js";
 
 export default {
@@ -53,7 +52,7 @@ export default {
       track: {},
       searchTracks: {
         tracks: {
-          items: []
+          items: [],
         },
       },
       search: {
@@ -61,27 +60,19 @@ export default {
         type: "track",
         limit: 10,
         offset: 0,
-      }
+      },
+      artist: {}
     };
   },
   methods: {
     getTrack() {
-      spotifyService.getTrack("11dFghVXANMlKmJXsNCbNl").then((response) => {
+      spotifyService.getTrack("1moxjboGR7GNWYIMWsRjgG").then((response) => {
         this.track = response.data;
       });
-    //  this.track = await client.tracks.get('id');
     },
     setAuthToken() {
-      spotifyService.getToken().then((response) => {
-        this.$store.commit("SET_SPOTIFY_AUTH_TOKEN", response.data.access_token);
-        this.token = response.data.access_token;
-      });
+      spotifyService.getToken();
     },
-    // searchForTrack() {
-    //   spotifyAPI.searchTrack().then((response) => {
-    //     this.searchTracks = response.data;
-    //   });
-    // },
     searchForTrack() {
       spotifyService.searchTrack(this.search).then((response) => {
         if (response.status === 200) {
@@ -89,7 +80,15 @@ export default {
         }
       });
     },
+    getArtist() {
+      spotifyService.getArtist('1moxjboGR7GNWYIMWsRjgG').then(response => {
+        this.artist = response.body;
+      });
+    }
   },
+  created() {
+    spotifyService.getToken();
+  }
 };
 </script>
 
