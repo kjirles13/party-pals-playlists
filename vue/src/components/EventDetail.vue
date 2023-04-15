@@ -9,14 +9,31 @@
         <p>Theme: {{ event.theme }}</p>
         <p>Date: {{ event.date }}</p>
         <p>Time: {{ event.time }}</p>
-        <p>Playlist: {{ event.playlist.name }}</p>
+        
         
         <div v-for="p in event.hosts" :key="p.hostId"> 
             <p>{{ p.name }}</p>
             </div>
         
         <p>{{ event.djUsername }}</p>
+
+        <p>Playlist: {{ event.playlist.name }}</p>
+        <button @click="isVisible = true">Show Songs</button>
+
+        <div v-show="isVisible">
+
+            <div>
+                <ul v-for="song in event.playlist.songs" :key="song.song_id">
+            <li>{{ song.title }}</li>
+        </ul>
+            <p>hello</p>
+            </div>
+
         </div>
+
+        </div>
+
+
 
         
     </div>
@@ -31,6 +48,7 @@ export default {
     // props: {Object},
     data() {
         return {
+            isVisible: false,
             isLoading: true,
             event: {
                 name: '',
