@@ -2,14 +2,14 @@
 
     <div class="event-detail">
 
-        <h1>{{ event.name }}</h1>
-        <p>{{ event.description }}</p>
-        <p>{{ event.theme }}</p>
-        <p>{{ event.date }}</p>
-        <p>{{ event.time }}</p>
-        <p>{{ event.playlist.name }}</p>
-        <p>{{ event.host.username }}</p>
-        <p>{{ event.role.role_name }}</p>
+        <h1>{{ events.name }}</h1>
+        <p>{{ events.description }}</p>
+        <p>{{ events.theme }}</p>
+        <p>{{ events.date }}</p>
+        <p>{{ events.time }}</p>
+        <p>{{ events.playlist.name }}</p>
+        <p>{{ events.host.username }}</p>
+        <p>{{ events.role.role_name }}</p>
 
         <!-- <ul>
       <div v-for="playlist in event.playlists" v-bind:key="playlist.id">
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+// import { mapState } from "vuex";
 import axios from 'axios';
 import eventService from '../services/EventService';
 export default {
@@ -64,14 +65,25 @@ export default {
     },
 
     computed: {
+
+        // ...mapState(["events"]),
+
     events() {
-      return this.$store.state.events;
+      const eventId = this.$route.params.id;
+      return this.events.find((event) => event.id == eventId);
     },
   },
 
   created() {
-    const eventId = this.$route.params.id;
-    this.$store.dispatch("fetchEvent", eventId);
+    const eventId = parseInt(this.$route.params.id);
+    
+    eventService.getEventById(eventId)
+    .then((response) => {
+        this.event = response.data;
+    })
+
+
+    // this.$store.dispatch("fetchEvent", eventId);
   },
 
 //     created() {
@@ -127,16 +139,16 @@ export default {
     // },
   
 
-        getEventById() {
-    const eventId = this.$route.params.id;
-    eventService.getEventById(eventId)
-      .then(response => {
-        this.event = response.data;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  },
+//         getEventById() {
+//     const eventId = this.$route.params.id;
+//     eventService.getEventById(eventId)
+//       .then(response => {
+//         this.event = response.data;
+//       })
+//       .catch(error => {
+//         console.error(error);
+//       });
+//   },
 
     },
 };

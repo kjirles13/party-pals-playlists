@@ -6,10 +6,12 @@ getAllEvents() {
     return axios.get('/events');
 },
 
+// getEventById(eventId){
+//     return axios.get(`/events/${parseInt(eventId)}`)
+//   },
+
 getEventById(eventId){
-    
-    return axios.get(`/events${eventId}`)
-    
+    return axios.get(`/events/${eventId}`)
 },
 
 createEvent(event) {
