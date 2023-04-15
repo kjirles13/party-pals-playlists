@@ -4,16 +4,15 @@
       <header>
         <a href="/">
         <img src="./images\DJ Performance Illustration Logo (11).png" alt="Header Image">
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         <h1 class="p1" style="align: center;">Party Playlist Pal</h1>
-=======
+
         </a>
         <p1 class="p1" style="align: center;">Party Pals Playlist</p1>
->>>>>>> main
-=======
+
+
         <h1 class="p1" style="align: center;">Party Playlist Pal</h1>
->>>>>>> main
+
       </header>
       <div id="MainView">
       <navigation class="navbar"/>
@@ -80,10 +79,8 @@ header {
   top: 0px;
   z-index: 1; 
 }
-p1{
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size:x-large;
-}
+
+
 img {
   margin-right: 10px;
   max-width: 150px;
