@@ -1,16 +1,17 @@
 <template>
 <div class="banner clickable">
     <img :src="require('@/images/defaultbanner.png')"/>
-    <div v-for="event in $store.state.events" :key="event.event_id">
+    <div v-for="event in $store.state.events" :key="event.id">
      <h3>Event: {{ event.name }}</h3>
       </div>
     <h2 v-if="event">{{ event.name }}</h2>
         <table>
             <tbody>
-                <tr v-for="event in $store.state.events" :key="event.event_id">
+                <tr v-for="event in $store.state.events" :key="event.id">
                    <td>{{ event.name }}</td>
                    <td>{{ event.date }}</td>
-                   <td> <router-link :to="{ name: 'Event-Detail', params: { id: event.event_id}}">
+                   <td>{{event.id}}</td>
+                   <td> <router-link :to="{ name: 'event-detail', params: { id: event.id}}">
                        View Details 
                        </router-link>
                    </td>
