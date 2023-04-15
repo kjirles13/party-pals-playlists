@@ -14,6 +14,6 @@ export default {
     },
 
     searchTracks(params) {
-        return spotifyApi.searchTracks(params, {limit: 10, offset: 0});
+        return spotifyApi.searchTracks(params, {limit: 20, offset: 0});
     }
 }
