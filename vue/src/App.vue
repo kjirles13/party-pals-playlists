@@ -65,7 +65,7 @@ export default {
 }
 .navbar {
   position: fixed;
-  width: 100px;
+  width: 100px !important;
   z-index: 0;
 }
 header {
@@ -79,8 +79,10 @@ header {
   top: 0px;
   z-index: 1; 
 }
-
-
+.p1{
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size:x-large;
+}
 img {
   margin-right: 10px;
   max-width: 150px;
