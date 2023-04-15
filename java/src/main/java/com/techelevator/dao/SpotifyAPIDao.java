@@ -1,7 +1,4 @@
 package com.techelevator.dao;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techelevator.model.SpotifyToken;
 import org.springframework.stereotype.Component;
@@ -48,14 +45,12 @@ public class SpotifyAPIDao implements SpotifyDao{
         try {
             response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             spotifyToken = objectMapper.readValue(response.body(), SpotifyToken.class);
         } catch (RuntimeException | InterruptedException e) {
             System.out.println(e.getMessage());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
 
         return spotifyToken;
     }
