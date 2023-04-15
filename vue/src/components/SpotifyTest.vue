@@ -9,11 +9,11 @@
         placeholder="track"
         v-model="search.track"
       />
-      <input type="text" placeholder="artist" v-model="search.artist">
+      <input type="text" placeholder="artist" v-model="search.artist" />
       <br />
       <button type="submit" v-on:click.prevent="searchForTrack">Search</button>
     </form>
-    
+
     <h3>Tracks:</h3>
     <div v-for="track in searchTracks.tracks.items" v-bind:key="track.id">
       <h4>Name: {{ track.name }}</h4>
@@ -38,37 +38,34 @@ export default {
       track: {},
       searchTracks: {
         tracks: {
-          items: []
+          items: [],
         },
       },
       search: {
-        track: '',
-        artist: ''
+        track: "",
+        artist: "",
       },
       artist: {},
     };
   },
   methods: {
     searchForTrack() {
-      // const track = this.search.track.toString;
-      // const artist = this.search.artist.toString;
-      spotifyService.searchTracks(`track:${this.search.track} artist:${this.search.artist}`).then((response) => {
-          this.searchTracks = response.body;
-      });
-    },
-    //`track:${this.search.track} artist:${this.search.artist}`
-
-    // searchForTrack() {
-    //   spotifyService.searchTrack(this.search).then((response) => {
-    //     if (response.status === 200) {
-    //       this.searchTracks = response.data;
-    //     }
-    //   });
-    // },
-    getArtist() {
-      spotifyService.getArtist("1moxjboGR7GNWYIMWsRjgG").then((response) => {
-        this.artist = response.body;
-      });
+      if (this.search.track && this.search.artist) {
+        spotifyService.searchTracks(`track:${this.search.track} artist:${this.search.artist}`)
+          .then((response) => {
+            this.searchTracks = response.body;
+          });
+      } else if (this.search.artist) {
+        spotifyService.searchTracks(`artist:${this.search.artist}`)
+          .then((response) => {
+            this.searchTracks = response.body;
+          });
+      } else if (this.search.track) {
+        spotifyService.searchTracks(`track:${this.search.track}`)
+          .then((response) => {
+            this.searchTracks = response.body;
+          });
+      }
     },
   },
   created() {

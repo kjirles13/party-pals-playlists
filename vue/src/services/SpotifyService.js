@@ -13,10 +13,6 @@ export default {
         spotifyApi.setAccessToken(token);
     },
 
-    getArtist(artistId) {
-        return spotifyApi.getArtist(artistId)
-    },
-
     searchTracks(params) {
         return spotifyApi.searchTracks(params, {limit: 10, offset: 0});
     }
