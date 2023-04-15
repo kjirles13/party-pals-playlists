@@ -11,7 +11,10 @@ getAllEvents() {
 //   },
 
 getEventById(eventId){
-    return axios.get(`/events/${eventId}`)
+    return axios.get(`/events/${eventId}`).then((response) => {
+        return response.data;
+        
+    })
 },
 
 createEvent(event) {
