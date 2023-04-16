@@ -7,11 +7,11 @@
         <h1 class="p1" style="align: center;">Party Playlist Pal</h1>
       </header>
       <div id="MainView">
-      <navigation class="navbar"/>
-      <router-view class="main"/>
+        <navigation class="navbar"/>
+        <router-view class="main"/>
       </div>
       <head>
-        <title></title>
+        <title/>
       </head>
     </div>
   </nav>
@@ -29,7 +29,6 @@ export default {
 </script>
 
 <style>
-
 #MainView {
   display: flex;
   position: relative;
@@ -37,7 +36,6 @@ export default {
   width: 100%;
   height: 100%;
   background: radial-gradient(#ecedf0, #d2daeb);
-
 }
 .p1{
   display:flex;
@@ -49,7 +47,6 @@ export default {
   flex-grow: 1;
   margin-left: 115px;
   margin-top: 80px;
-  
 }
 .title {
   flex-grow: 1;
