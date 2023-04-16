@@ -15,6 +15,7 @@
         </div>
       </div>
       <div class="song-links">
+        <slot></slot>
         <audio controls @play="setVolume">
           <source :src="song.preview_url" type="audio/mpeg" /><p>
             <a href="song.preview_url">Preview{{ song.preview_url }}</a></p>
