@@ -64,7 +64,7 @@ header {
   display: flex;
   position: fixed;
   align-items: center;
-  height: 80px;
+  height: 100px;
   width: 100%;
   background-color: #b8bece;
   text-align: center;

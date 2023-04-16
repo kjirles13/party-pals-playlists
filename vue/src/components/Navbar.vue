@@ -5,12 +5,27 @@
     <div id="nav">
       <ul>
         <li></li>
-        <li><router-link v-bind:to="{ name: 'login' }" >Login</router-link></li>
+        <li v-if="!loggedIn"><router-link v-bind:to="{ name: 'login' }">Login</router-link></li>        
+        <li v-if="loggedIn"><a href="#" @click="logout">Logout</a></li>
+
+        <!-- <li>
+  <router-link v-bind:to="{ name: loggedIn ? 'logoutconfirm' : 'login' }" @click="logout">
+    {{ loggedIn ? 'Logout' : 'Login' }}
+  </router-link>
+</li> -->
+
+
+        
+        <!-- <li v-if="!loggedIn"><router-link v-bind:to="{ name: 'login' }">Login</router-link></li>-->
+        <!-- <li v-if="loggedIn" @click="logout"><router-link v-bind:to="{ name: 'logoutconfirm' }">Logout</router-link></li> -->
+        
+        
+
         <li><router-link v-bind:to="{ name: 'home' }">Home</router-link></li>
         <li><router-link v-bind:to="{ name: 'events' }">Events</router-link ></li>
         <li><router-link v-bind:to="{ name: 'playlists' }">Playlists</router-link></li>
         <li><router-link v-bind:to="{ name: 'songs' }">Songs</router-link></li>
-        <li><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link ></li>
+        <!-- <li><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link ></li> -->
       </ul>
     </div>
     <div>
@@ -21,8 +36,25 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "navbar",
+
+  computed: {
+  ...mapState(["token"]),
+  loggedIn() {
+    return this.token !== "";
+  },
+},
+
+methods: {
+  logout() {
+    this.$store.commit("LOGOUT");
+    // localStorage.removeItem("token");
+    this.$router.push("/login");
+  }
+}
+
 }
 </script>
 
@@ -46,10 +78,12 @@ ul {
   display: flex;
   list-style: none;
   padding: 0;
-  margin-top: 62px;
+  margin-top: 80px;
+  /* it was 62 px */
 }
 .nav-bar li {
   padding: 10px;
+  margin-top: 10px;
 }
 .nav-bar a {
   text-decoration: none;
@@ -57,6 +91,10 @@ ul {
 }
 .nav-bar a:hover {
   color: #61b292;
+}
+
+.nav {
+  margin-top: 40px;
 }
 
 </style>
