@@ -36,7 +36,7 @@ export default {
   font-family: sans-serif;
   width: 100%;
   height: 100%;
-  background: radial-gradient(#e2d7bd, #aed09e);
+  background: radial-gradient(#ecedf0, #d2daeb);
 
 }
 .p1{
@@ -66,7 +66,7 @@ header {
   align-items: center;
   height: 80px;
   width: 100%;
-  background-color: #59a985;
+  background-color: #b8bece;
   text-align: center;
   top: 0px;
   z-index: 1; 

@@ -1,18 +1,19 @@
 <template>
     <div>
-        <spotify-test/>
+        <DJSearchSong />
     </div>
 </template>
 
 <script>
-import SpotifyTest from '../components/SpotifyTest.vue'
+import DJSearchSong from '../components/DJSearchSong.vue'
 
 export default{
   
   name: 'Spotify',
   components: {
-    SpotifyTest
+    DJSearchSong
   },
    
 }
 </script>
+    DJSearchSong
