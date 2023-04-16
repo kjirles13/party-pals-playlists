@@ -18,18 +18,64 @@
         <p>{{ event.djUsername }}</p>
 
         <p>Playlist: {{ event.playlist.name }}</p>
-        <button @click="isVisible = true">Show Songs</button>
+        
+        <button @click="isVisible = !isVisible">{{ isVisible ? 'Hide Songs' : 'Show Songs' }}</button>
 
-        <div v-show="isVisible">
+        <!-- <div v-show="isVisible">
 
             <div>
                 <ul v-for="song in event.playlist.songs" :key="song.song_id">
-            <li>{{ song.title }}</li>
+            <li>{{ song.name }}</li>
+            <div v-for="a in song.artists" :key="a.artists">
+            <li>{{a.name}}</li>
+            </div>
         </ul>
             <p>hello</p>
             </div>
 
+        </div> -->
+
+
+    <!-- <div class="Page">
+        <div class="song-list" v-show="isVisible">
+  <div>
+    <ul class="song" v-for="song in event.playlist.songs" :key="song.song_id">
+      <li>{{ song.name }} - By 
+        <span v-for="(artist, index) in song.artists" :key="index">
+          {{ artist.name }}{{ index === song.artists.length - 1 ? '' : ', ' }}
+        </span>
+      </li>
+    </ul>
+    <p>hello</p>
+  </div>
+</div>
+</div> -->
+
+
+<div class="Page">
+    <div>
+        <div class="song-list" v-show="isVisible">
+  <div>
+    <div class="song" v-for="song in event.playlist.songs" :key="song.song_id">
+      <p>{{ song.name }} </p>
+      <div>
+        <p v-for="(artist, index) in song.artists" :key="index"> 
+          {{ artist.name }}{{ index === song.artists.length - 1 ? '' : ', ' }}
+        </p>
         </div>
+        <div>
+        <p v-for="(genre, index) in song.genres" :key="index"> 
+          {{ genre.name }}{{ index === song.genres.length - 1 ? '' : ', ' }}
+        </p>
+        </div>
+    </div>
+    </div>
+    <p>hello</p>
+  </div>
+</div>
+</div>
+
+        
 
         </div>
 
@@ -42,6 +88,7 @@
 <script>
 // import { mapState } from "vuex";
 // import axios from 'axios';
+// import songDetail from '../components/SongDetail.vue'
 import eventService from '../services/EventService';
 export default {
     name: "event-detail",
@@ -61,7 +108,7 @@ export default {
                 
 
             },
-            // playlist: {
+            // song: {
             //     name: '',
             //     description: ''
             // }
@@ -86,11 +133,28 @@ export default {
     
   },
 
+//   components: {
+//       songDetail
+//   },
+
 };
 </script>
 
 <style scoped>
 .event-detail {
     margin: 100px;
+}
+
+.song{
+    display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  background: linear-gradient(to bottom, #a8896cb7, #a8896c);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 19px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 </style>
