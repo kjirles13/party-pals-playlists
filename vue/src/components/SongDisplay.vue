@@ -15,10 +15,6 @@
         </div>
       </div>
       <div class="song-links">
-        <div class="likesDislikes">
-          <img src="../images\thumbs-up.png" alt="Spotify" width="15" height="15" style="margin-bottom: 10px;"/>
-          <img src="../images\thumbs-down.png" alt="Spotify" width="15" height="15"/>
-        </div>
         <audio controls @play="setVolume">
           <source :src="song.preview_url" type="audio/mpeg" /><p>
             <a href="song.preview_url">Preview{{ song.preview_url }}</a></p>

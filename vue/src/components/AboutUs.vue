@@ -3,7 +3,7 @@
     <h1 class="about-us-heading">About Us</h1>
     <div class="about-us-content">
       <div class="about-us-banner">
-        <img src="../images/topaboutus.png" alt="about-us-banner">
+       <img src="../images/topaboutus.png" alt="about-us-banner" width="100%">
       </div>
       <div class="about-us-text">
         <p>Welcome to Party Pals Playlist, the ultimate party planning app!</p>
