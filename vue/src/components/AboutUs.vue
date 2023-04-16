@@ -24,6 +24,7 @@ name: 'AboutUs',
 </script>
 
 <style scoped>
+
 .about-us {
   max-width: 1200px;
     margin: 0 auto;
@@ -56,4 +57,6 @@ name: 'AboutUs',
   line-height: 1.5;
   margin:0 auto;
 }
+
+
 </style>
