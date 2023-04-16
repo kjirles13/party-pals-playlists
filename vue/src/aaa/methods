@@ -26,7 +26,23 @@
 //     </div>
 //   </div>
 
-
+// <div class="song-info">
+//           <div>
+//             <p5><strong>{{ song.name }}</strong></p5>
+//             <span class="stars"><img
+//                 v-for="n in song.rating"
+//                 :key="n"
+//                 class="gold-star"
+//                 src="../images/StarRating.png"
+//                 alt="Gold star"/></span>
+//             <div class="artist-wrapper">
+//               <div>
+//                 <p v-for="artist in song.artists" :key="artist.id">{{ artist.name }}</p>
+//               </div>
+//             </div>
+//           </div>
+//           <div class="Stars"></div>
+//         </div>
 
 
 
