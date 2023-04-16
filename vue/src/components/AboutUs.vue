@@ -6,13 +6,13 @@
         <img src="../images/topaboutus.png" alt="about-us-banner">
       </div>
       <div class="about-us-text">
-    <p>Welcome to Party Pals Playlist, the ultimate party planning app!</p>
-    <p>Our app is designed to help DJs manage their business by creating events, adding songs to their playlist, and assigning customers as hosts. Guests can vote on their favorite songs, ensuring that everyone has a great time at the party.</p>
-    <p>Our app is easy to use, and we offer a variety of features to make your party planning experience as smooth as possible. Sign up today to start planning your next party!</p>
-  </div>
-  <div class="about-us-image">
-    <img src="../images/bottomaboutus.png" alt="Lower-banner">
-  </div>
+        <p>Welcome to Party Pals Playlist, the ultimate party planning app!</p>
+        <p>Our app is designed to help DJs manage their business by creating events, adding songs to their playlist, and assigning customers as hosts. Guests can vote on their favorite songs, ensuring that everyone has a great time at the party.</p>
+        <p>Our app is easy to use, and we offer a variety of features to make your party planning experience as smooth as possible. Sign up today to start planning your next party!</p>
+      </div>
+      <div class="about-us-image">
+        <img src="../images/bottomaboutus.png" alt="Lower-banner" width="100%">
+      </div>
     </div>
   </div>
 </template>
@@ -44,12 +44,6 @@ name: 'AboutUs',
   align-items: center;
   gap: 30px;
 }
-.about-us-banner {
- max-width: 100%;
-}
-.about-us-image {
-  max-width: 100%;
-}
 .about-us-text {
   max-width: 800px;
   width: 100%;
@@ -57,6 +51,4 @@ name: 'AboutUs',
   line-height: 1.5;
   margin:0 auto;
 }
-
-
 </style>
