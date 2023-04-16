@@ -16,29 +16,24 @@
 
     <div class="song-info">
       <div class="song" v-for="song in event.playlist.songs" :key="song.song_id">
-        <p5><strong> {{ song.name }} </strong></p5>
-        <span class="stars"><img
-                v-for="n in song.rating"
-                :key="n"
-                class="gold-star"
-                src="../images/StarRating.png"
-                alt="Gold star"/>
+        <div class="p5"><strong> {{ song.name }} </strong></div>
+        <span class="stars"><img v-for="n in song.rating" :key="n" class="gold-star" src="../images/StarRating.png" alt="Gold star"/>
         </span>
         <div class="artist-wrapper">
             <p v-for="(artist, index) in song.artists" :key="index">{{ artist.name }}</p>
         </div>
         <div class="song-links">
+          <div class="likesDislikes">
+            <img src="../images\thumbs-up.png" alt="Spotify" width="15" height="15" style="margin-bottom: 10px;"/>
+            <img src="../images\thumbs-down.png" alt="Spotify" width="15" height="15"/>
+          </div>
           <audio controls @play="setVolume">
             <source :src="song.preview_url" type="audio/mpeg" /><p>
               <a href="song.preview_url">Preview{{ song.preview_url }}</a></p>
           </audio>
           <a :href="song.spotify" target="_blank">
-            <img
-              src="../images\image-gallery-spotify-logo-21.png"
-              alt="Spotify"
-              width="56"
-              height="56"/>
-            </a>
+            <img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" width="56" height="56"/>
+          </a>
         </div>
       </div>
     </div>
@@ -89,6 +84,10 @@ export default {
 .event-detail {
     margin: 100px;
 }
+.likesDislikes{
+  display: flex;
+  flex-direction: column;
+}
 .SongList {
   margin-top: 20px;
 }
@@ -114,7 +113,7 @@ export default {
   
   align-items: center;
 }
-p5 {
+.p5 {
   display: inline-block;
   margin-top: 15px;
   margin-left: 15px;
