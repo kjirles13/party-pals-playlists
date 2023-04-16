@@ -31,15 +31,13 @@ export default {
       track: {},
       searchTracks: {
         tracks: {
-          items: [
-          ],
+          items: [],
         },
       },
       search: {
         track: "",
         artist: "",
-      },
-      artist: {},
+      }
     };
   },
   methods: {

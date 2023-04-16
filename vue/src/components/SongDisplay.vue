@@ -28,12 +28,12 @@
         </div>
         <div class="song-links">
           <audio controls @play="setVolume">
-            <source :src="song.preview" type="audio/mpeg" />
+            <source :src="song.preview_url" type="audio/mpeg" />
             <p>
-              <a href="song.preview">Preview{{ song.preview }}</a>
+              <a href="song.preview_url">Preview{{ song.preview_url }}</a>
             </p>
           </audio>
-          <a :href="song.spotifyUri" target="_blank"
+          <a :href="song.spotify" target="_blank"
             ><img
               src="../images\image-gallery-spotify-logo-21.png"
               alt="Spotify"

@@ -309,7 +309,7 @@ public class JdbcEventDao implements EventDao {
         } catch (Exception e) {
             song.setDislikes(0);
         }
-        song.setPreview(rs.getString("preview"));
+        song.setPreview_url(rs.getString("preview"));
         song.setSpotifyUri(rs.getString("spotify_link"));
 
         return song;

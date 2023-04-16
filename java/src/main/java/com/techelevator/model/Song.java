@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Song {
@@ -10,13 +12,15 @@ public class Song {
     private int rating;
     private int likes;
     private int dislikes;
+    @JsonProperty("preview_url")
     private String preview;
+    @JsonProperty("spotify")
     private String spotifyUri;
 
     public Song() {
     }
 
-    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int likes, int dislikes, String preview, String spotifyUri) {
+    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int likes, int dislikes, String preview_url, String spotifyUri) {
         this.id = id;
         this.name = name;
         this.artists = artists;
@@ -24,7 +28,7 @@ public class Song {
         this.rating = rating;
         this.likes = likes;
         this.dislikes = dislikes;
-        this.preview = preview;
+        this.preview = preview_url;
         this.spotifyUri = spotifyUri;
     }
 
@@ -84,12 +88,12 @@ public class Song {
         this.dislikes = dislikes;
     }
 
-    public String getPreview() {
+    public String getPreview_url() {
         return preview;
     }
 
-    public void setPreview(String preview) {
-        this.preview = preview;
+    public void setPreview_url(String preview_url) {
+        this.preview = preview_url;
     }
 
     public String getSpotifyUri() {
