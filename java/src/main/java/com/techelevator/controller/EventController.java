@@ -70,7 +70,7 @@ public class EventController {
         eventDao.updateHosts(eventId, hosts);
     }
 
-    @GetMapping("/{eventId}/playlists{playlistId}")
+    @GetMapping("/{eventId}/playlists/{playlistId}")
     public Playlist getPlaylistByForEventById(@PathVariable int playlistId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         return playlistDao.getPlayListById(playlistId, userId);
