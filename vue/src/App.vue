@@ -7,11 +7,11 @@
         <h1 class="p1" style="align: center;">Party Playlist Pal</h1>
       </header>
       <div id="MainView">
-      <navigation class="navbar"/>
-      <router-view class="main"/>
+        <navigation class="navbar"/>
+        <router-view class="main"/>
       </div>
       <head>
-        <title></title>
+        <title/>
       </head>
     </div>
   </nav>
@@ -29,7 +29,6 @@ export default {
 </script>
 
 <style>
-
 #MainView {
   display: flex;
   position: relative;
@@ -37,7 +36,6 @@ export default {
   width: 100%;
   height: 100%;
   background: radial-gradient(#ecedf0, #d2daeb);
-
 }
 .p1{
   display:flex;
@@ -49,7 +47,6 @@ export default {
   flex-grow: 1;
   margin-left: 115px;
   margin-top: 80px;
-  
 }
 .title {
   flex-grow: 1;
@@ -79,32 +76,4 @@ img {
   margin-right: 10px;
   max-width: 150px;
 }
-/* .angry-grid {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  gap: 0px;
-  height: 100vh;
-}
-#item-0 { 
-  background-color: #9EE7A6; 
-  grid-row-start: 1; 
-  grid-column-start: 1; 
-  grid-row-end: 4; 
-  grid-column-end: 2; 
-} 
-#item-1 {
-  background-color: #6A9CC7; 
-  grid-row-start: 1; 
-  grid-column-start: 2; 
-  grid-row-end: 4; 
-  grid-column-end: 5; 
-} 
-#item-2 {
-  background-color: #EDA556; 
-  grid-row-start: 1; 
-  grid-column-start: 5; 
-  grid-row-end: 4; 
-  grid-column-end: 6;
-} */
 </style>

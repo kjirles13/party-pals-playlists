@@ -1,23 +1,16 @@
 <template>
   <div class="home">
-    
-    
-
-    <about-us> </about-us>
-</div>
-
-
+   <about-us/>
+  </div>
 </template>
 
 <script>
 import AboutUs from '../components/AboutUs.vue';
 
-
 export default {
   name: 'home',
   components: {
-    AboutUs
-
+    AboutUs,
   },
   mounted() {
     document.title = "Home";
@@ -26,5 +19,4 @@ export default {
 </script>
 
 <style>
-
 </style>
