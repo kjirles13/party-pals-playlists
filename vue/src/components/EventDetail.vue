@@ -64,19 +64,22 @@ export default {
         this.error = 'Error loading event';
       });
   },
-  methods: {
+ methods: {
     incrementLikes(song) {
       if (!song.clicked) {
         song.likes++;
         song.clicked = true;
+        this.saveLikes(song);
       }
     },
     decrementLikes(song) {
       if (!song.clicked) {
         song.likes--;
         song.clicked = true;
+        this.saveLikes(song);
       }
     },
+    
   },
 };
 </script>
