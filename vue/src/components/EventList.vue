@@ -15,9 +15,9 @@
     <input type="text" v-model="event.theme"/>
     <label>Playlist Name</label>
     <input type="text" v-model="event.playlist.name"/>
-   <!-- <label>Playlist Description</label>
+   <label>Playlist Description</label>
     <input type="text" v-model="event.playlist.description"/>
-    <label>Spotify Playlist ID</label>
+    <!-- <label>Spotify Playlist ID</label>
     <input type="text" v-model="event.playlist.spotifyId"/> -->
     <button class="submit-created" @click="createEvent" type="submit">Submit</button>
     </div>
@@ -80,9 +80,14 @@ export default {
   },
   methods: { 
    createEvent() {
+       const date = new Date(this.event.date + ' ' +  this.event.time);
+       const militaryTime = date.getHours() + ':' + date.getMinutes();
+       this.event.time = militaryTime;
        eventService.createEvent(this.event)
        .then((response) => {
            if (response.status == 200) {
+               this.$store.commit("ADD_EVENT", response.data);
+               this.isCreating = false;
                this.getEvents();
            }
        })
