@@ -18,14 +18,9 @@
     <label>Event Date</label>
     <input type="text" v-model="event.date"/>
     <label>Event Theme</label>
-<<<<<<< HEAD
     <input type="text" v-model="event.theme"/>
     <button class="submit-edit" @click="updateEventDetails" type="submit">Submit</button>
     </div>
-=======
-    <input v-model="event.theme" :disabled="!isDJ && !isHost" />
-    <button @click="submitSong(song.id, event.playlist.id)">Submit</button>
->>>>>>> main
     <!-- <div v-if="isLoading">Loading...</div> -->
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
@@ -71,17 +66,7 @@ export default {
     SongDisplay,
   },
   data() {
-    return {
-<<<<<<< HEAD
-      user: null,
-      isVisible: false,
-      isLoading: true,
-      isEditing: false,
-      event: {},
-      error: "",
-    }
-  },
-=======
+   return {
     user: null,
     isVisible: false,
     isLoading: true,
@@ -89,8 +74,7 @@ export default {
     error: "",
     clickedSongs: [], 
   }
-},
->>>>>>> main
+  },
   created() {
     this.getEvent();
   },
