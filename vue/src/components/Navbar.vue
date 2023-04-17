@@ -57,7 +57,6 @@ ul {
   list-style: none;
   padding: 0;
   margin-top: 80px;
-  /* it was 62 px */
 }
 .nav-bar li {
   padding: 10px;
