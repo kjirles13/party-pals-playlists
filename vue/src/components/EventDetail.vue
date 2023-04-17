@@ -16,6 +16,11 @@
       <input type="text" v-model="event.date" />
       <label>Event Theme</label>
       <input type="text" v-model="event.theme" />
+      <label for="host-select">Add Host:</label>
+<select id="host-select" v-model="selectedHost">
+  <option v-for="user in users" :value="user" v-bind:key="user.id">{{ user.name }}</option>
+</select>
+<button @click="addHost">Add</button>
       <button class="submit-edit" @click="updateEventDetails" type="submit">
         Submit
       </button>
@@ -30,8 +35,23 @@
       <p>|</p>
       <h4>Time: {{ event.time }}</h4>
     </div>
-    <p>Your hosts are:</p>
+
     <div>
+  <p v-if="event.hosts.length === 1">Your host is:</p>
+  <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
+  <div v-if="event.hosts.length">
+    <div v-for="host in event.hosts" :key="host.hostId">
+      <p class="host-name">{{ host.name }}</p>
+      <span
+        style="color: #8b0000; cursor: pointer"
+        v-on:click="deleteHost(host.name)"
+        >x</span>
+    </div>
+  </div>
+</div>
+    
+    <!-- <div>
+        <p>Your hosts are:</p>
       <div v-for="host in event.hosts" :key="host.hostId">
         <p class="host-name">{{ host.name }}</p>
         <span
@@ -40,7 +60,8 @@
           >x</span
         >
       </div>
-    </div>
+    </div> -->
+
     <h2>{{ event.playlist.name }}</h2>
     <div class="song-info">
       <song-display
@@ -183,9 +204,9 @@ export default {
           console.log("Error updating event:", error);
         });
     },
-    deleteHost(name) {
+    deleteHost(hostName) {
       eventService
-        .removeHostFromEvent(this.event.id, name)
+        .removeHostFromEvent(this.event.id, hostName)
         .then(() => {
             this.getEvent();
         });
