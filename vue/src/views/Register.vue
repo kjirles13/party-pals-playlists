@@ -18,7 +18,7 @@
         <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
       </div>
       <div>
-        <input type="checkbox" id="dj" name="dj" value="">
+        <input type="checkbox" id="dj" name="dj" value="dj" v-model="user.role">
         <label for="dj">Register as DJ</label>
       </div>
       <button type="submit">Create Account</button>
@@ -38,7 +38,7 @@ export default {
         username: '',
         password: '',
         confirmPassword: '',
-        role: 'user',
+        role: '',
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
@@ -46,6 +46,7 @@ export default {
   },
   methods: {
     register() {
+      this.user.role = this.user.role ? "dj" : "user";
       if (this.user.password != this.user.confirmPassword) {
         this.registrationErrors = true;
         this.registrationErrorMsg = 'Password & Confirm Password do not match.';
