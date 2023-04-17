@@ -1,9 +1,6 @@
 <template>
 <div>
-<button class="create-cancel" @click="createEvent">{{ isCreating ? 'Cancel' : 'Create Event' }}</button>
-    <button v-if="isDJ" @click="createEvent">
-  {{ isCreating ? 'Cancel' : 'Create Event' }}
-    </button>
+    <button v-if="isDJ" @click="createForm"> Create Event </button>
 
     <div class="Create" v-if="isCreating">
     <label>Event Title</label>
@@ -11,12 +8,18 @@
     <label>Event Description</label>
     <input type="text" v-model="event.description"/>
     <label>Event Time</label>
-    <input type="text" v-model="event.time"/>
+    <input type="time" v-model="event.time"/>
     <label>Event Date</label>
-    <input type="text" v-model="event.date"/>
+    <input type="date" v-model="event.date"/>
     <label>Event Theme</label>
     <input type="text" v-model="event.theme"/>
-    <button class="submit-edit" @click="createEventDetails" type="submit">Submit</button>
+    <label>Playlist Name</label>
+    <input type="text" v-model="event.playlist.name"/>
+   <!-- <label>Playlist Description</label>
+    <input type="text" v-model="event.playlist.description"/>
+    <label>Spotify Playlist ID</label>
+    <input type="text" v-model="event.playlist.spotifyId"/> -->
+    <button class="submit-created" @click="createEvent" type="submit">Submit</button>
     </div>
   <div>
     <input type="text" v-model="searchText" placeholder="Search Events"/>
@@ -62,6 +65,12 @@ export default {
           time: "",
           date: "",
           theme: "",
+          playlist: {
+              name: "",
+              description: "",
+              spotifyId: "",
+          },
+          djUsername: this.$store.state.user.username,
       }
     };
   },
@@ -80,32 +89,27 @@ export default {
        eventService.createEvent(this.event)
        .then((response) => {
            if (response.status == 200) {
-               this.$store.commit("ADD_EVENT", response.data);
-               this.event = {
-                   name: "",
-                   description: "",
-                   time: "",
-                   date: "",
-                   theme: "",
-               };
-               this.isCreating = false;
+               this.getEvents();
            }
        })
        .catch((error) => {
            this.error = error.response.data.message;
        });
    },
-  },
-  createEdit() {
+  createForm() {
 this.isCreating = !this.isCreating
   },
-  created() {
-    eventService.getAllEvents().then((response) => {
+  getEvents() {
+       eventService.getAllEvents().then((response) => {
       if (response.status == 200) {
         this.$store.commit("SET_EVENTS", response.data);
       }
     });
   },
+  created() {
+    this.getEvents();
+  },
+},
 };
 </script>
 
