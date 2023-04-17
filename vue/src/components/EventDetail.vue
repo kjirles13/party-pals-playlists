@@ -79,7 +79,6 @@
 import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
-import axios from "axios";
 import authService from "../services/AuthService";
 
 export default {
@@ -119,10 +118,7 @@ export default {
     },
     availableHosts() {
       return this.users.filter((user) => {
-        if (
-          !this.event.hosts.includes(user.username) &&
-          user.authorities[0].name !== "ROLE_DJ"
-        ) {
+        if (this.event.hosts.filter(a => a.name === user.username).length === 0 && user.authorities[0].name !== "ROLE_DJ") {
           return user;
         }
       });
@@ -190,17 +186,7 @@ export default {
         this.getEvent();
       });
     },
-  },
-  submitSong(songId, playlistId) {
-    axios
-      .post("/api/add-song-to-playlist", {
-        songId: songId,
-        playlistId: playlistId,
-      })
-      .then((response) => {
-        this.$store.commit(response.data);
-      });
-  },
+  }
 };
 </script>
 
