@@ -2,9 +2,9 @@ import axios from "axios";
 
 
 export default {
-    getSongs(username) {
-        return axios.put('/songs/list', username);
-    },
+    getSongs(name) {
+        return axios.put('/songs/list', { username: name });
+      },
     getSong(id) {
         return axios.get(`/songs/${id}`);
     },
