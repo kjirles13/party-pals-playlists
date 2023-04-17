@@ -18,5 +18,4 @@ public interface UserDao {
 
     void setHost(int userId, String hostUsername);
 
-    boolean registerAsDj(String username, String password, String role, boolean isDj);
 }
