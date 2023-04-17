@@ -14,28 +14,29 @@
       <button type="submit" v-on:click.prevent="searchForTrack">Search</button>
     </form>
     <div v-for="song in searchTracks.tracks.items" v-bind:key="song.id">
-      <song-display v-bind:song="song" />
-      <form v-on:submit.prevent="addSong(song.id)">
-        <label for="add" class="checkbox-labels"
-          >Add this song to your playlist
-        </label>
-        <input type="checkbox" id="add" />
-        <input
-          type="text"
-          placeholder="Rating"
-          id="rating"
-          v-model.number="rating"
-        />
-        <label for="select" id="genre-label">Choose a genre:</label>
-        <select v-model="genreForNewSong" id="genre">
-          <option v-for="genre in genres" :key="genre.id" :value="genre">
-            {{ genre.name }}
-          </option>
-        </select>
-        <button type="submit" id="save">
-          Save
-        </button>
-      </form>
+      <div>
+        <song-display v-bind:song="song" />
+        <form v-on:submit.prevent="addSong(song.id)">
+          <label for="add" class="checkbox-labels"
+            >Add this song to your playlist
+          </label>
+          <!-- <input type="checkbox" id="add" /> -->
+          <input
+            type="text"
+            placeholder="Rating"
+            id="rating"
+            v-model.number="rating"
+          />
+          <label for="select" id="genre-label">Choose a genre:</label>
+          <select v-model="genreId" id="genre">
+            <option value="">Choose a genre</option>
+            <option v-for="genre in genres" :key="genre.id" v-bind:value="genre.id">
+              {{ genre.name }}
+            </option>
+          </select>
+          <button type="submit" id="save">Save</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -62,7 +63,7 @@ export default {
         artist: "",
       },
       genres: [],
-      genreForNewSong: {},
+      genreId: '',
       rating: "",
     };
   },
@@ -97,6 +98,10 @@ export default {
       if (!this.rating) {
         this.rating = 0;
       }
+      const genre = this.genres.find((item) => {
+        return item.id === this.genreId;
+      })
+      console.log(genre);
       const addedSong = {
         id: song.id,
         name: song.name,
@@ -105,14 +110,14 @@ export default {
         rating: this.rating,
         likes: 0,
         dislikes: 0,
-        genre: [this.genreForNewSong],
+        genres: [genre],
         artists: song.artists,
       };
       songService.addSongToDjList(addedSong).then((response) => {
         if (response.status === 201 || response.status === 200) {
-          alert("Song successfully added");
+          window.alert("Song successfully added");
         } else {
-          alert("There was an issue adding this song to your playlist");
+          window.alert("There was an issue adding this song to your playlist");
         }
       });
     },
@@ -130,7 +135,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .checkbox-labels {
   font-size: 13px;
 }

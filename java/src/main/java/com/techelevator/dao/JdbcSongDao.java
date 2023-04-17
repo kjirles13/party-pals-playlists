@@ -107,8 +107,8 @@ public class JdbcSongDao implements SongDao {
 
         String sqlDjPlaylist = "INSERT INTO public.dj_song( " +
                 " song_id, dj_id, song_rating) " +
-                " VALUES (?, ?, ?) " +
-                " ON CONFLICT DO NOTHING;";
+                " VALUES (?, ?, ?) ";
+
         jdbcTemplate.update(sqlDjPlaylist, song.getId(), userId, song.getRating());
 
         return song;
