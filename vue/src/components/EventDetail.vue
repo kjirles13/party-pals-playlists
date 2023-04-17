@@ -1,57 +1,94 @@
 <template>
   <div class="event-detail">
-    
-    <button class="edit-cancel" @click="editEvent">{{ isEditing ? 'Cancel' : 'Edit Event' }}</button>
-    <button v-if="isHost" @click="editEvent">Edit Event</button>
 
-    <button v-if="isDJ || isHost" @click="editEvent">
-  {{ isEditing ? 'Cancel' : 'Edit Event' }}
+    <button v-if="isDJ || isHost" @click="editEvent" class="edit-cancel">
+      {{ isEditing ? "Cancel" : "Edit Event" }}
     </button>
 
     <div class="edit" v-if="isEditing">
-    <label>Event Title</label>
-    <input type="text" v-model="event.name"/>
-    <label>Event Description</label>
-    <input type="text" v-model="event.description"/>
-    <label>Event Time</label>
-    <input type="text" v-model="event.time"/>
-    <label>Event Date</label>
-    <input type="text" v-model="event.date"/>
-    <label>Event Theme</label>
-    <input type="text" v-model="event.theme"/>
-    <button class="submit-edit" @click="updateEventDetails" type="submit">Submit</button>
+      <label>Event Title</label>
+      <input type="text" v-model="event.name" />
+      <label>Event Description</label>
+      <input type="text" v-model="event.description" />
+      <label>Event Time</label>
+      <input type="text" v-model="event.time" />
+      <label>Event Date</label>
+      <input type="text" v-model="event.date" />
+      <label>Event Theme</label>
+      <input type="text" v-model="event.theme" />
+      <button class="submit-edit" @click="updateEventDetails" type="submit">
+        Submit
+      </button>
     </div>
-    <!-- <div v-if="isLoading">Loading...</div> -->
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
-    <p>Theme: {{ event.theme }}</p>
-    <p>Date: {{ event.date }}</p>
-    <p>Time: {{ event.time }}</p>
-    <p>Your hosts are:</p>
-    <div v-for="p in event.hosts" :key="p.hostId" id="hosts">
-      <p>{{ p.name }}</p>
+    <h3>DJ {{ event.djUsername }}</h3>
+    <div id="theme-date-time">
+      <h4>Date: {{ event.date }}</h4>
+      <p>|</p>
+      <h4>Theme: {{ event.theme }}</h4>
+      <p>|</p>
+      <h4>Time: {{ event.time }}</h4>
     </div>
-    <p>{{ event.djUsername }}</p>
-    <p>Playlist: {{ event.playlist.name }}</p>
+    <p>Your hosts are:</p>
+    <div>
+      <div v-for="host in event.hosts" :key="host.hostId">
+        <p class="host-name">{{ host.name }}</p>
+        <span
+          style="color: #8b0000; cursor: pointer"
+          v-on:click="deleteHost(host.name)"
+          >x</span
+        >
+      </div>
+    </div>
+    <h2>{{ event.playlist.name }}</h2>
     <div class="song-info">
-      <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
-        <div style="display: flex; flex-direction: column; justify-content: space-between">
+      <song-display
+        v-for="song in event.playlist.songs"
+        :key="song.song_id"
+        :song="song"
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id) }"/>
+            <img
+              src="../images/thumbs-up.png"
+              alt="Likes"
+              width="15"
+              height="15"
+              class="thumb"
+              style="margin-bottom: 10px; cursor: pointer"
+              @click="incrementLikes(song.id)"
+              :class="{
+                disabled: song.clicked || clickedSongs.includes(song.id),
+              }"
+            />
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id) }"/>
+            <img
+              src="../images/thumbs-down.png"
+              alt="Dislikes"
+              width="15"
+              height="15"
+              class="thumb"
+              style="margin-bottom: 10px; cursor: pointer"
+              @click="decrementLikes(song.id)"
+              :class="{
+                disabled: song.clicked || clickedSongs.includes(song.id),
+              }"
+            />
           </div>
         </div>
       </song-display>
     </div>
-
   </div>
-
-
-  
 </template>
 
 <script>
@@ -59,6 +96,7 @@ import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
 import axios from "axios";
+import authService from "../services/AuthService";
 
 export default {
   name: "event-detail",
@@ -66,25 +104,31 @@ export default {
     SongDisplay,
   },
   data() {
-   return {
-    user: null,
-    isVisible: false,
-    isLoading: true,
-    isEditing: false,
-    event: {},
-    error: "",
-    clickedSongs: [], 
-  }
+    return {
+      user: null,
+      isVisible: false,
+      isLoading: true,
+      isEditing: false,
+      event: {},
+      error: "",
+      clickedSongs: [],
+    };
   },
   created() {
     this.getEvent();
   },
   computed: {
     isDJ() {
-      return this.user && this.user.role === "DJ";
+      return this.$store.state.user.username === this.event.djUsername;
     },
     isHost() {
-      return this.user && this.user.role === "host";
+      let isHost = false;
+      this.event.hosts.forEach((host) => {
+        if (host.name === this.$store.state.user.username) {
+          isHost = true;
+        }
+      })
+      return isHost;
     }
   },
   methods: {
@@ -101,50 +145,80 @@ export default {
           this.error = "Error loading event";
         });
     },
+    getAllUsers() {
+      authService.getAllUsers().then((response) => {
+        if (response.status === 200) {
+          this.users = response.data;
+        }
+      });
+    },
     incrementLikes(songId) {
       if (this.clickedSongs.includes(songId)) {
-      return;
+        return;
       }
       playlistService.addLikes(this.event.playlist.playlistId, songId);
-      this.clickedSongs.push(songId); 
+      this.clickedSongs.push(songId);
       this.getEvent();
     },
     decrementLikes(songId) {
       if (this.clickedSongs.includes(songId)) {
-      return;
+        return;
       }
       playlistService.deleteLikes(this.event.playlist.playlistId, songId);
-      this.clickedSongs.push(songId); 
+      this.clickedSongs.push(songId);
       this.getEvent();
     },
     editEvent() {
-    this.isEditing = !this.isEditing;
-  },
-  updateEventDetails() {
-    const eventId = parseInt(this.$route.params.id);
-    eventService.updateEvent(this.event, eventId)
-      .then(response => {
-        console.log("Event updated successfully:", response);
-        this.isEditing = false;
+      this.isEditing = !this.isEditing;
+    },
+    updateEventDetails() {
+      const eventId = parseInt(this.$route.params.id);
+      eventService
+        .updateEvent(this.event, eventId)
+        .then((response) => {
+          console.log("Event updated successfully:", response);
+          this.isEditing = false;
+        })
+        .catch((error) => {
+          console.log("Error updating event:", error);
+        });
+    },
+    deleteHost(name) {
+      eventService
+        .removeHostFromEvent(this.event.id, name)
+        .then(() => {
+            this.getEvent();
+        });
+    },
+    addHost(name) {
+      eventService.addHostToEvent(this.event.id, name).then(() => {
+        this.getEvent();
       })
-      .catch(error => {
-        console.log("Error updating event:", error);
-      });
-  }
+    }
   },
-submitSong(songId, playlistId) {
-    axios.post('/api/add-song-to-playlist', {
-      songId: songId,
-      playlistId:playlistId
-    })
-    .then(response => {
-      this.$store.commit(response.data);
-    })
-}
+  submitSong(songId, playlistId) {
+    axios
+      .post("/api/add-song-to-playlist", {
+        songId: songId,
+        playlistId: playlistId,
+      })
+      .then((response) => {
+        this.$store.commit(response.data);
+      });
+  },
 };
 </script>
 
 <style scoped>
+#theme-date-time {
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+}
+.host-name {
+  display: inline-block;
+  margin-right: 10px;
+}
 .event-detail {
   text-align: center;
   margin: 150px;
@@ -172,34 +246,32 @@ submitSong(songId, playlistId) {
   margin-left: 5px;
 }
 .edit {
-    display: grid;
+  display: grid;
 }
 .edit-cancel {
-    font-family: arial;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    padding: 3px 6px 3px 6px;
-    font-size: 16px;
-    
+  font-family: arial;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 3px 6px 3px 6px;
+  font-size: 16px;
 }
 .submit-edit {
-    font-family: arial;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    padding: 3px 6px 3px 6px;
-    margin-top: 10px;
-    font-size: 16px;
+  font-family: arial;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 3px 6px 3px 6px;
+  margin-top: 10px;
+  font-size: 16px;
 }
 label {
-    font-family: arial;
-    margin-top: 10px;
+  font-family: arial;
+  margin-top: 10px;
 }
 input {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-size: 16px;
-    
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
 }
 </style>

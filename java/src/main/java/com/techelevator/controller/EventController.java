@@ -68,7 +68,7 @@ public class EventController {
         eventDao.addHost(eventId, userId);
     }
 
-    @DeleteMapping("/{eventId}/hosts")
+    @PostMapping("/{eventId}/hosts/delete")
     public void deleteHost(@RequestBody UserDto user, @PathVariable int eventId) {
         int userId = userDao.findIdByUsername(user.getUsername());
         eventDao.deleteHost(eventId, userId);
