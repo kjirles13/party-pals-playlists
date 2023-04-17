@@ -17,8 +17,11 @@ updateEvent(eventDto, eventId) {
 deleteEvent(eventId) {
   return axios.delete(`/events/${eventId}`);
 },
-addHostToEvent(eventId, hosts) {
-  return axios.put(`/events/${eventId}/hosts`, hosts);
+addHostToEvent(eventId, username) {
+  return axios.post(`/events/${eventId}/hosts`, username);
+},
+removeHostToEvent(eventId, username) {
+  return axios.delete(`/events/${eventId}/hosts`, username);
 },
 saveLikes(song) {
   return axios.put(`/events/playlists/songs/${song.song_id}`, { votes: song.likes });

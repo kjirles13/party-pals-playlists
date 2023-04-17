@@ -4,10 +4,7 @@ import com.techelevator.dao.EventDao;
 import com.techelevator.dao.PlaylistDao;
 import com.techelevator.dao.SongDao;
 import com.techelevator.dao.UserDao;
-import com.techelevator.model.Event;
-import com.techelevator.model.EventDto;
-import com.techelevator.model.Host;
-import com.techelevator.model.Playlist;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
@@ -65,9 +62,16 @@ public class EventController {
         eventDao.deleteEvent(eventId);
     }
 
-    @PutMapping("/{eventId}/hosts")
-    public void addHostToEvent(@RequestBody List<Host> hosts, @PathVariable int eventId) {
-        eventDao.updateHosts(eventId, hosts);
+    @PostMapping("/{eventId}/hosts")
+    public void setUserAsHost(@RequestBody UserDto user, @PathVariable int eventId) {
+        int userId = userDao.findIdByUsername(user.getUsername());
+        eventDao.addHost(eventId, userId);
+    }
+
+    @DeleteMapping("/{eventId}/hosts")
+    public void deleteHost(@RequestBody UserDto user, @PathVariable int eventId) {
+        int userId = userDao.findIdByUsername(user.getUsername());
+        eventDao.deleteHost(eventId, userId);
     }
 
     @GetMapping("/{eventId}/playlists/{playlistId}")

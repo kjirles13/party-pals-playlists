@@ -68,11 +68,5 @@ public class AuthenticationController {
         return userDao.findAll();
     }
 
-    @PutMapping("/users")
-    public void setUserAsHost(UserDto user, Principal principal) {
-        int userId = userDao.findIdByUsername(principal.getName());
-        userDao.setHost(userId, user.getUsername());
-    }
-
 }
 

@@ -130,15 +130,21 @@ public class JdbcEventDao implements EventDao {
     }
 
     @Override
-    public void updateHosts(int eventId, List<Host> hosts) {
-        String deleteSql = "DELETE FROM public.host_event WHERE event_id = ?";
-        jdbcTemplate.update(deleteSql, eventId);
+    public void addHost(int eventId, int userId) {
+        String sql = "INSERT INTO public.host_event( " +
+                "user_id, event_id) " +
+                "VALUES (?, ?) " +
+                "ON CONFLICT DO NOTHING;";
+        jdbcTemplate.update(sql, userId, eventId);
+    }
 
-        String insertSql = "INSERT INTO public.host_event (user_id, event_id) VALUES (?, ?)";
+    @Override
+    public void deleteHost(int eventId, int userId) {
+        String sql = "DELETE FROM public.host_event  " +
+                "WHERE user_id = ? AND event_id = ? " +
+                "ON CONFLICT DO NOTHING;";
+        jdbcTemplate.update(sql, userId, eventId);
 
-        for (Host host : hosts) {
-            jdbcTemplate.update(insertSql, host.getId(), eventId);
-        }
     }
 
     @Override
