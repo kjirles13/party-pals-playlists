@@ -21,11 +21,9 @@
   <div>
     <input type="text" v-model="searchText" placeholder="Search Events"/>
     <br /><br />
-    <!-- <button @click="searchEvent">Search</button> -->
     <div v-for="event in $store.state.events" :key="event.id">
      <h3>Event: {{ event.name }}</h3>
       </div> 
-    <!-- <h2>{{ event.name }}</h2> -->
     <table>
       <tbody>
         <tr v-for="event in filterEvents" :key="event.id">
@@ -33,11 +31,7 @@
           <td>{{ event.date }}</td>
           <td>{{ event.id }}</td>
           <td>
-            <router-link
-              :to="{ name: 'event-detail', params: { id: event.id } }"
-            >
-              View Details
-            </router-link>
+            <router-link :to="{ name: 'event-detail', params: { id: event.id } }">View Details</router-link>
           </td>
         </tr>
       </tbody>

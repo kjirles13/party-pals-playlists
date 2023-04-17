@@ -1,72 +1,36 @@
 <template>
-  <div class="event-detail">
-    <button v-if="isDJ || isHost" @click="editEvent" class="edit-cancel">{{ isEditing ? "Cancel" : "Edit Event" }}</button>
-    <div class="edit" v-if="isEditing">
-      <label>Event Title</label>
-      <input type="text" v-model="event.name" />
-      <label>Event Description</label>
-      <input type="text" v-model="event.description" />
-      <label>Event Time</label>
-      <input type="text" v-model="event.time" />
-      <label>Event Date</label>
-      <input type="text" v-model="event.date" />
-      <label>Event Theme</label>
-      <input type="text" v-model="event.theme" />
-      <label for="host-select">Add Host:</label>
-      <select id="host-select" v-model="selectedHost">
-      <option v-for="user in users" :value="user" v-bind:key="user.id">{{ user.name }}</option></select>
-      <button @click="addHost">Add</button>
-      <button class="submit-edit" @click="updateEventDetails" type="submit">Submit</button>
-    </div>
-    <h1>{{ event.name }}</h1>
-    <p>{{ event.description }}</p>
-    <h3>DJ {{ event.djUsername }}</h3>
-    <div id="theme-date-time">
-      <h4>Date: {{ event.date }}</h4>
-      <p>|</p>
-      <h4>Theme: {{ event.theme }}</h4>
-      <p>|</p>
-      <h4>Time: {{ event.time }}</h4>
-    </div>
-    <div>
-      <p v-if="event.hosts.length === 1">Your host is:</p>
-      <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
-      <div v-if="event.hosts.length">
-       <div v-for="host in event.hosts" :key="host.hostId">
-          <p class="host-name">{{ host.name }}</p>
-          <span style="color: #8b0000; cursor: pointer" v-on:click="deleteHost(host.name)">x</span>
-        </div>
-      </div>
-    </div>
-    <h2>{{ event.playlist.name }}</h2>
-    <div class="song-info">
-      <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
-        <div style=" display: flex; flex-direction: column; justify-content: space-between;">
-          <div id="likes">
-            <span>{{ song.likes }}</span>
-            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
-          </div>
-          <div id="dislikes">
-            <span>{{ song.dislikes }}</span>
-            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id),}"/>
-          </div>
-        </div>
-      </song-display>
-    </div>
+  <div>
+    <input type="text" v-model="searchText" placeholder="Search Events"/>
+    <br /><br />
+    <div v-for="event in $store.state.events" :key="event.id">
+     <h3>Event: {{ event.name }}</h3>
+      </div> 
+    <table>
+      <tbody>
+        <tr v-for="event in filterEvents" :key="event.id">
+          <td>{{ event.name }}</td>
+          <td>{{ event.date }}</td>
+          <td>{{ event.id }}</td>
+          <td>
+            <router-link :to="{ name: 'event-detail', params: { id: event.id } }">View Details</router-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
 import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
-import SongDisplay from "@/components/SongDisplay.vue";
+
 import axios from "axios";
 import authService from "../services/AuthService";
 
 export default {
   name: "event-detail",
   components: {
-    SongDisplay,
+  
   },
   data() {
     return {
