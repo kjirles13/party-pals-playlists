@@ -81,6 +81,8 @@ FOREIGN KEY (event_id) REFERENCES events (event_id)
 CREATE TABLE playlist_song (
 playlist_id int NOT NULL,
 song_id varchar(50) NOT NULL,
+vetoed boolean,
+submitted boolean,
 likes int,
 dislikes int,
 PRIMARY KEY (playlist_id, song_id),

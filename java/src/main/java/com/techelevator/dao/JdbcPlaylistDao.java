@@ -1,9 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Artist;
-import com.techelevator.model.Genre;
-import com.techelevator.model.Playlist;
-import com.techelevator.model.Song;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -47,7 +44,7 @@ public class JdbcPlaylistDao implements PlaylistDao{
         while (songIdResults.next()) {
             String songId = songIdResults.getString("song_id");
 
-            String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, playlist_song.likes, playlist_song.dislikes, dj_song.song_rating " +
+            String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, playlist_song.vetoed, playlist_song.submitted, playlist_song.likes, playlist_song.dislikes, dj_song.song_rating " +
                     "FROM songs " +
                     "LEFT JOIN dj_song ON songs.song_id = dj_song.song_id " +
                     "LEFT JOIN playlist_song ON songs.song_id = playlist_song.song_id " +
@@ -143,8 +140,8 @@ public class JdbcPlaylistDao implements PlaylistDao{
         if (verifyUser(userId, playlistId)) {
 
             String sql = "INSERT INTO public.playlist_song( " +
-                    "playlist_id, song_id, likes, dislikes) " +
-                    "VALUES (?, ?, 0, 0)";
+                    "playlist_id, song_id, vetoed, submitted, likes, dislikes) " +
+                    "VALUES (?, ?, false, false, 0, 0)";
 
             jdbcTemplate.update(sql, playlistId, songId);
         } else {
@@ -197,6 +194,16 @@ public class JdbcPlaylistDao implements PlaylistDao{
         }
     }
 
+    @Override
+    public void vetoSubmitSong(int playlistId, String songId, VetoSubmitDto vetoSubmitDto) {
+        String sql = "UPDATE public.playlist_song " +
+                "SET vetoed=?, submitted=? " +
+                "WHERE playlist_id = ? AND song_id = ?;";
+
+        jdbcTemplate.update(sql, vetoSubmitDto.isVetoed(), vetoSubmitDto.isSubmitted(), playlistId, songId);
+    }
+
+
     private Song mapRowToSong(SqlRowSet rs) {
         Song song = new Song();
 
@@ -217,7 +224,9 @@ public class JdbcPlaylistDao implements PlaylistDao{
         } catch (Exception e) {
             song.setDislikes(0);
         }
-        song.setPreview_url(rs.getString("preview"));
+        song.setVetoed(rs.getBoolean("vetoed"));
+        song.setSubmitted(rs.getBoolean("submitted"));
+        song.setPreview(rs.getString("preview"));
         song.setSpotifyUri(rs.getString("spotify_link"));
 
         return song;
