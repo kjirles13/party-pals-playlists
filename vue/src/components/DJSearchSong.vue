@@ -52,7 +52,6 @@
 import spotifyService from "../services/SpotifyService.js";
 import SongDisplay from "./SongDisplay.vue";
 import songService from "../services/SongService";
-import authService from "../services/AuthService";
 
 export default {
   name: "spotify",
@@ -140,11 +139,6 @@ export default {
         this.genres = response.data;
       }
     });
-    authService.getAllUsers().then((response) => {
-      if (response.status === 200) {
-        this.users = response.data;
-      }
-    })
   },
   computed: {
     isDJ() {

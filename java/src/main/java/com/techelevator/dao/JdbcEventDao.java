@@ -136,15 +136,30 @@ public class JdbcEventDao implements EventDao {
                 "VALUES (?, ?) " +
                 "ON CONFLICT DO NOTHING;";
         jdbcTemplate.update(sql, userId, eventId);
+
+        String roleSql = "UPDATE public.users " +
+                "SET role='ROLE_HOST' " +
+                "WHERE user_id = ?;";
+        jdbcTemplate.update(roleSql, userId);
     }
 
     @Override
     public void deleteHost(int eventId, int userId) {
         String sql = "DELETE FROM public.host_event  " +
-                "WHERE user_id = ? AND event_id = ? " +
-                "ON CONFLICT DO NOTHING;";
+                "WHERE user_id = ? AND event_id = ?";
         jdbcTemplate.update(sql, userId, eventId);
 
+        String roleSql = "SELECT COUNT(user_id) as num " +
+                "FROM host_event " +
+                "WHERE user_id = ?";
+        int count = jdbcTemplate.queryForObject(roleSql, int.class, userId);
+
+        if (count == 0) {
+            roleSql = "UPDATE public.users " +
+                    "SET role='ROLE_USER' " +
+                    "WHERE user_id = ?;";
+            jdbcTemplate.update(roleSql, userId);
+        }
     }
 
     @Override
