@@ -1,5 +1,19 @@
 <template>
   <div class="event-detail">
+    <button v-if="isDJ" @click="createEvent">Create Event</button>
+    <button v-if="isDJ" @click="editEvent">Edit Event</button>
+<button v-if="isHost" @click="editEvent">Edit Event</button>
+<label>Event Title</label>
+    <input v-model="event.title" :disabled="!isDJ && !isHost" />
+    <label>Event Description</label>
+    <input v-model="event.description" :disabled="!isDJ && !isHost" />
+    <label>Event Time</label>
+    <input v-model="event.time" :disabled="!isDJ && !isHost" />
+    <label>Event Date</label>
+    <input v-model="event.date" :disabled="!isDJ && !isHost" />
+    <label>Event Theme</label>
+    <input v-model="event.theme" :disabled="!isDJ && !isHost" />
+    <!-- <div v-if="isLoading">Loading...</div> -->
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
     <p>Theme: {{ event.theme }}</p>
@@ -70,6 +84,14 @@ export default {
   },
   created() {
     this.getEvent();
+  },
+  computed: {
+    isDJ() {
+      return this.user && this.user.role === "DJ";
+    },
+    isHost() {
+      return this.user && this.user.role === "host";
+    }
   },
   methods: {
     getEvent() {
