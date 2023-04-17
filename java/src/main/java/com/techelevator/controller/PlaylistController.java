@@ -6,7 +6,6 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.Playlist;
 import com.techelevator.model.PlaylistSongDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
@@ -44,7 +43,7 @@ public class PlaylistController {
         playlistDao.deleteSongFromPlaylist(playlistId, songId, userId);
     }
 
-    @PutMapping("/{playlistId}/song/{songId}/likes")
+    @PutMapping("/{playlistId}/songs/{songId}/likes")
     public void updateLikes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         playlistDao.updateLikes(playlistId, songId, userId);
