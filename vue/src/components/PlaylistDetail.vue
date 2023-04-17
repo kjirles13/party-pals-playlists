@@ -30,15 +30,12 @@
             </li>
           </ul>
         </div>
-        <button @click="submitSong(song.id, event.playlist.id)">Submit</button>
       </div>
     </ul>
   </div>
 </template>
 
 <script>
-
-import axios from 'axios';
 
 export default {
   name: "PlaylistDetail",
@@ -52,15 +49,16 @@ export default {
       return event.id === 1;
     });
   },
-  submitSong(songId, playlistId) {
-    axios.post('/api/add-song-to-playlist', {
-      songId: songId,
-      playlistId:playlistId
-    })
-    .then(response => {
-      this.$store.commit(response.data);
-    })
+  computed: {
+    isDJ() {
+      return this.user && this.user.role === "DJ";
+    },
+    isHost() {
+      return this.user && this.user.role === "host";
+    }
+},
+methods: {
 
-  }
+}
 };
 </script>

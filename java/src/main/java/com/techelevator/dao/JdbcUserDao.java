@@ -89,11 +89,7 @@ public class JdbcUserDao implements UserDao {
 
     }
 
-    @Override
-    public boolean registerAsDj(String username, String password, String role, boolean isDj) {
 
-        return false;
-    }
 
 
 
