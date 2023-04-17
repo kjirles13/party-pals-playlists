@@ -62,7 +62,7 @@ public class AuthenticationController {
             userDao.create(newUser.getUsername(),newUser.getPassword(), newUser.getRole());
         }
     }
-
+    
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userDao.findAll();

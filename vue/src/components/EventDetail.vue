@@ -61,13 +61,18 @@
         </div>
       </song-display>
     </div>
+    <button @click="submitSong(song.id, event.playlist.id)">Submit</button>
   </div>
+
+
+  
 </template>
 
 <script>
 import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
+import axios from "axios";
 
 export default {
   name: "event-detail",
@@ -101,7 +106,6 @@ export default {
         .getEventById(eventId)
         .then((response) => {
           this.event = response.data;
-          // this.isLoading = false;
         })
         .catch((error) => {
           console.log(error);
@@ -118,7 +122,15 @@ export default {
       this.getEvent();
     },
   },
-
+submitSong(songId, playlistId) {
+    axios.post('/api/add-song-to-playlist', {
+      songId: songId,
+      playlistId:playlistId
+    })
+    .then(response => {
+      this.$store.commit(response.data);
+    })
+}
 };
 </script>
 
