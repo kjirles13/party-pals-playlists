@@ -7,8 +7,8 @@
       <li v-if="loggedIn"><a href="#" @click="logout">Logout</a></li>
       <li><router-link v-bind:to="{ name: 'home' }">Home</router-link></li>
       <li><router-link v-bind:to="{ name: 'events' }">Events</router-link ></li>
-      <li v-if="loggedIn && this.$store.state.user.authorities[0].name.includes('ROLE_DJ')"><router-link v-bind:to="{ name: 'playlists' }">Playlists</router-link></li>
-<li v-if="loggedIn && this.$store.state.user.authorities[0].name.includes('ROLE_DJ')"><router-link v-bind:to="{ name: 'songs' }">Songs</router-link></li>
+      <li v-if="loggedIn && this.$store.state.user.authorities[0].name.includes('ROLE_DJ')"><router-link v-bind:to="{ name: 'playlists' }">Spotify Search</router-link></li>
+<li v-if="loggedIn && this.$store.state.user.authorities[0].name.includes('ROLE_DJ')"><router-link v-bind:to="{ name: 'songs' }">My Songs</router-link></li>
       </ul>
   </div>
 </nav>
