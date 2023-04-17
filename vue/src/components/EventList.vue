@@ -43,7 +43,7 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 .banner-clickable {
     position: relative;
     

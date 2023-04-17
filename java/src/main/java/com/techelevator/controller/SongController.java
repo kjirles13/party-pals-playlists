@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.SongDao;
 import com.techelevator.dao.UserDao;
+import com.techelevator.model.Genre;
 import com.techelevator.model.Song;
 import com.techelevator.model.SongDto;
 import com.techelevator.model.UserDto;
@@ -54,5 +55,10 @@ public class SongController {
     public void deleteSong(@PathVariable String songId, Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
         songDao.deleteSong(songId, userId);
+    }
+
+    @GetMapping("/genres")
+    public List<Genre> getGenres() {
+        return songDao.getGenres();
     }
 }

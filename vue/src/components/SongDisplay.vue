@@ -7,7 +7,7 @@
               v-for="n in song.rating"
                :key="n"
                class="gold-star"
-               src="../images/StarRating.png"
+               src="../images/Gold Star.png"
                alt="Gold star"/></span>
           <div class="artist-wrapper">
             <p v-for="artist in song.artists" :key="artist.id">{{ artist.name }}</p>
@@ -15,6 +15,7 @@
         </div>
       </div>
       <div class="song-links">
+        <slot></slot>
         <audio controls @play="setVolume">
           <source :src="song.preview_url" type="audio/mpeg" /><p>
             <a href="song.preview_url">Preview{{ song.preview_url }}</a></p>
@@ -65,7 +66,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: linear-gradient(to bottom, #c4cbda, #dee2ec);
+  background: linear-gradient(to bottom, #f2f8f1, #cecfcb);
   border-radius: 19px;
   margin-top: 10px;
   margin-bottom: 8px;
@@ -88,11 +89,14 @@ export default {
   margin-top: 15px;
   margin-left: 15px;
   margin-right: 10px;
+  font-size: 18px;
+
 }
 .artist-wrapper {
   display: flex;
   flex-wrap: wrap;
   margin-left: 15px;
+  font-size: 15px;
 }
 .song-links {
   display: flex;
@@ -105,14 +109,14 @@ export default {
 }
 
 audio::-webkit-media-controls-panel {
-  background: linear-gradient(to bottom, #a6b3be, #c5cad3);
+  background: radial-gradient(#c9c6c6, #c2c2c2);
 }
 audio::-webkit-media-controls-play-button {
-  background-color: #9099a1;
+  background-color: #898d86;
   border-radius: 50%;
 }
 audio::-webkit-media-controls-play-button:hover {
-  background-color: #727479;
+  background-color: #9da09b;
 }
 audio::-webkit-media-controls-current-time-display {
   color: black;
@@ -121,11 +125,11 @@ audio::-webkit-media-controls-time-remaining-display {
   color: black(255, 255, 255);
 }
 audio::-webkit-media-controls-mute-button {
-  background-color: #9099a1;
+  background-color: #898d86;
   border-radius: 50%;
 }
 audio::-webkit-media-controls-volume-slider {
-  background-color: #9099a1;
+  background-color: #898d86;
   border-radius: 25px;
   padding-left: 8px;
   padding-right: 8px;
