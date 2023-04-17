@@ -28,9 +28,8 @@
 </template>
 
 <script>
-import songService from "../services/SongService";
-
 export default {
+  
   name: "SongList",
   props: ["song"],
   data() {
@@ -38,17 +37,8 @@ export default {
       getSongs: [],
     };
   },
+  
   methods: {
-    searchSongs() {
-      songService
-        .getSongs()
-        .then((response) => {
-          this.getSongs = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     setVolume(event) {
       event.target.volume = 0.2;
     },

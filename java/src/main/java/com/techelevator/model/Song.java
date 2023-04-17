@@ -12,6 +12,8 @@ public class Song {
     private int rating;
     private int likes;
     private int dislikes;
+    private boolean vetoed;
+    private boolean submitted;
     @JsonProperty("preview_url")
     private String preview;
     @JsonProperty("spotify")
@@ -20,7 +22,7 @@ public class Song {
     public Song() {
     }
 
-    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int likes, int dislikes, String preview_url, String spotifyUri) {
+    public Song(String id, String name, List<Artist> artists, List<Genre> genres, int rating, int likes, int dislikes, boolean vetoed, boolean submitted, String preview, String spotifyUri) {
         this.id = id;
         this.name = name;
         this.artists = artists;
@@ -28,7 +30,9 @@ public class Song {
         this.rating = rating;
         this.likes = likes;
         this.dislikes = dislikes;
-        this.preview = preview_url;
+        this.vetoed = vetoed;
+        this.submitted = submitted;
+        this.preview = preview;
         this.spotifyUri = spotifyUri;
     }
 
@@ -88,13 +92,13 @@ public class Song {
         this.dislikes = dislikes;
     }
 
-    public String getPreview_url() {
-        return preview;
-    }
-
-    public void setPreview_url(String preview_url) {
-        this.preview = preview_url;
-    }
+//    public String getPreview_url() {
+//        return preview;
+//    }
+//
+//    public void setPreview_url(String preview_url) {
+//        this.preview = preview_url;
+//    }
 
     public String getSpotifyUri() {
         return spotifyUri;
@@ -102,6 +106,30 @@ public class Song {
 
     public void setSpotifyUri(String spotifyUri) {
         this.spotifyUri = spotifyUri;
+    }
+
+    public boolean isVetoed() {
+        return vetoed;
+    }
+
+    public void setVetoed(boolean vetoed) {
+        this.vetoed = vetoed;
+    }
+
+    public boolean isSubmitted() {
+        return submitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        this.submitted = submitted;
+    }
+
+    public String getPreview() {
+        return preview;
+    }
+
+    public void setPreview(String preview) {
+        this.preview = preview;
     }
 
     @Override
@@ -114,6 +142,8 @@ public class Song {
                 ", rating=" + rating +
                 ", likes=" + likes +
                 ", dislikes=" + dislikes +
+                ", vetoed=" + vetoed +
+                ", submitted=" + submitted +
                 ", preview='" + preview + '\'' +
                 ", spotifyUri='" + spotifyUri + '\'' +
                 '}';
