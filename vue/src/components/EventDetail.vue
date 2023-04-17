@@ -1,13 +1,9 @@
 <template>
   <div class="event-detail">
-<<<<<<< HEAD
     <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
       {{ isEditing ? "Cancel" : "Edit Event" }}
     </button>
 
-=======
-    <button v-if="isDJ || isHost" @click="editEvent" class="edit-cancel">{{ isEditing ? "Cancel" : "Edit Event" }}</button>
->>>>>>> main
     <div class="edit" v-if="isEditing">
       <label>Event Title</label>
       <input type="text" v-model="event.name" />
@@ -19,17 +15,9 @@
       <input type="text" v-model="event.date" />
       <label>Event Theme</label>
       <input type="text" v-model="event.theme" />
-<<<<<<< HEAD
       <button class="submit-edit" @click="updateEventDetails" type="submit">
         Submit
       </button>
-=======
-      <label for="host-select">Add Host:</label>
-      <select id="host-select" v-model="selectedHost">
-      <option v-for="user in users" :value="user" v-bind:key="user.id">{{ user.name }}</option></select>
-      <button @click="addHost">Add</button>
-      <button class="submit-edit" @click="updateEventDetails" type="submit">Submit</button>
->>>>>>> main
     </div>
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
@@ -44,7 +32,6 @@
     <div>
       <p v-if="event.hosts.length === 1">Your host is:</p>
       <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
-<<<<<<< HEAD
       <div>
         <div v-for="host in event.hosts" :key="host.hostId">
           <p class="host-name">{{ host.name }}</p>
