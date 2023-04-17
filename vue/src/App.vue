@@ -1,5 +1,4 @@
 <template>
-  <nav>
     <div id="app">
       <header>
         <a href="/">
@@ -14,7 +13,6 @@
         <title/>
       </head>
     </div>
-  </nav>
 </template>
 
 <script>
@@ -28,15 +26,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #MainView {
   display: flex;
+  flex-grow: 2;
   position: relative;
   font-family: sans-serif;
   width: 100%;
   height: 100%;
-  background: radial-gradient(#ecedf0, #d2daeb);
-}
+  background: radial-gradient(#e0fcd8, #fcfdfb);}
 .p1{
   display:flex;
   position: absolute;
@@ -46,7 +44,7 @@ export default {
 .main {
   flex-grow: 1;
   margin-left: 115px;
-  margin-top: 80px;
+  margin-top: 100px;
 }
 .title {
   flex-grow: 1;
@@ -63,7 +61,7 @@ header {
   align-items: center;
   height: 100px;
   width: 100%;
-  background-color: #b8bece;
+  background-color: #f3d2bb;
   text-align: center;
   top: 0px;
   z-index: 1; 

@@ -11,9 +11,9 @@ public interface PlaylistDao {
 
     void deleteSongFromPlaylist(int playlistId, String songId, int userId);
 
-    void updateLikes(int playlistId, String songId, int userId);
+    void updateLikes(int playlistId, String songId);
 
-    void updateDislikes(int playlistId, String songId, int userId);
+    void updateDislikes(int playlistId, String songId);
 
     void updatePlaylist(int playlistId, String name, String description, int userId);
 }

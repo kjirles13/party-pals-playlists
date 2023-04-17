@@ -6,9 +6,7 @@ getAllEvents() {
     return axios.get('/events');
 },
 getEventById(eventId){
-  return axios.get(`/events/${eventId}`).then((response) => {
-  return response.data;
-  })
+  return axios.get(`/events/${eventId}`);
 },
 createEvent(event) {
   return axios.post('/events', event);

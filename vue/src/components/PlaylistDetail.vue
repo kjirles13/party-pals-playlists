@@ -1,5 +1,9 @@
 <template>
   <div class="PlaylistDetail">
+    <button v-if="isDJ" @click="addSong">Add Song</button>
+    <button v-if="isDJ" @click="removeSong">Remove Song</button>
+<button v-if="isHost" @click="vetoSong">Veto Song</button>
+
     <h1>Name: {{ event.playlist.name }}</h1>
     <h2>DJ: {{ event.djUsername }}</h2>
     <!-- <h3>Date: {{ event.date }}</h3>
