@@ -66,14 +66,15 @@ export default {
     SongDisplay,
   },
   data() {
-    return {
-      user: null,
-      isVisible: false,
-      isLoading: true,
-      isEditing: false,
-      event: {},
-      error: "",
-    }
+   return {
+    user: null,
+    isVisible: false,
+    isLoading: true,
+    isEditing: false,
+    event: {},
+    error: "",
+    clickedSongs: [], 
+  }
   },
   created() {
     this.getEvent();
