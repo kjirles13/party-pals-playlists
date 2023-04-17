@@ -38,6 +38,10 @@
         </form>
       </div>
     </div>
+
+    <div :disabled="!isDJ">
+      <p>Add host to event</p>
+    </div>
   </div>
 </template>
 
@@ -131,6 +135,14 @@ export default {
         this.genres = response.data;
       }
     });
+  },
+  computed: {
+    isDJ() {
+      return this.$store.state.user.role === "ROLE_DJ";
+    },
+    isHost() {
+      return this.user && this.user.role === "ROLE_USER";
+    }
   },
 };
 </script>
