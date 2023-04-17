@@ -1,19 +1,26 @@
 <template>
   <div class="event-detail">
-    <button v-if="isDJ" @click="createEvent">Create Event</button>
-    <button v-if="isDJ" @click="editEvent">Edit Event</button>
-<button v-if="isHost" @click="editEvent">Edit Event</button>
-<label>Event Title</label>
-    <input v-model="event.title" :disabled="!isDJ && !isHost" />
+    
+    <button class="edit-cancel" @click="editEvent">{{ isEditing ? 'Cancel' : 'Edit Event' }}</button>
+    <button v-if="isHost" @click="editEvent">Edit Event</button>
+
+    <button v-if="isDJ || isHost" @click="editEvent">
+  {{ isEditing ? 'Cancel' : 'Edit Event' }}
+    </button>
+
+    <div class="edit" v-if="isEditing">
+    <label>Event Title</label>
+    <input type="text" v-model="event.name"/>
     <label>Event Description</label>
-    <input v-model="event.description" :disabled="!isDJ && !isHost" />
+    <input type="text" v-model="event.description"/>
     <label>Event Time</label>
-    <input v-model="event.time" :disabled="!isDJ && !isHost" />
+    <input type="text" v-model="event.time"/>
     <label>Event Date</label>
-    <input v-model="event.date" :disabled="!isDJ && !isHost" />
+    <input type="text" v-model="event.date"/>
     <label>Event Theme</label>
-    <input v-model="event.theme" :disabled="!isDJ && !isHost" />
-    <button @click="submitSong(song.id, event.playlist.id)">Submit</button>
+    <input type="text" v-model="event.theme"/>
+    <button class="submit-edit" @click="updateEventDetails" type="submit">Submit</button>
+    </div>
     <!-- <div v-if="isLoading">Loading...</div> -->
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
@@ -60,14 +67,14 @@ export default {
   },
   data() {
     return {
-    user: null,
-    isVisible: false,
-    isLoading: true,
-    event: {},
-    error: "",
-    clickedSongs: [], 
-  }
-},
+      user: null,
+      isVisible: false,
+      isLoading: true,
+      isEditing: false,
+      event: {},
+      error: "",
+    }
+  },
   created() {
     this.getEvent();
   },
@@ -109,6 +116,20 @@ export default {
       this.clickedSongs.push(songId); 
       this.getEvent();
     },
+    editEvent() {
+    this.isEditing = !this.isEditing;
+  },
+  updateEventDetails() {
+    const eventId = parseInt(this.$route.params.id);
+    eventService.updateEvent(this.event, eventId)
+      .then(response => {
+        console.log("Event updated successfully:", response);
+        this.isEditing = false;
+      })
+      .catch(error => {
+        console.log("Error updating event:", error);
+      });
+  }
   },
 submitSong(songId, playlistId) {
     axios.post('/api/add-song-to-playlist', {
@@ -125,7 +146,7 @@ submitSong(songId, playlistId) {
 <style scoped>
 .event-detail {
   text-align: center;
-  margin: 100px;
+  margin: 150px;
 }
 .disabled {
   opacity: 0.2;
@@ -148,5 +169,36 @@ submitSong(songId, playlistId) {
   display: inline-block;
   margin-right: 5px;
   margin-left: 5px;
+}
+.edit {
+    display: grid;
+}
+.edit-cancel {
+    font-family: arial;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 3px 6px 3px 6px;
+    font-size: 16px;
+    
+}
+.submit-edit {
+    font-family: arial;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 3px 6px 3px 6px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+label {
+    font-family: arial;
+    margin-top: 10px;
+}
+input {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 16px;
+    
 }
 </style>
