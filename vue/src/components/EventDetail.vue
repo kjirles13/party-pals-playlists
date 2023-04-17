@@ -1,9 +1,13 @@
 <template>
   <div class="event-detail">
+<<<<<<< HEAD
     <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
       {{ isEditing ? "Cancel" : "Edit Event" }}
     </button>
 
+=======
+    <button v-if="isDJ || isHost" @click="editEvent" class="edit-cancel">{{ isEditing ? "Cancel" : "Edit Event" }}</button>
+>>>>>>> main
     <div class="edit" v-if="isEditing">
       <label>Event Title</label>
       <input type="text" v-model="event.name" />
@@ -15,9 +19,17 @@
       <input type="text" v-model="event.date" />
       <label>Event Theme</label>
       <input type="text" v-model="event.theme" />
+<<<<<<< HEAD
       <button class="submit-edit" @click="updateEventDetails" type="submit">
         Submit
       </button>
+=======
+      <label for="host-select">Add Host:</label>
+      <select id="host-select" v-model="selectedHost">
+      <option v-for="user in users" :value="user" v-bind:key="user.id">{{ user.name }}</option></select>
+      <button @click="addHost">Add</button>
+      <button class="submit-edit" @click="updateEventDetails" type="submit">Submit</button>
+>>>>>>> main
     </div>
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
@@ -32,6 +44,7 @@
     <div>
       <p v-if="event.hosts.length === 1">Your host is:</p>
       <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
+<<<<<<< HEAD
       <div>
         <div v-for="host in event.hosts" :key="host.hostId">
           <p class="host-name">{{ host.name }}</p>
@@ -59,47 +72,15 @@
     </div>
     <h2>{{ event.playlist.name }}</h2>
     <div class="song-info">
-      <song-display
-        v-for="song in event.playlist.songs"
-        :key="song.song_id"
-        :song="song"
-      >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-          "
-        >
+      <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
+        <div style=" display: flex; flex-direction: column; justify-content: space-between;">
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img
-              src="../images/thumbs-up.png"
-              alt="Likes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="incrementLikes(song.id)"
-              :class="{
-                disabled: song.clicked || clickedSongs.includes(song.id),
-              }"
-            />
+            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img
-              src="../images/thumbs-down.png"
-              alt="Dislikes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="decrementLikes(song.id)"
-              :class="{
-                disabled: song.clicked || clickedSongs.includes(song.id),
-              }"
-            />
+            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id),}"/>
           </div>
         </div>
       </song-display>

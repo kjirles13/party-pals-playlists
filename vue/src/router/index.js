@@ -10,6 +10,7 @@ import Playlists from '../views/Playlists.vue'
 import EventDetail from '../components/EventDetail.vue'
 import Spotify from '../views/SpotifyTestView.vue'
 import MyEvents from '../views/MyEvents.vue'
+import SongSearch from '../views/MyEvents.vue'
 
 Vue.use(Router)
 
@@ -58,10 +59,15 @@ const router = new Router({
       component: Spotify,
     },
     {
-      path: "/MyEvents",
+      path: "/myevents",
       name: "myevents",
       component: MyEvents,
     },
+    {
+      path: "/MyEvents/SpotifySearch",
+      name: "SongSearch",
+      component: SongSearch,
+    }
   ]
 })
 
