@@ -1,38 +1,17 @@
 <template>
 <nav class="nav-bar">
-
-  <div>
-    <div id="nav">
-      <ul>
-        <li></li>
-        <li v-if="!loggedIn"><router-link v-bind:to="{ name: 'login' }">Login</router-link></li>        
-        <li v-if="loggedIn"><a href="#" @click="logout">Logout</a></li>
-
-        <!-- <li>
-  <router-link v-bind:to="{ name: loggedIn ? 'logoutconfirm' : 'login' }" @click="logout">
-    {{ loggedIn ? 'Logout' : 'Login' }}
-  </router-link>
-</li> -->
-
-
-        
-        <!-- <li v-if="!loggedIn"><router-link v-bind:to="{ name: 'login' }">Login</router-link></li>-->
-        <!-- <li v-if="loggedIn" @click="logout"><router-link v-bind:to="{ name: 'logoutconfirm' }">Logout</router-link></li> -->
-        
-        
-
-        <li><router-link v-bind:to="{ name: 'home' }">Home</router-link></li>
-        <li><router-link v-bind:to="{ name: 'events' }">Events</router-link ></li>
-        <li><router-link v-bind:to="{ name: 'playlists' }">Playlists</router-link></li>
-        <li><router-link v-bind:to="{ name: 'songs' }">Songs</router-link></li>
-        <!-- <li><router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link ></li> -->
+  <div id="nav">
+    <ul>
+      <li></li>
+      <li v-if="!loggedIn"><router-link v-bind:to="{ name: 'login' }">Login</router-link></li>        
+      <li v-if="loggedIn"><a href="#" @click="logout">Logout</a></li>
+      <li><router-link v-bind:to="{ name: 'home' }">Home</router-link></li>
+      <li><router-link v-bind:to="{ name: 'events' }">Events</router-link ></li>
+      <li><router-link v-bind:to="{ name: 'playlists' }">Playlists</router-link></li>
+      <li><router-link v-bind:to="{ name: 'songs' }">Songs</router-link></li>
       </ul>
-    </div>
-    <div>
-      
-    </div>
   </div>
-  </nav>
+</nav>
 </template>
 
 <script>
@@ -50,7 +29,6 @@ export default {
 methods: {
   logout() {
     this.$store.commit("LOGOUT");
-    // localStorage.removeItem("token");
     this.$router.push("/login");
   }
 }
