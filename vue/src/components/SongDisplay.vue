@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import songService from "../services/SongService";
-
 export default {
   
   name: "SongList",
@@ -37,18 +35,10 @@ export default {
   data() {
     return {
       getSongs: [],
-      username: this.$store.state.user.username
     };
   },
   
   methods: {
-    searchSongs() {
-    songService
-    .getSongs(this.username)
-    .then((response) => {
-        this.getSongs = response.data;
-      })
-    },
     setVolume(event) {
       event.target.volume = 0.2;
     },
