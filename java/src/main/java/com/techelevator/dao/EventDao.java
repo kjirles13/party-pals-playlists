@@ -1,9 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Event;
-import com.techelevator.model.EventDto;
-import com.techelevator.model.Host;
-import com.techelevator.model.Playlist;
+import com.techelevator.model.*;
 
 import java.util.List;
 
@@ -19,7 +16,9 @@ public interface EventDao {
 
     void deleteEvent(int eventId);
 
-    void updateHosts(int eventId, List<Host> hosts);
+    void addHost(int eventId, int userId);
+
+    void deleteHost(int eventId, int userId);
 
     Playlist getPlaylistForEventById(int playlistId, int userId);
 }

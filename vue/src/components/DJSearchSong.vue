@@ -39,8 +39,11 @@
       </div>
     </div>
 
-    <div :disabled="!isDJ">
-      <p>Add host to event</p>
+    <div v-if="isDJ">
+      <p>Add host to event:</p>
+      <select name="users" id="users">
+        <option v-for="user in users" :key="user.id" value="user">{{user.username}}</option>
+      </select>
     </div>
   </div>
 </template>
@@ -49,6 +52,7 @@
 import spotifyService from "../services/SpotifyService.js";
 import SongDisplay from "./SongDisplay.vue";
 import songService from "../services/SongService";
+import authService from "../services/AuthService";
 
 export default {
   name: "spotify",
@@ -69,6 +73,7 @@ export default {
       genres: [],
       genreId: '',
       rating: "",
+      users: []
     };
   },
   methods: {
@@ -135,10 +140,15 @@ export default {
         this.genres = response.data;
       }
     });
+    authService.getAllUsers().then((response) => {
+      if (response.status === 200) {
+        this.users = response.data;
+      }
+    })
   },
   computed: {
     isDJ() {
-      return this.$store.state.user.role === "ROLE_DJ";
+      return this.$store.state.user.authorities[0].name === "ROLE_DJ";
     },
     isHost() {
       return this.user && this.user.role === "ROLE_USER";

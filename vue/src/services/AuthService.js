@@ -8,6 +8,14 @@ export default {
 
   register(user) {
     return axios.post('/register', user)
+  },
+
+  getAllUsers() {
+    return axios.get('/users/');
+  },
+
+  updateHosts(hosts) {
+    return axios.put('/users', hosts);
   }
 
 }
