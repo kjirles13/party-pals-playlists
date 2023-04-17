@@ -78,7 +78,7 @@ public class JdbcSongDao implements SongDao {
                 " VALUES (?, ?, ?, ?)" +
                 " ON CONFLICT DO NOTHING;";
 
-        jdbcTemplate.update(sql, song.getId(), song.getName(), song.getSpotifyUri(), song.getPreview_url());
+        jdbcTemplate.update(sql, song.getId(), song.getName(), song.getSpotifyUri(), song.getPreview());
 
         for (Artist artist : song.getArtists()) {
             String sqlCreateArtist = "INSERT INTO public.artists( " +
@@ -227,7 +227,18 @@ public class JdbcSongDao implements SongDao {
         } catch (Exception e) {
             song.setDislikes(0);
         }
-        song.setPreview_url(rs.getString("preview"));
+        song.setPreview(rs.getString("preview"));
+        try {
+            song.setVetoed(rs.getBoolean("vetoed"));
+        } catch (Exception e) {
+            song.setVetoed(false);
+        }
+        try {
+            song.setSubmitted(rs.getBoolean("submitted"));
+        } catch (Exception e) {
+            song.setSubmitted(false);
+        }
+
         song.setSpotifyUri(rs.getString("spotify_link"));
 
         return song;

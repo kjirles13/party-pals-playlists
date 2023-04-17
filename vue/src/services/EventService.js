@@ -11,8 +11,8 @@ getEventById(eventId){
 createEvent(event) {
   return axios.post('/events', event);
 },
-updateEvent(eventInfo, eventId) {
-  return axios.put(`/events/${eventId}`, eventInfo);
+updateEvent(eventDto, eventId) {
+  return axios.put(`/events/${eventId}`, eventDto);
 },
 deleteEvent(eventId) {
   return axios.delete(`/events/${eventId}`);

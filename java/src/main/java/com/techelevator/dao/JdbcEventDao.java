@@ -166,7 +166,7 @@ public class JdbcEventDao implements EventDao {
             while (songIdResults.next()) {
                 String songId = songIdResults.getString("song_id");
 
-                String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, playlist_song.likes, playlist_song.dislikes, dj_song.song_rating " +
+                String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, playlist_song.vetoed, playlist_song.submitted, playlist_song.likes, playlist_song.dislikes, dj_song.song_rating " +
                         "FROM songs " +
                         "LEFT JOIN dj_song ON songs.song_id = dj_song.song_id " +
                         "LEFT JOIN playlist_song ON songs.song_id = playlist_song.song_id " +
@@ -309,7 +309,9 @@ public class JdbcEventDao implements EventDao {
         } catch (Exception e) {
             song.setDislikes(0);
         }
-        song.setPreview_url(rs.getString("preview"));
+        song.setPreview(rs.getString("preview"));
+        song.setVetoed(rs.getBoolean("vetoed"));
+        song.setSubmitted(rs.getBoolean("submitted"));
         song.setSpotifyUri(rs.getString("spotify_link"));
 
         return song;

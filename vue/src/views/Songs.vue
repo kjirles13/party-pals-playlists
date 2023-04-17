@@ -21,7 +21,7 @@ export default {
     };
   },
   created() {
-    songService.getSongs().then((response) => {
+    songService.getSongs(this.$store.state.user.username).then((response) => {
       if (response.status == 200) {
         this.songs = response.data;
       }

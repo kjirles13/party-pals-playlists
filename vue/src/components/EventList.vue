@@ -1,76 +1,102 @@
 <template>
-<div class="banner clickable">
-    <img :src="require('@/images/defaultbanner.png')"/>
+  <div>
+    <input type="text" v-model="searchText" placeholder="Search Events"/>
+    <br /><br />
+    <!-- <button @click="searchEvent">Search</button> -->
+    <!-- <div>
+     <button v-if="isDJ" @click="createEvent">Create Event</button>
+    <label>Event Title</label>
+    <input type="text" v-model="event.title" />
+    <label>Event Description</label>
+    <input type="text" v-model="event.description" />
+    <label>Event Time</label>
+    <input type="text" v-model="event.time" />
+    <label>Event Date</label>
+    <input type="text" v-model="event.date" />
+    <label>Event Theme</label>
+    <input type="text" v-model="event.theme" />
+    </div> 
     <div v-for="event in $store.state.events" :key="event.id">
      <h3>Event: {{ event.name }}</h3>
-      </div>
-    <h2 v-if="event">{{ event.name }}</h2>
-        <table>
-            <tbody>
-                <tr v-for="event in $store.state.events" :key="event.id">
-                   <td>{{ event.name }}</td>
-                   <td>{{ event.date }}</td>
-                   <td>{{event.id}}</td>
-                   <td> <router-link :to="{ name: 'event-detail', params: { id: event.id}}">
-                       View Details 
-                       </router-link>
-                   </td>
-                </tr>
-            </tbody>
-        </table>
-</div>
-     
+      </div> -->
+    <!-- <h2>{{ event.name }}</h2> -->
+    <table>
+      <tbody>
+        <tr v-for="event in filterEvents" :key="event.id">
+          <td>{{ event.name }}</td>
+          <td>{{ event.date }}</td>
+          <td>{{ event.id }}</td>
+          <td>
+            <router-link
+              :to="{ name: 'event-detail', params: { id: event.id } }"
+            >
+              View Details
+            </router-link>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
-<script> 
-import eventService from "../services/EventService"
+<script>
+import eventService from "../services/EventService";
 
-export default{
-    name: 'EventList',
-    props: {
-        Array
+export default {
+  name: "EventList",
+  data() {
+    return {
+      searchText: "",
+    };
+  },
+  computed: {
+    filterEvents() {
+      return this.$store.state.events.filter((events) => {
+       return events.name.toLowerCase().includes(this.searchText.toLowerCase())
+      });
     },
-    created() {
-        eventService.getAllEvents().then(response => {
-            if (response.status == 200) {
-                this.$store.commit("SET_EVENTS", response.data);
-                if(response.data.length > 0) {
-                    this.event = response.data[0];
-                }
-            }
-        });
+  },
+  methods: { 
+    isDJ() {
+      return this.$store.state.user.authorities[0].name === "ROLE_DJ";
     },
-}
+  },
+  created() {
+    eventService.getAllEvents().then((response) => {
+      if (response.status == 200) {
+        this.$store.commit("SET_EVENTS", response.data);
+      }
+    });
+  },
+};
 </script>
 
 <style scoped>
 .banner-clickable {
-    position: relative;
-    
+  position: relative;
 }
 .banner img {
-    max-width: 100%;
-   
+  max-width: 100%;
 }
 
-
 .event-list {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 table {
-    border-collapse: collapse;
-    width:100%;
+  border-collapse: collapse;
+  width: 100%;
 }
 
-th, td {
-    text-align: left;
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
 
 th {
-    background-color: #4caf50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
 </style>

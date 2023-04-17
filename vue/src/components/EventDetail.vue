@@ -18,9 +18,14 @@
     <label>Event Date</label>
     <input type="text" v-model="event.date"/>
     <label>Event Theme</label>
+<<<<<<< HEAD
     <input type="text" v-model="event.theme"/>
     <button class="submit-edit" @click="updateEventDetails" type="submit">Submit</button>
     </div>
+=======
+    <input v-model="event.theme" :disabled="!isDJ && !isHost" />
+    <button @click="submitSong(song.id, event.playlist.id)">Submit</button>
+>>>>>>> main
     <!-- <div v-if="isLoading">Loading...</div> -->
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
@@ -34,42 +39,20 @@
     <p>{{ event.djUsername }}</p>
     <p>Playlist: {{ event.playlist.name }}</p>
     <div class="song-info">
-      <song-display
-        v-for="song in event.playlist.songs"
-        :key="song.song_id"
-        :song="song"
-      >
+      <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
         <div style="display: flex; flex-direction: column; justify-content: space-between">
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img
-              src="../images/thumbs-up.png"
-              alt="Likes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="incrementLikes(song.id)"
-              :class="{ disabled: song.clicked }"
-            />
+            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id) }"/>
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img
-            src="../images/thumbs-down.png"
-            alt="Dislikes"
-            width="15"
-            height="15"
-            class="thumb"
-            style="margin-bottom: 10px; cursor: pointer"
-            @click="decrementLikes(song.id)"
-            :class="{ disabled: song.clicked }"
-          />
+            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id) }"/>
           </div>
         </div>
       </song-display>
     </div>
-    <button @click="submitSong(song.id, event.playlist.id)">Submit</button>
+
   </div>
 
 
@@ -89,6 +72,7 @@ export default {
   },
   data() {
     return {
+<<<<<<< HEAD
       user: null,
       isVisible: false,
       isLoading: true,
@@ -97,6 +81,16 @@ export default {
       error: "",
     }
   },
+=======
+    user: null,
+    isVisible: false,
+    isLoading: true,
+    event: {},
+    error: "",
+    clickedSongs: [], 
+  }
+},
+>>>>>>> main
   created() {
     this.getEvent();
   },
@@ -123,11 +117,19 @@ export default {
         });
     },
     incrementLikes(songId) {
+      if (this.clickedSongs.includes(songId)) {
+      return;
+      }
       playlistService.addLikes(this.event.playlist.playlistId, songId);
+      this.clickedSongs.push(songId); 
       this.getEvent();
     },
     decrementLikes(songId) {
+      if (this.clickedSongs.includes(songId)) {
+      return;
+      }
       playlistService.deleteLikes(this.event.playlist.playlistId, songId);
+      this.clickedSongs.push(songId); 
       this.getEvent();
     },
     editEvent() {
@@ -164,7 +166,10 @@ submitSong(songId, playlistId) {
 }
 .disabled {
   opacity: 0.2;
-  pointer-events: none;
+  cursor: not-allowed;
+}
+.disabled img {
+  filter: grayscale(1);
 }
 #likes {
   display: flex;
