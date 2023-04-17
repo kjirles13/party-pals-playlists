@@ -7,23 +7,11 @@ import Register from '../views/Register.vue'
 import store from '../store/index'
 import Events from '../views/Events.vue'
 import Playlists from '../views/Playlists.vue'
-import Songs from '../views/Songs.vue'
 import EventDetail from '../components/EventDetail.vue'
 import Spotify from '../views/SpotifyTestView.vue'
-
-
-
+import MyEvents from '../views/MyEvents.vue'
 
 Vue.use(Router)
-
-/**
- * The Vue Router is used to "direct" the browser to render a specific view component
- * inside of App.vue depending on the URL.
- *
- * It also is used to detect whether or not a route requires the user to have first authenticated.
- * If the user has not yet authenticated (and needs to) they are redirected to /login
- * If they have (or don't need to) they're allowed to go about their way.
- */
 
 const router = new Router({
   mode: 'history',
@@ -33,77 +21,47 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
-      meta: {
-        requiresAuth: false
-      }
     },
     {
       path: "/login",
       name: "login",
       component: Login,
-      meta: {
-        requiresAuth: false
-      }
     },
     {
       path: "/logout",
       name: "logout",
       component: Logout,
-      meta: {
-        requiresAuth: false
-      }
     },
     {
       path: "/events",
       name: "events",
       component: Events,
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: "/songs",
-      name: "songs",
-      component: Songs,
-      meta: {
-        requiresAuth: false
-      }
     },
     {
       path: "/playlists",
       name: "playlists",
       component: Playlists,
-      meta: {
-        requiresAuth: false
-      }
     },
     {
       path: "/register",
       name: "register",
       component: Register,
-      meta: {
-        requiresAuth: false
-      }
     },
     {
       path: "/events/:id",
       name: "event-detail",
       component: EventDetail,
-      meta: {
-        requiresAuth: false
-      }
     },
-      {
-        path: "/spotify",
-        name: "spotify",
-        component: Spotify,
-        meta: {
-          requiresAuth: false
-        }
+    {
+      path: "/spotify",
+      name: "spotify",
+      component: Spotify,
     },
-    
-
-  
+    {
+      path: "/MyEvents",
+      name: "myevents",
+      component: MyEvents,
+    },
   ]
 })
 
