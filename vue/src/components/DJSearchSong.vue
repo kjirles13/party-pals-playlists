@@ -13,22 +13,45 @@
       <br /><br />
       <button type="submit" v-on:click.prevent="searchForTrack">Search</button>
     </form>
-    <song-display v-for="song in searchTracks.tracks.items" v-bind:key="song.id" v-bind:song="song"/>
+    <div v-for="song in searchTracks.tracks.items" v-bind:key="song.id">
+      <song-display v-bind:song="song" />
+      <form v-on:submit.prevent="addSong(song.id)">
+        <label for="add" class="checkbox-labels"
+          >Add this song to your playlist
+        </label>
+        <input type="checkbox" id="add" />
+        <input
+          type="text"
+          placeholder="Rating"
+          id="rating"
+          v-model.number="rating"
+        />
+        <label for="select" id="genre-label">Choose a genre:</label>
+        <select v-model="genreForNewSong" id="genre">
+          <option v-for="genre in genres" :key="genre.id" :value="genre">
+            {{ genre.name }}
+          </option>
+        </select>
+        <button type="submit" id="save">
+          Save
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
 import spotifyService from "../services/SpotifyService.js";
-import SongDisplay from "./SongDisplay.vue"
+import SongDisplay from "./SongDisplay.vue";
+import songService from "../services/SongService";
 
 export default {
   name: "spotify",
   components: {
-      SongDisplay
+    SongDisplay,
   },
   data() {
     return {
-      track: {},
       searchTracks: {
         tracks: {
           items: [],
@@ -37,36 +60,102 @@ export default {
       search: {
         track: "",
         artist: "",
-      }
+      },
+      genres: [],
+      genreForNewSong: {},
+      rating: "",
     };
   },
   methods: {
     searchForTrack() {
       if (this.search.track && this.search.artist) {
-        spotifyService.searchTracks(`track:${this.search.track} artist:${this.search.artist}`)
+        spotifyService
+          .searchTracks(
+            `track:${this.search.track} artist:${this.search.artist}`
+          )
           .then((response) => {
             this.searchTracks = response.body;
           });
       } else if (this.search.artist) {
-        spotifyService.searchTracks(`artist:${this.search.artist}`)
+        spotifyService
+          .searchTracks(`artist:${this.search.artist}`)
           .then((response) => {
             this.searchTracks = response.body;
           });
       } else if (this.search.track) {
-        spotifyService.searchTracks(`track:${this.search.track}`)
+        spotifyService
+          .searchTracks(`track:${this.search.track}`)
           .then((response) => {
             this.searchTracks = response.body;
           });
       }
+    },
+    addSong(songId) {
+      const song = this.searchTracks.tracks.items.find((track) => {
+        return track.id === songId;
+      });
+      if (!this.rating) {
+        this.rating = 0;
+      }
+      const addedSong = {
+        id: song.id,
+        name: song.name,
+        preview_url: song.preview_url,
+        spotify: song.external_urls.spotify,
+        rating: this.rating,
+        likes: 0,
+        dislikes: 0,
+        genre: [this.genreForNewSong],
+        artists: song.artists,
+      };
+      songService.addSongToDjList(addedSong).then((response) => {
+        if (response.status === 201 || response.status === 200) {
+          alert("Song successfully added");
+        } else {
+          alert("There was an issue adding this song to your playlist");
+        }
+      });
     },
   },
   created() {
     spotifyService.getToken().then((response) => {
       spotifyService.setAccessToken(response.data.access_token);
     });
+    songService.getGenres().then((response) => {
+      if (response.status === 200) {
+        this.genres = response.data;
+      }
+    });
   },
 };
 </script>
 
 <style>
+.checkbox-labels {
+  font-size: 13px;
+}
+.add-song {
+  display: inline-block;
+  margin-left: 20px;
+}
+#add {
+  margin-right: 10px;
+  margin-left: 5px;
+}
+#save {
+  height: 20px;
+  font-size: 13px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+#rating {
+  width: 40px;
+  margin-left: 10px;
+}
+#genre-label {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 13px;
+}
 </style>

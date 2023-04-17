@@ -184,6 +184,21 @@ public class JdbcSongDao implements SongDao {
     }
 
     @Override
+    public List<Genre> getGenres() {
+        String sql = "SELECT genre_id, name " +
+                "FROM public.genres;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+
+        List<Genre> genres = new ArrayList<>();
+
+        while (results.next()) {
+            genres.add(mapRowToGenre(results));
+        }
+
+        return genres;
+    }
+
+    @Override
     public void deleteSong(String songId, int userId) {
         String sql = "DELETE FROM public.dj_song " +
                 "WHERE song_id = ? " +

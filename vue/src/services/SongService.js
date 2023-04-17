@@ -8,7 +8,7 @@ export default {
     getSong(id) {
         return axios.get(`/songs/${id}`);
     },
-    createSong(song) {
+    addSongToDjList(song) {
         return axios.post('/songs', song);
     },
     updateSong(id, song) {
@@ -16,5 +16,8 @@ export default {
     },
     deleteSong(id) {
         return axios.delete(`/songs/${id}`);
+    },
+    getGenres() {
+        return axios.get('/songs/genres');
     }
 }
