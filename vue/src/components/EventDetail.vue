@@ -94,21 +94,21 @@ export default {
         });
     },
     incrementLikes(songId) {
-  if (this.clickedSongs.includes(songId)) {
-    return;
-  }
-  playlistService.addLikes(this.event.playlist.playlistId, songId);
-  this.clickedSongs.push(songId); // add this line
-  this.getEvent();
-},
-decrementLikes(songId) {
-  if (this.clickedSongs.includes(songId)) {
-    return;
-  }
-  playlistService.deleteLikes(this.event.playlist.playlistId, songId);
-  this.clickedSongs.push(songId); // add this line
-  this.getEvent();
-},
+      if (this.clickedSongs.includes(songId)) {
+      return;
+      }
+      playlistService.addLikes(this.event.playlist.playlistId, songId);
+      this.clickedSongs.push(songId); 
+      this.getEvent();
+    },
+    decrementLikes(songId) {
+      if (this.clickedSongs.includes(songId)) {
+      return;
+      }
+      playlistService.deleteLikes(this.event.playlist.playlistId, songId);
+      this.clickedSongs.push(songId); 
+      this.getEvent();
+    },
   },
 submitSong(songId, playlistId) {
     axios.post('/api/add-song-to-playlist', {
