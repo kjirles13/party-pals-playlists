@@ -1,6 +1,5 @@
 <template>
   <div class="event-detail">
-    <!-- <div v-if="isLoading">Loading...</div> -->
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
     <p>Theme: {{ event.theme }}</p>
@@ -63,9 +62,9 @@ export default {
   },
   data() {
     return {
-      isVisible: false,
-      isLoading: true,
-      event: {},
+      event: {
+        playlist: {}
+      },
       error: "",
     };
   },
@@ -79,7 +78,6 @@ export default {
         .getEventById(eventId)
         .then((response) => {
           this.event = response.data;
-          // this.isLoading = false;
         })
         .catch((error) => {
           console.log(error);
