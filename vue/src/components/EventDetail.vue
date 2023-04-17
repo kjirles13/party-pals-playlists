@@ -1,7 +1,6 @@
 <template>
   <div class="event-detail">
-
-    <button v-if="isDJ || isHost" @click="editEvent" class="edit-cancel">
+    <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
       {{ isEditing ? "Cancel" : "Edit Event" }}
     </button>
 
@@ -16,11 +15,6 @@
       <input type="text" v-model="event.date" />
       <label>Event Theme</label>
       <input type="text" v-model="event.theme" />
-      <label for="host-select">Add Host:</label>
-<select id="host-select" v-model="selectedHost">
-  <option v-for="user in users" :value="user" v-bind:key="user.id">{{ user.name }}</option>
-</select>
-<button @click="addHost">Add</button>
       <button class="submit-edit" @click="updateEventDetails" type="submit">
         Submit
       </button>
@@ -35,33 +29,34 @@
       <p>|</p>
       <h4>Time: {{ event.time }}</h4>
     </div>
-
     <div>
-  <p v-if="event.hosts.length === 1">Your host is:</p>
-  <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
-  <div v-if="event.hosts.length">
-    <div v-for="host in event.hosts" :key="host.hostId">
-      <p class="host-name">{{ host.name }}</p>
-      <span
-        style="color: #8b0000; cursor: pointer"
-        v-on:click="deleteHost(host.name)"
-        >x</span>
-    </div>
-  </div>
-</div>
-    
-    <!-- <div>
-        <p>Your hosts are:</p>
-      <div v-for="host in event.hosts" :key="host.hostId">
-        <p class="host-name">{{ host.name }}</p>
-        <span
-          style="color: #8b0000; cursor: pointer"
-          v-on:click="deleteHost(host.name)"
-          >x</span
-        >
+      <p v-if="event.hosts.length === 1">Your host is:</p>
+      <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
+      <div>
+        <div v-for="host in event.hosts" :key="host.hostId">
+          <p class="host-name">{{ host.name }}</p>
+          <span
+            v-if="isDj"
+            style="color: #8b0000; cursor: pointer"
+            v-on:click="deleteHost(host.name)"
+            >x</span
+          >
+        </div>
       </div>
-    </div> -->
-
+    </div>
+    <div v-if="isDj">
+      <label for="host-select">Add Host:</label>
+      <select id="host-select" v-model="selectedHost">
+        <option
+          v-for="user in availableHosts"
+          :value="user.username"
+          v-bind:key="user.id"
+        >
+          {{ user.username }}
+        </option>
+      </select>
+      <button @click="addHost">Add</button>
+    </div>
     <h2>{{ event.playlist.name }}</h2>
     <div class="song-info">
       <song-display
@@ -133,13 +128,16 @@ export default {
       event: {},
       error: "",
       clickedSongs: [],
+      users: [],
+      selectedHost: "",
     };
   },
   created() {
     this.getEvent();
+    this.getAllUsers();
   },
   computed: {
-    isDJ() {
+    isDj() {
       return this.$store.state.user.username === this.event.djUsername;
     },
     isHost() {
@@ -148,9 +146,19 @@ export default {
         if (host.name === this.$store.state.user.username) {
           isHost = true;
         }
-      })
+      });
       return isHost;
-    }
+    },
+    availableHosts() {
+      return this.users.filter((user) => {
+        if (
+          !this.event.hosts.includes(user.username) &&
+          user.authorities[0].name !== "ROLE_DJ"
+        ) {
+          return user;
+        }
+      });
+    },
   },
   methods: {
     getEvent() {
@@ -205,17 +213,15 @@ export default {
         });
     },
     deleteHost(hostName) {
-      eventService
-        .removeHostFromEvent(this.event.id, hostName)
-        .then(() => {
-            this.getEvent();
-        });
-    },
-    addHost(name) {
-      eventService.addHostToEvent(this.event.id, name).then(() => {
+      eventService.removeHostFromEvent(this.event.id, hostName).then(() => {
         this.getEvent();
-      })
-    }
+      });
+    },
+    addHost() {
+      eventService.addHostToEvent(this.event.id, this.selectedHost).then(() => {
+        this.getEvent();
+      });
+    },
   },
   submitSong(songId, playlistId) {
     axios

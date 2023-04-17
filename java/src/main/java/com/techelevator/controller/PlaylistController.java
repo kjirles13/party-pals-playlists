@@ -5,7 +5,6 @@ import com.techelevator.dao.SongDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Playlist;
 import com.techelevator.model.PlaylistSongDto;
-import com.techelevator.model.VetoSubmitDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
@@ -62,7 +61,12 @@ public class PlaylistController {
     }
 
     @PutMapping("/{playlistId}/songs/{songId}/veto")
-    public void updateVetoSubmit(@PathVariable int playlistId, @PathVariable String songId, @RequestBody VetoSubmitDto vetoSubmitDto) {
-        playlistDao.vetoSubmitSong(playlistId, songId, vetoSubmitDto);
+    public void updateVeto(@PathVariable int playlistId, @PathVariable String songId) {
+        playlistDao.vetoSong(playlistId, songId);
+    }
+
+    @PutMapping("/{playlistId}/songs/{songId}/submit")
+    public void updateSubmit(@PathVariable int playlistId, @PathVariable String songId) {
+        playlistDao.submitSong(playlistId, songId);
     }
 }

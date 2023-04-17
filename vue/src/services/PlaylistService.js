@@ -24,5 +24,13 @@ export default {
 
     updatePlaylistInfo(playlistId, playlistDto) {
         return axios.put(`/playlists/${playlistId}`, playlistDto)
+    },
+
+    vetoSong(playlistId, songId) {
+        return axios.put(`/playlists/${playlistId}/songs/${songId}`)
+    },
+
+    submitSong(playlistId, songId) {
+        return axios.put(`/playlists/${playlistId}/songs/${songId}`)
     }
 };

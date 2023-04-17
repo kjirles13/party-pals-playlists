@@ -1,7 +1,6 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Playlist;
-import com.techelevator.model.VetoSubmitDto;
 
 public interface PlaylistDao {
     Playlist getPlayListById(int playlistId, int userId);
@@ -18,6 +17,7 @@ public interface PlaylistDao {
 
     void updatePlaylist(int playlistId, String name, String description, int userId);
 
-    void vetoSubmitSong(int playlistId, String songId, VetoSubmitDto vetoSubmitDto);
+    void vetoSong(int playlistId, String songId);
 
+    void submitSong(int playlistId, String songId);
 }

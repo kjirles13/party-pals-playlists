@@ -195,13 +195,23 @@ public class JdbcPlaylistDao implements PlaylistDao{
     }
 
     @Override
-    public void vetoSubmitSong(int playlistId, String songId, VetoSubmitDto vetoSubmitDto) {
-        String sql = "UPDATE public.playlist_song " +
-                "SET vetoed=?, submitted=? " +
-                "WHERE playlist_id = ? AND song_id = ?;";
+    public void vetoSong(int playlistId, String songId) {
 
-        jdbcTemplate.update(sql, vetoSubmitDto.isVetoed(), vetoSubmitDto.isSubmitted(), playlistId, songId);
     }
+
+    @Override
+    public void submitSong(int playlistId, String songId) {
+
+    }
+
+//    @Override
+//    public void vetoSubmitSong(int playlistId, String songId, VetoSubmitDto vetoSubmitDto) {
+//        String sql = "UPDATE public.playlist_song " +
+//                "SET vetoed=?, submitted=? " +
+//                "WHERE playlist_id = ? AND song_id = ?;";
+//
+//        jdbcTemplate.update(sql, vetoSubmitDto.isVetoed(), vetoSubmitDto.isSubmitted(), playlistId, songId);
+//    }
 
 
     private Song mapRowToSong(SqlRowSet rs) {
