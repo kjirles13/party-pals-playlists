@@ -168,7 +168,7 @@ public class JdbcPlaylistDao implements PlaylistDao{
     }
 
     @Override
-    public void updateLikes(int playlistId, String songId, int userId) {
+    public void updateLikes(int playlistId, String songId) {
         String sql = "UPDATE playlist_song SET likes = likes + 1 " +
                 "WHERE playlist_id = ? AND song_id = ?";
 
@@ -176,7 +176,7 @@ public class JdbcPlaylistDao implements PlaylistDao{
     }
 
     @Override
-    public void updateDislikes(int playlistId, String songId, int userId) {
+    public void updateDislikes(int playlistId, String songId) {
         String sql = "UPDATE playlist_song SET dislikes = dislikes + 1 " +
                 "WHERE playlist_id = ? AND song_id = ?";
 

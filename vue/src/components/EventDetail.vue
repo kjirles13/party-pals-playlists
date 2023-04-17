@@ -1,97 +1,126 @@
 <template>
   <div class="event-detail">
-    <div v-if="isLoading">Loading...</div>
+    <!-- <div v-if="isLoading">Loading...</div> -->
     <h1>{{ event.name }}</h1>
-    <p>Description: {{ event.description }}</p>
+    <p>{{ event.description }}</p>
     <p>Theme: {{ event.theme }}</p>
     <p>Date: {{ event.date }}</p>
     <p>Time: {{ event.time }}</p>
-    <div v-for="p in event.hosts" :key="p.hostId"> 
+    <p>Your hosts are:</p>
+    <div v-for="p in event.hosts" :key="p.hostId" id="hosts">
       <p>{{ p.name }}</p>
     </div>
     <p>{{ event.djUsername }}</p>
     <p>Playlist: {{ event.playlist.name }}</p>
     <div class="song-info">
-    <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
-      <div style="display: flex; flex-direction: column;">
-        <img src="../images/thumbs-up.png" alt="Spotify" width="15" height="15" style="margin-bottom: 10px; cursor: pointer;" @click="incrementLikes(song)" :class="{ disabled: song.clicked }">
-        <span>{{ song.likes }}</span>
-        <img src="../images/thumbs-down.png" alt="Spotify" width="15" height="15" style="cursor: pointer;" @click="decrementLikes(song)" :class="{ disabled: song.clicked }">
-      </div>
-    </song-display>
-  </div>
+      <song-display
+        v-for="song in event.playlist.songs"
+        :key="song.song_id"
+        :song="song"
+      >
+        <div style="display: flex; flex-direction: column; justify-content: space-between">
+          <div id="likes">
+            <span>{{ song.likes }}</span>
+            <img
+              src="../images/thumbs-up.png"
+              alt="Likes"
+              width="15"
+              height="15"
+              class="thumb"
+              style="margin-bottom: 10px; cursor: pointer"
+              @click="incrementLikes(song.id)"
+              :class="{ disabled: song.clicked }"
+            />
+          </div>
+          <div id="dislikes">
+            <span>{{ song.dislikes }}</span>
+            <img
+            src="../images/thumbs-down.png"
+            alt="Dislikes"
+            width="15"
+            height="15"
+            class="thumb"
+            style="margin-bottom: 10px; cursor: pointer"
+            @click="decrementLikes(song.id)"
+            :class="{ disabled: song.clicked }"
+          />
+          </div>
+        </div>
+      </song-display>
+    </div>
   </div>
 </template>
 
 <script>
-import eventService from '../services/EventService';
-import SongDisplay from '@/components/SongDisplay.vue';
+import eventService from "../services/EventService";
+import playlistService from "../services/PlaylistService";
+import SongDisplay from "@/components/SongDisplay.vue";
 
 export default {
   name: "event-detail",
   components: {
-    SongDisplay
+    SongDisplay,
   },
   data() {
     return {
       isVisible: false,
       isLoading: true,
-      event: {
-        name: '',
-        description: '',
-        date: '',
-        time: '',
-        playlist: {
-          name: '',
-          songs: [],
-        },
-        hosts: [],
-        djUsername: '',
-      },
-      error: '',
+      event: {},
+      error: "",
     };
   },
   created() {
-    const eventId = parseInt(this.$route.params.id);
-    eventService.getEventById(eventId)
-      .then((response) => {
-        this.event = response;
-        this.isLoading = false;
-      })
-      .catch((error) => {
-        console.log(error);
-        this.isLoading = false;
-        this.error = 'Error loading event';
-      });
+    this.getEvent();
   },
- methods: {
-    incrementLikes(song) {
-      if (!song.clicked) {
-        song.likes++;
-        song.clicked = true;
-        this.saveLikes(song);
-      }
+  methods: {
+    getEvent() {
+      const eventId = parseInt(this.$route.params.id);
+      eventService
+        .getEventById(eventId)
+        .then((response) => {
+          this.event = response.data;
+          // this.isLoading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.isLoading = false;
+          this.error = "Error loading event";
+        });
     },
-    decrementLikes(song) {
-      if (!song.clicked) {
-        song.likes--;
-        song.clicked = true;
-        this.saveLikes(song);
-      }
+    incrementLikes(songId) {
+      playlistService.addLikes(this.event.playlist.playlistId, songId);
+      this.getEvent();
     },
-    
+    decrementLikes(songId) {
+      playlistService.deleteLikes(this.event.playlist.playlistId, songId);
+      this.getEvent();
+    },
   },
 };
 </script>
 
 <style scoped>
 .event-detail {
-    margin: 100px;
+  text-align: center;
+  margin: 100px;
 }
 .disabled {
-    opacity: 0.2;
-    pointer-events: none;
-  }
-
-
+  opacity: 0.2;
+  pointer-events: none;
+}
+#likes {
+  display: flex;
+  font-size: 13px;
+  justify-content: space-evenly;
+}
+#dislikes {
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+}
+.thumb {
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 5px;
+}
 </style>

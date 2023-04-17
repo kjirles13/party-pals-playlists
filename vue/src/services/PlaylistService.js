@@ -3,26 +3,26 @@ import axios from 'axios';
 export default {
 
     getPlaylistById(playlistId) {
-        return axios.get(`/${playlistId}`)
+        return axios.get(`/playlists/${playlistId}`)
     },
 
     addLikes(playlistId, songId) {
-        return axios.put(`/${playlistId}/songs/${songId}/likes`)
+        return axios.put(`/playlists/${playlistId}/songs/${songId}/likes`)
     },
 
     deleteLikes(playlistId, songId) {
-        return axios.delete(`/${playlistId}/songs/${songId}/likes`)
+        return axios.delete(`/playlists/${playlistId}/songs/${songId}/likes`)
     },
 
     removeSongFromPlaylist(playlistId, songId) {
-        return axios.delete(`/${playlistId}/songs/${songId}`)
+        return axios.delete(`/playlists/${playlistId}/songs/${songId}`)
     },
 
     addSongToPlaylist(playlistId, songId) {
-        return axios.put(`/${playlistId}/songs/${songId}`)
+        return axios.put(`/playlists/${playlistId}/songs/${songId}`)
     },
 
     updatePlaylistInfo(playlistId, playlistDto) {
-        return axios.put(`/${playlistId}`, playlistDto)
+        return axios.put(`/playlists/${playlistId}`, playlistDto)
     }
 };

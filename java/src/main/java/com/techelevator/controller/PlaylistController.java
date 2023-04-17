@@ -44,16 +44,14 @@ public class PlaylistController {
     }
 
     @PutMapping("/{playlistId}/songs/{songId}/likes")
-    public void updateLikes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
-        int userId = userDao.findIdByUsername(principal.getName());
-        playlistDao.updateLikes(playlistId, songId, userId);
+    public void updateLikes(@PathVariable int playlistId, @PathVariable String songId) {
+        playlistDao.updateLikes(playlistId, songId);
     }
 
     @DeleteMapping("/{playlistId}/songs/{songId}/likes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateDislikes(@PathVariable int playlistId, @PathVariable String songId, Principal principal) {
-        int userId = userDao.findIdByUsername(principal.getName());
-        playlistDao.updateDislikes(playlistId, songId, userId);
+    public void updateDislikes(@PathVariable int playlistId, @PathVariable String songId) {
+        playlistDao.updateDislikes(playlistId, songId);
     }
 
     @PutMapping("/{playlistId}")
