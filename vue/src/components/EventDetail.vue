@@ -103,7 +103,6 @@ export default {
         .getEventById(eventId)
         .then((response) => {
           this.event = response.data;
-          // this.isLoading = false;
         })
         .catch((error) => {
           console.log(error);
