@@ -17,6 +17,10 @@
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" v-model="user.confirmPassword" required />
       </div>
+      <div>
+        <input type="checkbox" id="dj" name="dj" value="">
+        <label for="dj">Register as DJ</label>
+      </div>
       <button type="submit">Create Account</button>
       <p><router-link :to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
@@ -82,5 +86,9 @@ export default {
 }
 label {
   margin-right: 0.5rem;
+}
+
+#dj {
+  margin-bottom: 20px;
 }
 </style>

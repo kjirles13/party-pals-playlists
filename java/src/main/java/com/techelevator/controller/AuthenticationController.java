@@ -63,6 +63,17 @@ public class AuthenticationController {
         }
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public void registerAsDj(@Valid @RequestBody RegisterUserDto newUser) {
+        try {
+            User user = userDao.findByUsername(newUser.getUsername());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists.");
+        } catch (UsernameNotFoundException e) {
+            userDao.create(newUser.getUsername(),newUser.getPassword(), newUser.getRole());
+        }
+    }
+
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userDao.findAll();

@@ -17,4 +17,6 @@ public interface UserDao {
     boolean create(String username, String password, String role);
 
     void setHost(int userId, String hostUsername);
+
+    boolean registerAsDj(String username, String password, String role, boolean isDj);
 }
