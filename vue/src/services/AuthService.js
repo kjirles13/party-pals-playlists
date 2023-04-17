@@ -14,8 +14,4 @@ export default {
     return axios.get('/users/');
   },
 
-  updateHosts(hosts) {
-    return axios.put('/users', hosts);
-  }
-
 }
