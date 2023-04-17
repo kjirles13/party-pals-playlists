@@ -89,6 +89,14 @@ public class JdbcUserDao implements UserDao {
 
     }
 
+    @Override
+    public boolean registerAsDj(String username, String password, String role, boolean isDj) {
+
+        return false;
+    }
+
+
+
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getInt("user_id"));
