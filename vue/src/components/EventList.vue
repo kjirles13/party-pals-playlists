@@ -1,7 +1,8 @@
 <template>
   <div>
-    <input type="text" v-model="searchText" />
-    <button @click="searchEvent">Search</button>
+    <input type="text" v-model="searchText" placeholder="Search Events"/>
+    <br /><br />
+    <!-- <button @click="searchEvent">Search</button> -->
     <!-- <div>
      <button v-if="isDJ" @click="createEvent">Create Event</button>
     <label>Event Title</label>
@@ -18,10 +19,10 @@
     <div v-for="event in $store.state.events" :key="event.id">
      <h3>Event: {{ event.name }}</h3>
       </div> -->
-    <h2 v-if="event">{{ event.name }}</h2>
+    <!-- <h2>{{ event.name }}</h2> -->
     <table>
       <tbody>
-        <tr v-for="event in $store.state.filteredEvents" :key="event.id">
+        <tr v-for="event in filterEvents" :key="event.id">
           <td>{{ event.name }}</td>
           <td>{{ event.date }}</td>
           <td>{{ event.id }}</td>
@@ -46,15 +47,16 @@ export default {
   data() {
     return {
       searchText: "",
-      filteredEvents: [],
     };
   },
-  methods: {
-      filterEvents() {
-      this.filteredEvents = this.$store.state.events.filter((events) => {
+  computed: {
+    filterEvents() {
+      return this.$store.state.events.filter((events) => {
        return events.name.toLowerCase().includes(this.searchText.toLowerCase())
       });
     },
+  },
+  methods: { 
     isDJ() {
       return this.$store.state.user.authorities[0].name === "ROLE_DJ";
     },
