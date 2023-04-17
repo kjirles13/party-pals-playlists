@@ -1,6 +1,6 @@
 <template>
   <div class="event-detail">
-    <div v-if="isLoading">Loading...</div>
+    <!-- <div v-if="isLoading">Loading...</div> -->
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
     <p>Theme: {{ event.theme }}</p>
@@ -18,7 +18,7 @@
         :key="song.song_id"
         :song="song"
       >
-        <div style="display: flex; flex-direction: column">
+        <div style="display: flex; flex-direction: column; justify-content: space-between">
           <div id="likes">
             <span>{{ song.likes }}</span>
             <img
@@ -26,6 +26,7 @@
               alt="Likes"
               width="15"
               height="15"
+              class="thumb"
               style="margin-bottom: 10px; cursor: pointer"
               @click="incrementLikes(song.id)"
               :class="{ disabled: song.clicked }"
@@ -38,7 +39,8 @@
             alt="Dislikes"
             width="15"
             height="15"
-            style="cursor: pointer"
+            class="thumb"
+            style="margin-bottom: 10px; cursor: pointer"
             @click="decrementLikes(song.id)"
             :class="{ disabled: song.clicked }"
           />
@@ -63,20 +65,7 @@ export default {
     return {
       isVisible: false,
       isLoading: true,
-      event: {
-        id: "",
-        name: "",
-        description: "",
-        date: "",
-        time: "",
-        playlist: {
-          playlistId: "",
-          name: "",
-          songs: [],
-        },
-        hosts: [],
-        djUsername: "",
-      },
+      event: {},
       error: "",
     };
   },
@@ -90,7 +79,7 @@ export default {
         .getEventById(eventId)
         .then((response) => {
           this.event = response.data;
-          this.isLoading = false;
+          // this.isLoading = false;
         })
         .catch((error) => {
           console.log(error);
@@ -121,12 +110,17 @@ export default {
 }
 #likes {
   display: flex;
-  font-size: 15px;
+  font-size: 13px;
   justify-content: space-evenly;
 }
 #dislikes {
   display: flex;
-  font-size: 15px;
+  font-size: 13px;
   justify-content: space-between;
+}
+.thumb {
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 </style>
