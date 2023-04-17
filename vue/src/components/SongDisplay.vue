@@ -66,7 +66,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: linear-gradient(to bottom, #f7faf2, #c8c9c5);
+  background: linear-gradient(to bottom, #f2f8f1, #cecfcb);
   border-radius: 19px;
   margin-top: 10px;
   margin-bottom: 8px;
@@ -109,7 +109,7 @@ export default {
 }
 
 audio::-webkit-media-controls-panel {
-  background: radial-gradient(#c3c5c1, #afb1ad);
+  background: radial-gradient(#c9c6c6, #c2c2c2);
 }
 audio::-webkit-media-controls-play-button {
   background-color: #898d86;

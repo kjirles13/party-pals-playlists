@@ -17,10 +17,10 @@
       <div>
         <song-display v-bind:song="song" />
         <form v-on:submit.prevent="addSong(song.id)">
+          <input type="checkbox" id="add" />
           <label for="add" class="checkbox-labels"
-            >Add this song to your playlist
+            >Add a song to your playlist
           </label>
-          <!-- <input type="checkbox" id="add" /> -->
           <input
             type="text"
             placeholder="Rating"
