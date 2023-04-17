@@ -1,14 +1,9 @@
 <template>
   <div>
     <form v-on:submit.prevent="searchForTrack">
-      <label for="input">Search for a song on Spotify by title or artist:</label
-      ><br /><br />
-      <input
-        type="text"
-        name="input"
-        placeholder="Track"
-        v-model="search.track"
-      />
+      <label for="input">Search for a song on Spotify by title or artist:</label>
+      <br /><br />
+      <input type="text" name="input" placeholder="Track" v-model="search.track"/>
       <input type="text" placeholder="Artist" v-model="search.artist" />
       <br /><br />
       <button type="submit" v-on:click.prevent="searchForTrack">Search</button>
@@ -18,27 +13,17 @@
         <song-display v-bind:song="song" />
         <form v-on:submit.prevent="addSong(song.id)">
           <input type="checkbox" id="add" />
-          <label for="add" class="checkbox-labels"
-            >Add a song to your playlist
-          </label>
-          <input
-            type="text"
-            placeholder="Rating"
-            id="rating"
-            v-model.number="rating"
-          />
+          <label for="add" class="checkbox-labels">Add a song to your playlist</label>
+          <input type="text" placeholder="Rating" id="rating" v-model.number="rating"/>
           <label for="select" id="genre-label">Choose a genre:</label>
           <select v-model="genreId" id="genre">
             <option value="">Choose a genre</option>
-            <option v-for="genre in genres" :key="genre.id" v-bind:value="genre.id">
-              {{ genre.name }}
-            </option>
+            <option v-for="genre in genres" :key="genre.id" v-bind:value="genre.id">{{ genre.name }}</option>
           </select>
           <button type="submit" id="save">Save</button>
         </form>
       </div>
     </div>
-
     <div v-if="isDJ">
       <p>Add host to event:</p>
       <select name="users" id="users">
@@ -50,7 +35,7 @@
 
 <script>
 import spotifyService from "../services/SpotifyService.js";
-import SongDisplay from "./SongDisplay.vue";
+import SongDisplay from "@/components/SongDisplay.vue";
 import songService from "../services/SongService";
 
 export default {
