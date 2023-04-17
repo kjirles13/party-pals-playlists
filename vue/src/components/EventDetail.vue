@@ -70,6 +70,7 @@ export default {
     user: null,
     isVisible: false,
     isLoading: true,
+    isEditing: false,
     event: {},
     error: "",
     clickedSongs: [], 
