@@ -1,8 +1,8 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS user_role, genre_song, playlist_genre, 
+DROP TABLE IF EXISTS genre_song, playlist_genre, 
 artist_song, playlist_song, dj_song, songs, genres, playlists, 
-artists, host_event, events, roles, users CASCADE;
+artists, host_event, events, users CASCADE;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -10,19 +10,6 @@ CREATE TABLE users (
 	password_hash varchar(200) NOT NULL,
 	role varchar(50) NOT NULL,
 	CONSTRAINT PK_user PRIMARY KEY (user_id)
-);
-
-CREATE TABLE roles (
-	role_id SERIAL PRIMARY KEY,
-	role_name varchar(50) NOT NULL
-);
-
-CREATE TABLE user_role (
-user_id int NOT NULL,
-role_id int NOT null,
-PRIMARY KEY (user_id, role_id),
-FOREIGN KEY (user_id) REFERENCES users(user_id),
-FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
 
 CREATE TABLE playlists(
