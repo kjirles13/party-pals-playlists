@@ -76,11 +76,12 @@ export default {
   },
   data() {
     return {
-      event: {
-        playlist: {}
-      },
+      user: null,
+      isVisible: false,
+      isLoading: true,
+      event: {},
       error: "",
-    };
+    }
   },
   created() {
     this.getEvent();
@@ -116,6 +117,7 @@ export default {
       this.getEvent();
     },
   },
+
 };
 </script>
 
