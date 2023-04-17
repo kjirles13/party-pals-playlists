@@ -66,7 +66,6 @@ export default {
     SongDisplay,
   },
   data() {
-<<<<<<< HEAD
    return {
     user: null,
     isVisible: false,
@@ -76,16 +75,6 @@ export default {
     error: "",
     clickedSongs: [], 
   }
-=======
-    return {
-      user: null,
-      isVisible: false,
-      isLoading: true,
-      isEditing: false,
-      event: {},
-      error: "",
-    }
->>>>>>> main
   },
   created() {
     this.getEvent();
