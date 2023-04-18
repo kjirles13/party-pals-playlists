@@ -1,34 +1,63 @@
 <template>
-  <div>
-    <form v-on:submit.prevent="searchForTrack">
-      <label for="input">Search for a song on Spotify by title or artist:</label>
-      <br /><br />
-      <input type="text" name="input" placeholder="Track" v-model="search.track"/>
-      <input type="text" placeholder="Artist" v-model="search.artist" />
-      <br /><br />
-      <button type="submit" v-on:click.prevent="searchForTrack">Search</button>
-    </form>
-    <div v-for="song in searchTracks.tracks.items" v-bind:key="song.id">
-      <div>
-        <song-display v-bind:song="song" />
-        <form v-on:submit.prevent="addSong(song.id)">
-          <input type="checkbox" id="add" />
-          <label for="add" class="checkbox-labels">Add a song to your playlist</label>
-          <input type="text" placeholder="Rating" id="rating" v-model.number="rating"/>
+  <div id="search-page" v-if="isDj">
+    <div id="search-submit">
+      <div id="search">
+        <form v-on:submit.prevent="searchForTrack">
+          <label for="input"
+            >Search for a song on Spotify by title or artist:</label
+          >
+          <br /><br />
+          <input
+            type="text"
+            name="input"
+            placeholder="Track"
+            v-model="search.track"
+          />
+          <input type="text" placeholder="Artist" v-model="search.artist" />
+          <br /><br />
+          <button type="submit" v-on:click.prevent="searchForTrack">
+            Search
+          </button>
+        </form>
+      </div>
+      <div id="submit">
+        <p id="submit-song">Submit Song</p>
+        <form v-on:submit.prevent="addSong()" id="add-song">
+          <input
+            type="text"
+            placeholder="Rating"
+            id="rating"
+            v-model.number="rating"
+          />
           <label for="select" id="genre-label">Choose a genre:</label>
           <select v-model="genreId" id="genre">
             <option value="">Choose a genre</option>
-            <option v-for="genre in genres" :key="genre.id" v-bind:value="genre.id">{{ genre.name }}</option>
+            <option
+              v-for="genre in genres"
+              :key="genre.id"
+              v-bind:value="genre.id"
+            >
+              {{ genre.name }}
+            </option>
           </select>
           <button type="submit" id="save">Save</button>
         </form>
       </div>
     </div>
-    <div v-if="isDJ">
-      <p>Add host to event:</p>
-      <select name="users" id="users">
-        <option v-for="user in users" :key="user.id" value="user">{{user.username}}</option>
-      </select>
+
+    <div v-for="song in searchTracks.tracks.items" :key="song.id">
+      <div>
+        <song-display v-bind:song="song" />
+        <label for="add" class="checkbox-labels"
+          >Add this song to your playlist</label
+        >
+        <input
+          type="radio"
+          id="add"
+          v-bind:value="song.id"
+          v-model="songId"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -55,9 +84,9 @@ export default {
         artist: "",
       },
       genres: [],
-      genreId: '',
+      genreId: "",
       rating: "",
-      users: []
+      songId: "",
     };
   },
   methods: {
@@ -84,17 +113,16 @@ export default {
           });
       }
     },
-    addSong(songId) {
+    addSong() {
       const song = this.searchTracks.tracks.items.find((track) => {
-        return track.id === songId;
+        return track.id === this.songId;
       });
       if (!this.rating) {
         this.rating = 0;
       }
       const genre = this.genres.find((item) => {
         return item.id === this.genreId;
-      })
-      console.log(genre);
+      });
       const addedSong = {
         id: song.id,
         name: song.name,
@@ -126,17 +154,15 @@ export default {
     });
   },
   computed: {
-    isDJ() {
+    isDj() {
       return this.$store.state.user.authorities[0].name === "ROLE_DJ";
     },
-    isHost() {
-      return this.user && this.user.role === "ROLE_USER";
-    }
   },
 };
 </script>
 
 <style scoped>
+
 .checkbox-labels {
   font-size: 13px;
 }
@@ -163,5 +189,15 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
   font-size: 13px;
+}
+#search-submit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+#submit {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
 }
 </style>
