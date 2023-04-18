@@ -34,7 +34,12 @@
       <div v-if="event.hosts.length">
        <div v-for="host in event.hosts" :key="host.hostId">
           <p class="host-name">{{ host.name }}</p>
-          <span style="color: #8b0000; cursor: pointer" v-on:click="deleteHost(host.name)">x</span>
+          <span
+            style="color: #8b0000; cursor: pointer"
+            v-on:click="deleteHost(host.name)"
+            v-if="isDj"
+            >x</span
+          >
         </div>
       </div>
     </div>
