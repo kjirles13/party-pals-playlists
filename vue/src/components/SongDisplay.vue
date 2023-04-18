@@ -43,12 +43,20 @@ export default {
     setVolume(event) {
       event.target.volume = 0.2;
     },
+    vetoSong(songId){
+      this.event.playlist.songs = this.event.playlist.songs.filter((song) => {
+        return song.id !== songId
+      })
+    }
   },
 };
 </script>
 
 <style scoped>
-
+.disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .likesDislikes{
   display: flex;
   flex-direction: column;
