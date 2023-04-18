@@ -44,9 +44,10 @@
               />
               <input type="text" placeholder="Artist" v-model="search.artist" />
               <br /><br />
-              <button type="submit" v-on:click.prevent="searchForTrack">
+              <button type="submit">
                 Search
               </button>
+              <button type="button" @click="falseIsShowing">Cancel</button>
             </form>
           </div>
           <div id="submit" v-if="isShowing">
@@ -109,7 +110,6 @@ export default {
   },
   data() {
     return {
-      djEvents: [],
       isShowing: false,
       songs: [],
       searchTracks: {
@@ -162,11 +162,10 @@ export default {
     getAllEvents(){
     eventService.getAllEvents().then((response) => {
       if (response.status == 200) {
-        this.djEvents = response.data.filter(event => {
+        const djEvents = response.data.filter(event => {
           return event.djUsername === this.$store.state.user.username;
         });
-        this.$store.commit("SET_EVENTS", this.djEvents) 
-
+        this.$store.commit("SET_EVENTS", djEvents) 
       }
     
     });
@@ -193,7 +192,7 @@ export default {
             this.searchTracks = response.body;
           });
       }
-      this.flipIsShowing();
+      this.trueIsShowing();
     },
     addSong() {
       const song = this.searchTracks.tracks.items.find((track) => {
@@ -223,11 +222,14 @@ export default {
           window.alert("There was an issue adding this song to your playlist");
         }
       });
-      this.flipIsShowing();
+      this.falseIsShowing();
       this.songs.unshift(addedSong);
     },
-    flipIsShowing() {
-      this.isShowing = !this.isShowing;
+    falseIsShowing() {
+      this.isShowing = false;
+    },
+    trueIsShowing() {
+      this.isShowing = true;
     },
     createForm() {
       this.isCreating = !this.isCreating;
@@ -277,8 +279,7 @@ export default {
   created() {
     this.getSpotifyToken();
     this.getSongs();
-    this.getAllEvents();
-    
+    this.getAllEvents(); 
   },
 };
 </script>
