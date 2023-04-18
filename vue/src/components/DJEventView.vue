@@ -250,14 +250,17 @@ export default {
           this.error = error.response.data.message;
         });
     },
-    getSpotifyToken() {
-      spotifyService.getToken().then((response) => {
-        spotifyService.setAccessToken(response.data.access_token);
+    getDJEvents() {
+      eventService.getDJEvents().then((response) => {
+        this.djEvents = response.data;
       });
-      songService.getGenres().then((response) => {
-        if (response.status === 200) {
-          this.genres = response.data;
-        }
+    },
+    getEvents() {
+      let allEvents;
+      let currentUsername = this.$store.state.user.username;
+
+      eventService.getAllEvents().then((response) => {
+        allEvents = response.data;
       });
     },
   },
