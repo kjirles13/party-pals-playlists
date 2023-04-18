@@ -32,10 +32,12 @@
 export default {
   
   name: "SongList",
-  props: ["song"],
+  props: ["song", "clickedSongs", "event"],
+  
   data() {
     return {
       getSongs: [],
+      currentEvent: this.event,
     };
   },
   
@@ -44,10 +46,19 @@ export default {
       event.target.volume = 0.2;
     },
     vetoSong(songId){
-      this.event.playlist.songs = this.event.playlist.songs.filter((song) => {
+      this.currentEvent.playlist.songs = this.currentEvent.playlist.songs.filter((song) => {
         return song.id !== songId
       })
-    }
+    },
+    isHost() {
+      let isHost = false;
+      this.event.hosts.forEach((host) => {
+        if (host.name === this.$store.state.user.username) {
+          isHost = true;
+        }
+      });
+      return isHost;
+    },
   },
 };
 </script>

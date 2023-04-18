@@ -63,7 +63,7 @@
       <song-display
         v-for="song in event.playlist.songs"
         :key="song.song_id"
-        :song="song"
+        :song="song" :clickedSongs="clickedSongs" :event="event"
       >
         <div
           style="
