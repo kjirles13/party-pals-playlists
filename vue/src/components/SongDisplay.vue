@@ -23,6 +23,7 @@
         <a :href="song.spotify" target="_blank">
           <img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" height="56"/>
         </a>
+        <button v-if="isHost" @click="vetoSong(song.id)" :disabled="song.clicked || clickedSongs.includes(song.id)">Veto</button>
       </div>
     </div>
 </template>
