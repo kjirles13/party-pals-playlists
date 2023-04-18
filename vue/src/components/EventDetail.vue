@@ -3,7 +3,6 @@
     <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
       {{ isEditing ? "Cancel" : "Edit Event" }}
     </button>
-
     <div class="edit" v-if="isEditing">
       <label>Event Title</label>
       <input type="text" v-model="event.name" />
@@ -19,7 +18,6 @@
         Submit
       </button>
     </div>
-
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
     <h3 class="dj-name">DJ {{ event.djUsername }}</h3>
@@ -33,8 +31,8 @@
     <div>
       <p v-if="event.hosts.length === 1">Your host is:</p>
       <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
-      <div>
-        <div v-for="host in event.hosts" :key="host.hostId">
+      <div v-if="event.hosts.length">
+        <div v-for="host in event.hosts" :key="host.id">
           <p class="host-name">{{ host.name }}</p>
           <span
             style="color: #8b0000; cursor: pointer"
@@ -56,7 +54,7 @@
           {{ user.username }}
         </option>
       </select>
-      <button @click="addHost()">Add</button>
+      <button @click="addHost">Add</button>
     </div>
     <h2>{{ event.playlist.name }}</h2>
      <div 
@@ -122,6 +120,7 @@
 import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
+import axios from "axios";
 import authService from "../services/AuthService";
 
 export default {
@@ -137,13 +136,9 @@ export default {
       event: {},
       error: "",
       clickedSongs: [],
-      users: [],
       selectedHost: "",
+      users: [],
     };
-  },
-  created() {
-    this.getEvent();
-    this.getAllUsers();
   },
   computed: {
     isDj() {
@@ -216,9 +211,6 @@ export default {
       this.isEditing = !this.isEditing;
     },
     updateEventDetails() {
-      const date = new Date(this.event.date + " " + this.event.time);
-      const militaryTime = date.getHours() + ":" + date.getMinutes() + ":00";
-      this.event.time = militaryTime;
       const eventId = parseInt(this.$route.params.id);
       eventService
         .updateEvent(this.event, eventId)
@@ -240,6 +232,20 @@ export default {
         this.getEvent();
       });
     },
+    submitSong(songId, playlistId) {
+      axios
+        .post("/api/add-song-to-playlist", {
+          songId: songId,
+          playlistId: playlistId,
+        })
+        .then((response) => {
+          this.$store.commit(response.data);
+        });
+    },
+  },
+  created() {
+    this.getEvent();
+    this.getAllUsers();
   },
 };
 </script>
