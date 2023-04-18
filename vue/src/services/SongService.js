@@ -14,7 +14,7 @@ export default {
     updateSong(id, song) {
         return axios.put(`/songs/${id}`, song)
     },
-    deleteSong(id) {
+    deleteSongFromDjList(id) {
         return axios.delete(`/songs/${id}`);
     },
     getGenres() {

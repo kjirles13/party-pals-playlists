@@ -23,10 +23,8 @@
     <h3>DJ {{ event.djUsername }}</h3>
     <div id="theme-date-time">
       <h4>Date: {{ event.date }}</h4>
-      <p>|</p>
-      <h4>Theme: {{ event.theme }}</h4>
-      <p>|</p>
-      <h4>Time: {{ event.time }}</h4>
+      <p></p>
+      <h4>Time: {{ formattedTime }}</h4>
     </div>
     <div>
       <p v-if="event.hosts.length === 1">Your host is:</p>
@@ -61,7 +59,7 @@
       <song-display
         v-for="song in event.playlist.songs"
         :key="song.song_id"
-        :song="song"
+        :song="song" :clickedSongs="clickedSongs" :event="event"
       >
         <div
           style="
@@ -104,9 +102,7 @@
             v-if="isHost"
             @click="vetoSong(song.id)"
             :disabled="song.clicked || clickedSongs.includes(song.id)"
-          >
-            Veto
-          </button>
+          >Veto</button>
         </div>
       </song-display>
     </div>
@@ -119,6 +115,8 @@ import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
 import axios from "axios";
 import authService from "../services/AuthService";
+import PlaylistService from '../services/PlaylistService';
+import moment from 'moment';
 
 export default {
   name: "event-detail",
@@ -138,6 +136,9 @@ export default {
     };
   },
   computed: {
+    formattedTime() {
+    return moment(this.event.time, "HH:mm").format("h:mm A");
+  },
     isDj() {
       return this.$store.state.user.username === this.event.djUsername;
     },
@@ -164,9 +165,17 @@ export default {
   },
   methods: {
     vetoSong(songId) {
-      this.event.playlist.songs = this.event.playlist.songs.filter((song) => {
-        return song.id !== songId;
-      });
+      try {
+        const response = PlaylistService.vetoSong(this.event.playlist.id, songId);
+        if (response.status === 200) {
+          const song = this.event.playlist.songs.find((song) => song.id === songId);
+          if (song){
+            song.clickedSongs = true;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
     getEvent() {
       const eventId = parseInt(this.$route.params.id);

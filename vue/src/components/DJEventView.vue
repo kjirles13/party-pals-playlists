@@ -1,31 +1,58 @@
 <template>
   <div class="EventContainer">
-    <button v-if="isDJ" @click="createForm">Create Event</button>
+    <button v-if="isDJ" @click="createForm" class="create">Create Event</button>
           
     <div class="create" v-if="isCreating">
-      <form v-on:submit.prevent="createEvent">
-        <label>Event Title</label>
-        <input type="text" v-model="event.name" />
-        <label>Event Description</label>
-        <input type="text" v-model="event.description" />
-        <label>Event Time</label>
-        <input type="time" v-model="event.time" />
-        <label>Event Date</label>
-        <input type="date" v-model="event.date" />
-        <label>Event Theme</label>
-        <input type="text" v-model="event.theme" />
-        <label>Playlist Name</label>
-        <input type="text" v-model="event.playlist.name" />
-        <label>Playlist Description</label>
-        <input type="text" v-model="event.playlist.description" />
-        <button class="submit-created" type="submit">Submit</button>
+      <form v-on:submit.prevent="createEvent" id="create-event">
+        <div class="create-input">
+          <label>Event Title:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.name" />
+        </div>
+        <div class="create-input">
+          <label>Event Description:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.description" />
+        </div>
+        <div class="create-input">
+          <label>Event Time:&nbsp;&nbsp;&nbsp;</label>
+          <input type="time" v-model="event.time" />
+        </div>
+        <div class="create-input">
+          <label>Event Date:&nbsp;&nbsp;&nbsp;</label>
+          <input type="date" v-model="event.date" />
+        </div>
+        <div class="create-input">
+          <label>Event Theme:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.theme" />
+        </div>
+        <div class="create-input">
+          <label>Playlist Name:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.playlist.name" />
+        </div>
+        <div class="create-input">
+          <label>Playlist Description:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.playlist.description" />
+        </div>
+        <div class="create-input">
+          <button class="submit-created" type="submit" >Submit</button>
+        </div>
       </form>
     </div>
       <h1>My Songs</h1>
     <div id="song-container">
       <div id="current-songs">
         <h2>Current Playlist</h2>
-        <song-display v-for="song in this.songs" :key="song.song_id" :song="song"/>
+        <div v-for="song in this.songs" :key="song.song_id">
+          <song-display  :song="song"/>
+          <button type="button" @click="deleteSong(song.id)">
+            Delete
+          </button>
+          <!-- <input
+                type="button"
+                id="add"
+                v-bind:value="song.id"
+                v-model="songId"
+              /> -->
+        </div>
       </div>
       <div id="search-page">
         <h2>Add Songs</h2>
@@ -41,16 +68,15 @@
                 name="input"
                 placeholder="Track"
                 v-model="search.track"
+                class="search-input"
               />
-              <input type="text" placeholder="Artist" v-model="search.artist" />
+              <input type="text" placeholder="Artist" v-model="search.artist" class="search-input"/>
               <br /><br />
-              <button type="submit" v-on:click.prevent="searchForTrack">
+              <button type="submit">
                 Search
               </button>
+              <button type="button" @click="falseIsShowing">Cancel</button>
             </form>
-          </div>
-          <div id="submit" v-if="isShowing">
-            <p id="submit-song">Submit Song</p>
           </div>
         </div>
 
@@ -59,7 +85,7 @@
             <div>
               <song-display v-bind:song="song" />
               <label for="add" class="checkbox-labels"
-                >Add this song to your playlist</label
+                >Add Song</label
               >
               <input
                 type="radio"
@@ -67,15 +93,16 @@
                 v-bind:value="song.id"
                 v-model="songId"
               />
-              <form v-on:submit.prevent="addSong()" id="add-song">
-              <input
-                type="text"
-                placeholder="Rating"
-                id="rating"
-                v-model.number="rating"
-              />
-              <label for="select" id="genre-label">Choose a genre:</label>
-              <select v-model="genreId" id="genre">
+              <form id="add-song" v-on:submit.prevent="addSong()" v-if="song.id === songId">
+              <select name="rating" id="rating" v-model="rating">
+                <option value="">Rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+              </select>
+              <select id="genre" v-model="genreId" >
                 <option value="">Choose a genre</option>
                 <option
                   v-for="genre in genres"
@@ -109,7 +136,6 @@ export default {
   },
   data() {
     return {
-      djEvents: [],
       isShowing: false,
       songs: [],
       searchTracks: {
@@ -126,11 +152,6 @@ export default {
       rating: "",
       songId: "",
       isCreating: false,
-      user: null,
-      isVisible: false,
-      isLoading: true,
-      isEditing: false,
-      error: "",
       event: {
         name: "",
         description: "",
@@ -150,7 +171,9 @@ export default {
     isDJ() {
       return this.$store.state.user.username === this.event.djUsername;
     },
-
+    currentSong() {
+      return this.searchTracks.tracks.items.indexOf(this.songId);
+    }
   },
   methods: {
     getSongs() {
@@ -162,11 +185,10 @@ export default {
     getAllEvents(){
     eventService.getAllEvents().then((response) => {
       if (response.status == 200) {
-        this.djEvents = response.data.filter(event => {
+        const djEvents = response.data.filter(event => {
           return event.djUsername === this.$store.state.user.username;
         });
-        this.$store.commit("SET_EVENTS", this.djEvents) 
-
+        this.$store.commit("SET_EVENTS", djEvents) 
       }
     
     });
@@ -193,7 +215,7 @@ export default {
             this.searchTracks = response.body;
           });
       }
-      this.flipIsShowing();
+      this.trueIsShowing();
     },
     addSong() {
       const song = this.searchTracks.tracks.items.find((track) => {
@@ -223,11 +245,32 @@ export default {
           window.alert("There was an issue adding this song to your playlist");
         }
       });
-      this.flipIsShowing();
+      this.falseIsShowing();
       this.songs.unshift(addedSong);
+      this.songId = 0;
+      this.reset();
     },
-    flipIsShowing() {
-      this.isShowing = !this.isShowing;
+    resetForm() {  
+      document.getElementById("rating").selectedIndex = 0;
+      document.getElementById("genre").selectedIndex = 0;
+
+    },
+    deleteSong(songId) {
+      const confirmation = confirm("Are you sure you want to delete this song?");
+      if (confirmation) {
+        songService.deleteSongFromDjList(songId).then(response => {
+          if (response.status === 204) {
+            alert("Song successfully deleted");
+            this.getSongs();
+          }
+        })
+      }
+    },
+    falseIsShowing() {
+      this.isShowing = false;
+    },
+    trueIsShowing() {
+      this.isShowing = true;
     },
     createForm() {
       this.isCreating = !this.isCreating;
@@ -277,48 +320,12 @@ export default {
   created() {
     this.getSpotifyToken();
     this.getSongs();
-    this.getAllEvents();
-    
+    this.getAllEvents(); 
   },
 };
 </script>
 
 <style scoped>
-#theme-date-time {
-  display: flex;
-  justify-content: center;
-  justify-content: space-around;
-}
-.host-name {
-  display: inline-block;
-  margin-right: 10px;
-}
-.event-detail {
-  text-align: center;
-  margin: 150px;
-}
-.disabled {
-  opacity: 0.2;
-  cursor: not-allowed;
-}
-.disabled img {
-  filter: grayscale(1);
-}
-#likes {
-  display: flex;
-  font-size: 13px;
-  justify-content: space-evenly;
-}
-#dislikes {
-  display: flex;
-  font-size: 13px;
-  justify-content: space-between;
-}
-.thumb {
-  display: inline-block;
-  margin-right: 5px;
-  margin-left: 5px;
-}
 .edit {
   display: grid;
 }
@@ -351,7 +358,7 @@ input {
 .checkbox-labels {
   font-size: 13px;
 }
-.add-song {
+#add-song {
   display: inline-block;
   margin-left: 20px;
 }
@@ -375,6 +382,7 @@ input {
 }
 #genre {
   margin-top: 5px;
+  margin-left: 10px;
 }
 #genre-label {
   display: inline-block;
@@ -398,7 +406,7 @@ input {
 }
 #save {
   display: inline-block;
-  margin: 0 auto 20px auto;
+  margin-left: 10px ;
 }
 #song-container {
   display: flex;
@@ -409,5 +417,24 @@ h1 {
 }
 h2 {
   text-align: center;
+}
+button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.search-input {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.create-input {
+  display: block;
+  margin-bottom: 5px;
+}
+.create {
+  margin-top: 20px;
+}
+.submit-created {
+  margin-top: 10px;
+  width: 300px;
 }
 </style>
