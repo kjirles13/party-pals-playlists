@@ -38,9 +38,9 @@ export default {
         return event.name.toLowerCase().includes(this.searchText.toLowerCase());
       });
     },
-    isDJ() {
-      return this.$store.state.user.authorities[0].name === "ROLE_DJ";
-    },
+    // isDJ() {
+    //   return this.$store.state.user.authorities[0].name === "ROLE_DJ";
+    // },
   },
   methods: {
     getEvents() {
@@ -49,9 +49,9 @@ export default {
       });
     },
   },
-  created() {
-      this.getEvents();
-    },
+  // created() {
+  //     this.getEvents();
+  //   },
 };
 </script>
 

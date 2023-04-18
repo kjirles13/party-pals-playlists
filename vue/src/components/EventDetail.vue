@@ -39,6 +39,7 @@
           <span
             style="color: #8b0000; cursor: pointer"
             v-on:click="deleteHost(host.name)"
+            v-if="isDj"
             >x</span
           >
         </div>

@@ -9,18 +9,18 @@
 
 <script>
 import events from '../components/EventList.vue'
-// import eventService from '../services/EventService'
+import eventService from '../services/EventService'
 
 export default {
   name: "Events",
  components: {
     events,
   },
-  // created() {
-  //   eventService.getAllEvents().then(response => {
-  //     this.$store.commit("SET_EVENTS", response.data);
-  //   })
-  // }
+  created() {
+    eventService.getAllEvents().then(response => {
+      this.$store.commit("SET_EVENTS", response.data);
+    })
+  }
 };
 
 </script>
