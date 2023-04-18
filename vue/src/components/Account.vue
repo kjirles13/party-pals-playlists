@@ -49,10 +49,6 @@ this.isClicked = !this.isClicked;
     padding: 0;
 }
 
-.header {
-    background-color: green;
-    padding: 10px 10px 10px 10px;
-    margin-top: -5;
-}
+
 
 </style>
