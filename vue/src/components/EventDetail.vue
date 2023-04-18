@@ -19,13 +19,14 @@
         Submit
       </button>
     </div>
+
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
     <h3>DJ {{ event.djUsername }}</h3>
     <div id="theme-date-time">
-      <h4>Date: {{ event.date }}</h4>
-      <p>|</p>
       <h4>Theme: {{ event.theme }}</h4>
+      <p>|</p>
+      <h4>Date: {{ event.date }}</h4>
       <p>|</p>
       <h4>Time: {{ event.time }}</h4>
     </div>
@@ -36,7 +37,6 @@
         <div v-for="host in event.hosts" :key="host.hostId">
           <p class="host-name">{{ host.name }}</p>
           <span
-            v-if="isDj"
             style="color: #8b0000; cursor: pointer"
             v-on:click="deleteHost(host.name)"
             >x</span
@@ -55,21 +55,59 @@
           {{ user.username }}
         </option>
       </select>
-      <button @click="addHost">Add</button>
+      <button @click="addHost()">Add</button>
     </div>
     <h2>{{ event.playlist.name }}</h2>
     <div class="song-info">
-      <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
-        <div style=" display: flex; flex-direction: column; justify-content: space-between;">
+      <song-display
+        v-for="song in event.playlist.songs"
+        :key="song.song_id"
+        :song="song"
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
+            <img
+              src="../images/thumbs-up.png"
+              alt="Likes"
+              width="15"
+              height="15"
+              class="thumb"
+              style="margin-bottom: 10px; cursor: pointer"
+              @click="incrementLikes(song.id)"
+              :class="{
+                disabled: song.clicked || clickedSongs.includes(song.id),
+              }"
+            />
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id),}"/>
+            <img
+              src="../images/thumbs-down.png"
+              alt="Dislikes"
+              width="15"
+              height="15"
+              class="thumb"
+              style="margin-bottom: 10px; cursor: pointer"
+              @click="decrementLikes(song.id)"
+              :class="{
+                disabled: song.clicked || clickedSongs.includes(song.id),
+              }"
+            />
           </div>
-          <button v-if="isHost" @click="vetoSong(song.id)" :disabled="song.clicked || clickedSongs.includes(song.id)">Veto</button>
+          <button
+            v-if="isHost"
+            @click="vetoSong(song.id)"
+            :disabled="song.clicked || clickedSongs.includes(song.id)"
+          >
+            Veto
+          </button>
         </div>
       </song-display>
     </div>
@@ -89,7 +127,6 @@ export default {
   },
   data() {
     return {
-      user: null,
       isVisible: false,
       isLoading: true,
       isEditing: false,
@@ -119,7 +156,11 @@ export default {
     },
     availableHosts() {
       return this.users.filter((user) => {
-        if (this.event.hosts.filter(a => a.name === user.username).length === 0 && user.authorities[0].name !== "ROLE_DJ") {
+        if (
+          this.event.hosts.filter((a) => a.name === user.username).length ===
+            0 &&
+          user.authorities[0].name !== "ROLE_DJ"
+        ) {
           return user;
         }
       });
@@ -127,14 +168,9 @@ export default {
   },
   methods: {
     vetoSong(songId) {
-playlistService.vetoSong(this.event.playlist.playlistId, songId)
-.then(() => {
-  this.getEvent();
-})
-.catch((error) =>{
-  console.error(error);
-  this.error = "Failed to veto song.";
-});
+      this.event.playlist.songs = this.event.playlist.songs.filter((song) => {
+        return song.id !== songId;
+      });
     },
     getEvent() {
       const eventId = parseInt(this.$route.params.id);
@@ -200,7 +236,7 @@ playlistService.vetoSong(this.event.playlist.playlistId, songId)
         this.getEvent();
       });
     },
-  }
+  },
 };
 </script>
 

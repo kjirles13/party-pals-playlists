@@ -2,13 +2,33 @@
   <div class="PlaylistDetail">
     <button v-if="isDJ" @click="addSong">Add Song</button>
     <button v-if="isDJ" @click="removeSong">Remove Song</button>
-<button v-if="isHost" @click="vetoSong">Veto Song</button>
-
-    <h1>Name: {{ event.playlist.name }}</h1>
-    <h2>DJ: {{ event.djUsername }}</h2>
-    <!-- <h3>Date: {{ event.date }}</h3>
-    <h3>Time: {{ event.time }}</h3>
-    <p>Description: {{ event.playlist.description }}</p> -->
+    <div class="dj-playlist">
+        <h2>DJ Playlist</h2>
+        <ul>
+          <li v-for="song in djPlaylist" v-bind:key="song.id">
+            <h3>Name: {{ song.name }}</h3>
+            <li>ID: {{ song.id }}</li>
+            <li>Preview: {{ song.preview }}</li>
+            <li>DJ rating: {{ song.rating }}</li>
+            <li>Spotify: {{ song.spotifyUri }}</li>
+            <li>Artists:</li>
+            <li v-for="artist in song.artists" v-bind:key="artist.id"></li>
+              <ul>
+                <li>{{ artist.name }}</li>
+              </ul>
+            </div>
+            <li>Genres:</li>
+            <div v-for="genre in song.genres" v-bind:key="genre.id">
+              <ul>
+                <li>{{ genre.name }}</li>
+              </ul>
+      </div>
+<div class="event-playlist">
+  <h2>Event Playlist</h2>
+  <ul> 
+    <div v-for="song in eventPlaylist" v-bind:key="song.id">
+    <li>Name: {{ song.name }}</li>
+    <li>DJ: {{ event.djUsername }}</li>
     <ul>
       <div v-for="song in event.playlist.songs" v-bind:key="song.id">
         <h3>Name: {{ song.name }}</h3>
@@ -29,9 +49,9 @@
               {{ genre.name }}
             </li>
           </ul>
+          </ul>
         </div>
       </div>
-    </ul>
   </div>
 </template>
 
@@ -55,10 +75,31 @@ export default {
     },
     isHost() {
       return this.user && this.user.role === "host";
-    }
+    },
 },
 methods: {
-
+djPlaylist() {
+      const djId = this.event.djId;
+      return this.$store.state.playlists.filter((playlist) => {
+        return playlist.djId === djId;
+      });
+    },
 }
 };
 </script>
+
+<style scoped>
+.PlaylistDetail {
+  display: flex;
+}
+.PlaylistDetail .dj-playlist,
+.PlaylistDetail .event-playlist {
+  width: 50%;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: inline-block;
+}
+.PlaylistDetail .add-button {
+  margin-top: 1rem;
+}
+</style>

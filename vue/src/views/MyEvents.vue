@@ -1,25 +1,24 @@
 <template>
   <div class="Events">
-    <h1>DJ My Events</h1>
-    <myEvents/>
     <h1>My Events</h1>
-    <events/>
+    <myEvents />
+    <events />
+
     <!-- <h1>My Songs</h1> 
     <router-link :to="{ name: 'SongSearch' }">Search for songs</router-link> -->
-</div>
+  </div>
 </template>
 
 <script>
-import myEvents from '../components/DJEventView.vue'
-import events from '../components/EventList.vue';
+import myEvents from "../components/DJEventView.vue";
+import events from "../components/EventList.vue";
 
 import songService from "../services/SongService";
 
 export default {
   name: "MyEvents",
-  
- components: {
-   
+
+  components: {
     events,
     myEvents,
   },
@@ -39,7 +38,6 @@ export default {
     });
   },
 };
-
 </script>
 
 <style>

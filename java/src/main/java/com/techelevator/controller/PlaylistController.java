@@ -61,12 +61,12 @@ public class PlaylistController {
     }
 
     @PutMapping("/{playlistId}/songs/{songId}/veto")
-    public void updateVeto(@PathVariable int playlistId, @PathVariable String songId) {
-        playlistDao.vetoSong(playlistId, songId);
+    public void updateVeto(@PathVariable int playlistId, @PathVariable String songId, @PathVariable int userId) {
+        playlistDao.vetoSong(playlistId, songId, userId);
     }
 
     @PutMapping("/{playlistId}/songs/{songId}/submit")
-    public void updateSubmit(@PathVariable int playlistId, @PathVariable String songId) {
-        playlistDao.submitSong(playlistId, songId);
+    public void updateSubmit(@PathVariable int playlistId, @PathVariable String songId, @PathVariable int userId) {
+        playlistDao.submitSong(playlistId, songId, userId);
     }
 }

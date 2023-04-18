@@ -23,6 +23,7 @@
         <a :href="song.spotify" target="_blank">
           <img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" height="56"/>
         </a>
+        <button v-if="isHost" @click="vetoSong(song.id)" :disabled="song.clicked || clickedSongs.includes(song.id)">Veto</button>
       </div>
     </div>
 </template>
@@ -42,12 +43,20 @@ export default {
     setVolume(event) {
       event.target.volume = 0.2;
     },
+    vetoSong(songId){
+      this.event.playlist.songs = this.event.playlist.songs.filter((song) => {
+        return song.id !== songId
+      })
+    }
   },
 };
 </script>
 
 <style scoped>
-
+.disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .likesDislikes{
   display: flex;
   flex-direction: column;
