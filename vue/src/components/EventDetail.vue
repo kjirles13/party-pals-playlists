@@ -25,7 +25,7 @@
     <div id="theme-date-time">
       <h4>Theme: {{ event.theme }}</h4>
       <p></p>
-      <h4>Date: {{ event.date }}</h4>
+      <h4>Date: {{ formattedDate }}</h4>
       <p></p>
       <h4>Time: {{ formattedTime }}</h4>
     </div>
@@ -126,6 +126,9 @@ export default {
   computed: {
     formattedTime() {
     return moment(this.event.time, "HH:mm").format("h:mm A");
+  },
+  formattedDate(){
+     return moment(this.event.date).format('MMMM Do, YYYY');
   },
     isDj() {
       return this.$store.state.user.username === this.event.djUsername;
