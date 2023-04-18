@@ -67,9 +67,6 @@
               <button type="button" @click="falseIsShowing">Cancel</button>
             </form>
           </div>
-          <div id="submit" v-if="isShowing">
-            <p id="submit-song">Submit Song</p>
-          </div>
         </div>
 
         <div v-if="isShowing">
@@ -143,11 +140,6 @@ export default {
       rating: "",
       songId: "",
       isCreating: false,
-      user: null,
-      isVisible: false,
-      isLoading: true,
-      isEditing: false,
-      error: "",
       event: {
         name: "",
         description: "",
