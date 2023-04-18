@@ -3,6 +3,7 @@
   <div id="nav">
     <ul>
       <li></li>
+      <li v-if="loggedIn"><router-link v-bind:to="{ name: 'account' }">Account</router-link></li>
       <li v-if="!loggedIn"><router-link v-bind:to="{ name: 'login' }">Login</router-link></li>        
       <li v-if="loggedIn"><a href="#" @click="logout">Logout</a></li>
       <li><router-link v-bind:to="{ name: 'home' }">Home</router-link></li>
