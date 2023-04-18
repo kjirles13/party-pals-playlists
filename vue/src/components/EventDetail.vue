@@ -25,7 +25,7 @@
     <div id="theme-date-time">
       <h4>Theme: {{ event.theme }}</h4>
       <p></p>
-      <h4>Date: {{ event.date }}</h4>
+      <h4>Date: {{ formattedDate }}</h4>
       <p></p>
       <h4>Time: {{ formattedTime }}</h4>
     </div>
@@ -65,7 +65,7 @@
       <song-display
         v-for="song in event.playlist.songs"
         :key="song.song_id"
-        :song="song" :clickedSongs="clickedSongs" :event="event"
+        :song="song"
       >
         <div
           style="
@@ -85,7 +85,6 @@
           <button
             v-if="isHost"
             @click="vetoSong(song.id)"
-            :disabled="song.clicked || clickedSongs.includes(song.id)"
           >Veto</button>
         </div>
       </song-display>
@@ -98,7 +97,6 @@ import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
 import authService from "../services/AuthService";
-import PlaylistService from '../services/PlaylistService';
 import moment from 'moment';
 
 export default {
@@ -114,9 +112,9 @@ export default {
       isEditing: false,
       event: {},
       error: "",
-      clickedSongs: [],
       users: [],
       selectedHost: "",
+      clickedSongs: ""
     };
   },
   created() {
@@ -126,6 +124,9 @@ export default {
   computed: {
     formattedTime() {
     return moment(this.event.time, "HH:mm").format("h:mm A");
+  },
+  formattedDate(){
+     return moment(this.event.date).format('MMMM Do, YYYY');
   },
     isDj() {
       return this.$store.state.user.username === this.event.djUsername;
@@ -149,17 +150,11 @@ export default {
   },
   methods: {
     vetoSong(songId) {
-      try {
-        const response = PlaylistService.vetoSong(this.event.playlist.id, songId);
-        if (response.status === 200) {
-          const song = this.event.playlist.songs.find((song) => song.id === songId);
-          if (song){
-            song.clickedSongs = true;
+        playlistService.vetoSong(this.event.playlist.playlistId, songId).then(response => {
+          if (response.status === 200) {
+            this.getEvent();
           }
-        }
-      } catch (error) {
-        console.log(error);
-      }
+        })
     },
     getEvent() {
       const eventId = parseInt(this.$route.params.id);

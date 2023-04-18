@@ -27,10 +27,10 @@ export default {
     },
 
     vetoSong(playlistId, songId) {
-        return axios.put(`/playlists/${playlistId}/songs/${songId}`)
+        return axios.put(`/playlists/${playlistId}/songs/${songId}/veto`)
     },
 
     submitSong(playlistId, songId) {
-        return axios.put(`/playlists/${playlistId}/songs/${songId}`)
+        return axios.put(`/playlists/${playlistId}/songs/${songId}/submit`)
     }
 };

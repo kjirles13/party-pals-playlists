@@ -6,7 +6,6 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
 import Events from '../views/Events.vue'
-import Playlists from '../views/Playlists.vue'
 import EventDetail from '../components/EventDetail.vue'
 
 import MyEvents from '../views/MyEvents.vue'
@@ -38,11 +37,6 @@ const router = new Router({
       path: "/events",
       name: "events",
       component: Events,
-    },
-    {
-      path: "/playlists",
-      name: "playlists",
-      component: Playlists,
     },
     {
       path: "/register",

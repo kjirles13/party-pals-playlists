@@ -6,11 +6,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcPlaylistDao implements PlaylistDao{
+public class JdbcPlaylistDao implements PlaylistDao {
     private final JdbcTemplate jdbcTemplate;
     private final SongDao songDao;
 
@@ -152,7 +153,7 @@ public class JdbcPlaylistDao implements PlaylistDao{
 
     @Override
     public void deleteSongFromPlaylist(int playlistId, String songId, int userId) {
-        if (verifyUser(userId, playlistId)){
+        if (verifyUser(userId, playlistId)) {
             String sql = "DELETE FROM public.playlist_song\n" +
                     "\tWHERE playlist_id = ? AND song_id = ?";
 
@@ -181,7 +182,7 @@ public class JdbcPlaylistDao implements PlaylistDao{
     }
 
     @Override
-    public void updatePlaylist(int playlistId, String name, String description, int userId){
+    public void updatePlaylist(int playlistId, String name, String description, int userId) {
         if (verifyUser(userId, playlistId)) {
             String sql = "UPDATE public.playlists " +
                     "SET name=?, description=? " +
@@ -195,23 +196,15 @@ public class JdbcPlaylistDao implements PlaylistDao{
     }
 
     @Override
-    public void vetoSong(int playlistId, String songId, int userId) {
-        if (verifyUser(userId, playlistId)) {
-            String sql = "UPDATE playlist_song SET vetoed = true WHERE playlist_id = ? AND song_id = ?";
-            jdbcTemplate.update(sql, playlistId, songId);
-        } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are unauthorized to modify this playlist");
-        }
+    public void vetoSong(int playlistId, String songId) {
+        String sql = "UPDATE playlist_song SET vetoed = true WHERE playlist_id = ? AND song_id = ?";
+        jdbcTemplate.update(sql, playlistId, songId);
     }
 
     @Override
-    public void submitSong(int playlistId, String songId, int userId) {
-if (verifyUser(userId, playlistId)){
-    String sql = "UPDATE playlist_song SET submitted = true WHERE playlist_id = ? AND song_id = ?";
-    jdbcTemplate.update(sql, playlistId, songId);
-} else {
-    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are unauthorized to modify this playlist");
-}
+    public void submitSong(int playlistId, String songId) {
+        String sql = "UPDATE playlist_song SET submitted = true WHERE playlist_id = ? AND song_id = ?";
+        jdbcTemplate.update(sql, playlistId, songId);
     }
 
 //    @Override
@@ -252,7 +245,7 @@ if (verifyUser(userId, playlistId)){
         return song;
     }
 
-    private Playlist mapRowToPlaylist(SqlRowSet rs){
+    private Playlist mapRowToPlaylist(SqlRowSet rs) {
         Playlist playlist = new Playlist();
 
         playlist.setName(rs.getString("name"));
@@ -282,7 +275,7 @@ if (verifyUser(userId, playlistId)){
     }
 
 
-    private boolean verifyUser(int userId, int playlistId){
+    private boolean verifyUser(int userId, int playlistId) {
         String sql = "SELECT events.playlist_id " +
                 "FROM events " +
                 "WHERE dj_id = ?";
