@@ -44,6 +44,12 @@ export default {
       }
     });
     this.getEvents();
+
+    eventService.getDJEvents(this.$store.state.user.username).then((response) => {
+      if (response.status == 200) {
+        this.djEvents = response.data;
+      }
+    });
     
   },
 

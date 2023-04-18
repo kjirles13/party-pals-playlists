@@ -93,6 +93,11 @@ export default {
           this.error = error.response.data.message;
         });
     },
+    getDJEvents() {
+      eventService.getDJEvents().then((response) => {
+        this.djEvents = response.data;
+      });
+    },
     getEvents() {
       let allEvents;
       let currentUsername = this.$store.state.user.username;
