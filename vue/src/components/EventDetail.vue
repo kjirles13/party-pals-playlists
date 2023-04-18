@@ -3,16 +3,15 @@
     <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
       {{ isEditing ? "Cancel" : "Edit Event" }}
     </button>
-
     <div class="edit" v-if="isEditing">
       <label>Event Title</label>
       <input type="text" v-model="event.name" />
       <label>Event Description</label>
       <input type="text" v-model="event.description" />
       <label>Event Time</label>
-      <input type="text" v-model="event.time" />
+      <input type="time" v-model="event.time" />
       <label>Event Date</label>
-      <input type="text" v-model="event.date" />
+      <input type="date" v-model="event.date" />
       <label>Event Theme</label>
       <input type="text" v-model="event.theme" />
       <button class="submit-edit" @click="updateEventDetails" type="submit">
@@ -21,7 +20,7 @@
     </div>
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
-    <h3 class="dj-name">DJ {{ event.djUsername }}</h3>
+    <h3>DJ {{ event.djUsername }}</h3>
     <div id="theme-date-time">
       <h4>Theme: {{ event.theme }}</h4>
       <p></p>
@@ -32,13 +31,13 @@
     <div>
       <p v-if="event.hosts.length === 1">Your host is:</p>
       <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
-      <div>
-        <div v-for="host in event.hosts" :key="host.hostId">
+      <div v-if="event.hosts.length">
+        <div v-for="host in event.hosts" :key="host.id">
           <p class="host-name">{{ host.name }}</p>
           <span
-            v-if="isDj"
             style="color: #8b0000; cursor: pointer"
             v-on:click="deleteHost(host.name)"
+            v-if="isDj"
             >x</span
           >
         </div>
@@ -58,14 +57,11 @@
       <button @click="addHost">Add</button>
     </div>
     <h2>{{ event.playlist.name }}</h2>
-     <div 
-     v-for="(genre, index) in event.playlist.genres" :key="genre.id" v-html="genre.name + (index < event.playlist.genres.length - 1 ? ', ' : '')">
-     </div>
     <div class="song-info">
       <song-display
         v-for="song in event.playlist.songs"
         :key="song.song_id"
-        :song="song" :clickedSongs="clickedSongs" :event="event"
+        :song="song"
       >
         <div
           style="
@@ -76,16 +72,37 @@
         >
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
+            <img
+              src="../images/thumbs-up.png"
+              alt="Likes"
+              width="15"
+              height="15"
+              class="thumb"
+              style="margin-bottom: 10px; cursor: pointer"
+              @click="incrementLikes(song.id)"
+              :class="{
+                disabled: song.clicked || clickedSongs.includes(song.id),
+              }"
+            />
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id),}"/>
+            <img
+              src="../images/thumbs-down.png"
+              alt="Dislikes"
+              width="15"
+              height="15"
+              class="thumb"
+              style="margin-bottom: 10px; cursor: pointer"
+              @click="decrementLikes(song.id)"
+              :class="{
+                disabled: song.clicked || clickedSongs.includes(song.id),
+              }"
+            />
           </div>
           <button
             v-if="isHost"
             @click="vetoSong(song.id)"
-            :disabled="song.clicked || clickedSongs.includes(song.id)"
           >Veto</button>
         </div>
       </song-display>
@@ -97,8 +114,8 @@
 import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
+import axios from "axios";
 import authService from "../services/AuthService";
-import PlaylistService from '../services/PlaylistService';
 import moment from 'moment';
 
 export default {
@@ -108,20 +125,15 @@ export default {
   },
   data() {
     return {
-      user: null,
       isVisible: false,
       isLoading: true,
       isEditing: false,
       event: {},
       error: "",
       clickedSongs: [],
-      users: [],
       selectedHost: "",
+      users: [],
     };
-  },
-  created() {
-    this.getEvent();
-    this.getAllUsers();
   },
   computed: {
     formattedTime() {
@@ -144,7 +156,11 @@ export default {
     },
     availableHosts() {
       return this.users.filter((user) => {
-        if (this.event.hosts.filter(a => a.name === user.username).length === 0 && user.authorities[0].name !== "ROLE_DJ") {
+        if (
+          this.event.hosts.filter((a) => a.name === user.username).length ===
+            0 &&
+          user.authorities[0].name !== "ROLE_DJ"
+        ) {
           return user;
         }
       });
@@ -152,17 +168,11 @@ export default {
   },
   methods: {
     vetoSong(songId) {
-      try {
-        const response = PlaylistService.vetoSong(this.event.playlist.id, songId);
-        if (response.status === 200) {
-          const song = this.event.playlist.songs.find((song) => song.id === songId);
-          if (song){
-            song.clickedSongs = true;
+        playlistService.vetoSong(this.event.playlist.playlistId, songId).then(response => {
+          if (response.status === 200) {
+            this.getEvent();
           }
-        }
-      } catch (error) {
-        console.log(error);
-      }
+        })
     },
     getEvent() {
       const eventId = parseInt(this.$route.params.id);
@@ -225,7 +235,21 @@ export default {
         this.getEvent();
       });
     },
-  }
+    submitSong(songId, playlistId) {
+      axios
+        .post("/api/add-song-to-playlist", {
+          songId: songId,
+          playlistId: playlistId,
+        })
+        .then((response) => {
+          this.$store.commit(response.data);
+        });
+    },
+  },
+  created() {
+    this.getEvent();
+    this.getAllUsers();
+  },
 };
 </script>
 
@@ -293,9 +317,5 @@ input {
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 16px;
-}
-.dj-name {
-    margin-top: 50px;
-    margin-bottom: 50px;
 }
 </style>

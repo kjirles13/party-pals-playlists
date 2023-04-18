@@ -1,5 +1,5 @@
 <template>
-    <div class="song">
+    <div class="song" :class="vetoClass">
       <div class="song-info">
         <div>
           <div class="p5"><strong>{{ song.name }}</strong></div>
@@ -23,20 +23,17 @@
         <a :href="song.spotify" target="_blank">
           <img src="../images\image-gallery-spotify-logo-21.png" alt="Spotify" height="56"/>
         </a>
-        <button v-if="isHost" @click="vetoSong(song.id)" :disabled="song.clicked || clickedSongs.includes(song.id)">Veto</button>
       </div>
     </div>
 </template>
 
 <script>
-import PlaylistService from '../services/PlaylistService';
 export default {
   
   name: "SongList",
-  props: ["song", "clickedSongs", "event"],
+  props: ["song"],
   data() {
     return {
-      getSongs: [],
     };
   },
   
@@ -44,29 +41,15 @@ export default {
     setVolume(event) {
       event.target.volume = 0.2;
     },
-      vetoSong(songId) {
-      try {
-        const response = PlaylistService.vetoSong(this.event.playlist.id, songId);
-        if (response.status === 200) {
-          const song = this.event.playlist.songs.find((song) => song.id === songId);
-          if (song){
-            song.clickedSongs = true;
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  isHost() {
-      let isHost = false;
-      this.event.hosts.forEach((host) => {
-        if (host.name === this.$store.state.user.username) {
-          isHost = true;
-        }
-      });
-      return isHost;
-    },
   },
+  computed: {
+    vetoClass() {
+      if (this.song.vetoed) {
+        return "unavailable-song";
+      }
+      return "default"
+    }
+  }
 };
 </script>
 
