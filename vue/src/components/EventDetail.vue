@@ -22,12 +22,12 @@
 
     <h1>{{ event.name }}</h1>
     <p>{{ event.description }}</p>
-    <h3>DJ {{ event.djUsername }}</h3>
+    <h3 class="dj-name">DJ {{ event.djUsername }}</h3>
     <div id="theme-date-time">
       <h4>Theme: {{ event.theme }}</h4>
-      <p>|</p>
+      <p></p>
       <h4>Date: {{ event.date }}</h4>
-      <p>|</p>
+      <p></p>
       <h4>Time: {{ event.time }}</h4>
     </div>
     <div>
@@ -59,6 +59,9 @@
       <button @click="addHost()">Add</button>
     </div>
     <h2>{{ event.playlist.name }}</h2>
+     <div 
+     v-for="(genre, index) in event.playlist.genres" :key="genre.id" v-html="genre.name + (index < event.playlist.genres.length - 1 ? ', ' : '')">
+     </div>
     <div class="song-info">
       <song-display
         v-for="song in event.playlist.songs"
@@ -305,5 +308,9 @@ input {
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 16px;
+}
+.dj-name {
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 </style>
