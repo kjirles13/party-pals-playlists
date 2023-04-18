@@ -29,10 +29,11 @@
 </template>
 
 <script>
+import PlaylistService from '../services/PlaylistService';
 export default {
   
   name: "SongList",
-  props: ["song"],
+  props: ["song", "clickedSongs", "event"],
   data() {
     return {
       getSongs: [],
@@ -43,19 +44,36 @@ export default {
     setVolume(event) {
       event.target.volume = 0.2;
     },
-    vetoSong(songId){
-      this.event.playlist.songs = this.event.playlist.songs.filter((song) => {
-        return song.id !== songId
-      })
-    }
+      vetoSong(songId) {
+      try {
+        const response = PlaylistService.vetoSong(this.event.playlist.id, songId);
+        if (response.status === 200) {
+          const song = this.event.playlist.songs.find((song) => song.id === songId);
+          if (song){
+            song.clickedSongs = true;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  isHost() {
+      let isHost = false;
+      this.event.hosts.forEach((host) => {
+        if (host.name === this.$store.state.user.username) {
+          isHost = true;
+        }
+      });
+      return isHost;
+    },
   },
 };
 </script>
 
 <style scoped>
-.disabled{
+.unavailable-song{
   opacity: 0.5;
-  cursor: not-allowed;
+  pointer-events: none;
 }
 .likesDislikes{
   display: flex;

@@ -27,7 +27,7 @@
       <p></p>
       <h4>Date: {{ event.date }}</h4>
       <p></p>
-      <h4>Time: {{ event.time }}</h4>
+      <h4>Time: {{ formattedTime }}</h4>
     </div>
     <div>
       <p v-if="event.hosts.length === 1">Your host is:</p>
@@ -65,7 +65,7 @@
       <song-display
         v-for="song in event.playlist.songs"
         :key="song.song_id"
-        :song="song"
+        :song="song" :clickedSongs="clickedSongs" :event="event"
       >
         <div
           style="
@@ -82,6 +82,11 @@
             <span>{{ song.dislikes }}</span>
             <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id),}"/>
           </div>
+          <button
+            v-if="isHost"
+            @click="vetoSong(song.id)"
+            :disabled="song.clicked || clickedSongs.includes(song.id)"
+          >Veto</button>
         </div>
       </song-display>
     </div>
@@ -93,6 +98,8 @@ import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
 import authService from "../services/AuthService";
+import PlaylistService from '../services/PlaylistService';
+import moment from 'moment';
 
 export default {
   name: "event-detail",
@@ -117,6 +124,9 @@ export default {
     this.getAllUsers();
   },
   computed: {
+    formattedTime() {
+    return moment(this.event.time, "HH:mm").format("h:mm A");
+  },
     isDj() {
       return this.$store.state.user.username === this.event.djUsername;
     },
@@ -138,6 +148,19 @@ export default {
     },
   },
   methods: {
+    vetoSong(songId) {
+      try {
+        const response = PlaylistService.vetoSong(this.event.playlist.id, songId);
+        if (response.status === 200) {
+          const song = this.event.playlist.songs.find((song) => song.id === songId);
+          if (song){
+            song.clickedSongs = true;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
     getEvent() {
       const eventId = parseInt(this.$route.params.id);
       eventService
