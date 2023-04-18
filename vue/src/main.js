@@ -6,8 +6,6 @@ import axios from 'axios'
 // import Style from '../src/Style.css'
 
 Vue.config.productionTip = false
-Vue.config.devtools = true 
-
 
 axios.defaults.baseURL = process.env.VUE_APP_REMOTE_API;
 
