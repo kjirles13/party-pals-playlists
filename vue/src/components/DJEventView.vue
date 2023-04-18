@@ -74,7 +74,7 @@
             <div>
               <song-display v-bind:song="song" />
               <label for="add" class="checkbox-labels"
-                >Add this song to your playlist</label
+                >Add Song</label
               >
               <input
                 type="radio"
@@ -82,14 +82,15 @@
                 v-bind:value="song.id"
                 v-model="songId"
               />
-              <form v-on:submit.prevent="addSong()" id="add-song">
-              <input
-                type="text"
-                placeholder="Rating"
-                id="rating"
-                v-model.number="rating"
-              />
-              <label for="select" id="genre-label">Choose a genre:</label>
+              <form v-on:submit.prevent="addSong()" id="add-song" v-if="song.id === songId">
+              <select name="rating" id="rating" v-model="rating">
+                <option value="">Rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+              </select>
               <select v-model="genreId" id="genre">
                 <option value="">Choose a genre</option>
                 <option
@@ -159,7 +160,9 @@ export default {
     isDJ() {
       return this.$store.state.user.username === this.event.djUsername;
     },
-
+    currentSong() {
+      return this.searchTracks.tracks.items.indexOf(this.songId);
+    }
   },
   methods: {
     getSongs() {
@@ -294,41 +297,6 @@ export default {
 </script>
 
 <style scoped>
-#theme-date-time {
-  display: flex;
-  justify-content: center;
-  justify-content: space-around;
-}
-.host-name {
-  display: inline-block;
-  margin-right: 10px;
-}
-.event-detail {
-  text-align: center;
-  margin: 150px;
-}
-.disabled {
-  opacity: 0.2;
-  cursor: not-allowed;
-}
-.disabled img {
-  filter: grayscale(1);
-}
-#likes {
-  display: flex;
-  font-size: 13px;
-  justify-content: space-evenly;
-}
-#dislikes {
-  display: flex;
-  font-size: 13px;
-  justify-content: space-between;
-}
-.thumb {
-  display: inline-block;
-  margin-right: 5px;
-  margin-left: 5px;
-}
 .edit {
   display: grid;
 }
@@ -361,7 +329,7 @@ input {
 .checkbox-labels {
   font-size: 13px;
 }
-.add-song {
+#add-song {
   display: inline-block;
   margin-left: 20px;
 }
@@ -385,6 +353,7 @@ input {
 }
 #genre {
   margin-top: 5px;
+  margin-left: 10px;
 }
 #genre-label {
   display: inline-block;
@@ -408,7 +377,7 @@ input {
 }
 #save {
   display: inline-block;
-  margin: 0 auto 20px auto;
+  margin-left: 10px ;
 }
 #song-container {
   display: flex;
