@@ -19,8 +19,8 @@
             Search
           </button>
         </form>
-      </div>
-      <div id="submit">
+      </div >
+      <div id="submit" v-if="isShowing" >
         <p id="submit-song">Submit Song</p>
         <form v-on:submit.prevent="addSong()" id="add-song">
           <input
@@ -45,7 +45,8 @@
       </div>
     </div>
 
-    <div v-for="song in searchTracks.tracks.items" :key="song.id">
+  <div v-if="isShowing" >
+  <div v-for="song in searchTracks.tracks.items" :key="song.id" >
       <div>
         <song-display v-bind:song="song" />
         <label for="add" class="checkbox-labels"
@@ -59,6 +60,8 @@
         />
       </div>
     </div>
+</div>
+    
   </div>
 </template>
 
@@ -74,6 +77,7 @@ export default {
   },
   data() {
     return {
+      isShowing: false,
       searchTracks: {
         tracks: {
           items: [],
@@ -112,6 +116,7 @@ export default {
             this.searchTracks = response.body;
           });
       }
+      this.flipIsShowing();
     },
     addSong() {
       const song = this.searchTracks.tracks.items.find((track) => {
@@ -141,7 +146,11 @@ export default {
           window.alert("There was an issue adding this song to your playlist");
         }
       });
+      this.flipIsShowing();
     },
+    flipIsShowing() {
+      this.isShowing = !this.isShowing;
+    }
   },
   created() {
     spotifyService.getToken().then((response) => {

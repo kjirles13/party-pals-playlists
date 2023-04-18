@@ -39,7 +39,6 @@ export default {
       isLoading: true,
       isEditing: false,
       error: "",
-      clickedSongs: [],
       event: {
         name: "",
         description: "",
@@ -93,20 +92,20 @@ export default {
           this.error = error.response.data.message;
         });
     },
-    getEvents() {
-      let allEvents;
-      let currentUsername = this.$store.state.user.username;
+    // getEvents() {
+    //   let allEvents;
+    //   let currentUsername = this.$store.state.user.username;
 
-      eventService.getAllEvents().then((response) => {
-        allEvents = response.data;
-      });
-      const filteredEvents = allEvents.filter((event) => event.djUsername === currentUsername);
-      this.$store.commit("SET_EVENTS", filteredEvents);
-    },
+    //   eventService.getAllEvents().then((response) => {
+    //     allEvents = response.data;
+    //   });
+    //   const filteredEvents = allEvents.filter((event) => event.djUsername === currentUsername);
+    //   this.$store.commit("SET_EVENTS", filteredEvents);
+    // },
   },
-  created() {
-    this.getEvents();
-  },
+  // created() {
+  //   this.getEvents();
+  // },
 };
 </script>
 
