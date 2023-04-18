@@ -3,15 +3,16 @@
     <button v-if="isDj || isHost" @click="editEvent" class="edit-cancel">
       {{ isEditing ? "Cancel" : "Edit Event" }}
     </button>
+
     <div class="edit" v-if="isEditing">
       <label>Event Title</label>
       <input type="text" v-model="event.name" />
       <label>Event Description</label>
       <input type="text" v-model="event.description" />
       <label>Event Time</label>
-      <input type="time" v-model="event.time" />
+      <input type="text" v-model="event.time" />
       <label>Event Date</label>
-      <input type="date" v-model="event.date" />
+      <input type="text" v-model="event.date" />
       <label>Event Theme</label>
       <input type="text" v-model="event.theme" />
       <button class="submit-edit" @click="updateEventDetails" type="submit">
@@ -31,13 +32,13 @@
     <div>
       <p v-if="event.hosts.length === 1">Your host is:</p>
       <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
-      <div v-if="event.hosts.length">
-        <div v-for="host in event.hosts" :key="host.id">
+      <div>
+        <div v-for="host in event.hosts" :key="host.hostId">
           <p class="host-name">{{ host.name }}</p>
           <span
+            v-if="isDj"
             style="color: #8b0000; cursor: pointer"
             v-on:click="deleteHost(host.name)"
-            v-if="isDj"
             >x</span
           >
         </div>
@@ -58,55 +59,16 @@
     </div>
     <h2>{{ event.playlist.name }}</h2>
     <div class="song-info">
-      <song-display
-        v-for="song in event.playlist.songs"
-        :key="song.song_id"
-        :song="song" :clickedSongs="clickedSongs" :event="event"
-      >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-          "
-        >
+      <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
+        <div style=" display: flex; flex-direction: column; justify-content: space-between;">
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img
-              src="../images/thumbs-up.png"
-              alt="Likes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="incrementLikes(song.id)"
-              :class="{
-                disabled: song.clicked || clickedSongs.includes(song.id),
-              }"
-            />
+            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img
-              src="../images/thumbs-down.png"
-              alt="Dislikes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="decrementLikes(song.id)"
-              :class="{
-                disabled: song.clicked || clickedSongs.includes(song.id),
-              }"
-            />
+            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id),}"/>
           </div>
-          <button
-            v-if="isHost"
-            @click="vetoSong(song.id)"
-            :disabled="song.clicked || clickedSongs.includes(song.id)"
-          >
-            Veto
-          </button>
         </div>
       </song-display>
     </div>
@@ -117,7 +79,6 @@
 import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
-import axios from "axios";
 import authService from "../services/AuthService";
 
 export default {
@@ -127,15 +88,20 @@ export default {
   },
   data() {
     return {
+      user: null,
       isVisible: false,
       isLoading: true,
       isEditing: false,
       event: {},
       error: "",
       clickedSongs: [],
-      selectedHost: "",
       users: [],
+      selectedHost: "",
     };
+  },
+  created() {
+    this.getEvent();
+    this.getAllUsers();
   },
   computed: {
     isDj() {
@@ -152,22 +118,13 @@ export default {
     },
     availableHosts() {
       return this.users.filter((user) => {
-        if (
-          this.event.hosts.filter((a) => a.name === user.username).length ===
-            0 &&
-          user.authorities[0].name !== "ROLE_DJ"
-        ) {
+        if (this.event.hosts.filter(a => a.name === user.username).length === 0 && user.authorities[0].name !== "ROLE_DJ") {
           return user;
         }
       });
     },
   },
   methods: {
-    vetoSong(songId) {
-      this.event.playlist.songs = this.event.playlist.songs.filter((song) => {
-        return song.id !== songId;
-      });
-    },
     getEvent() {
       const eventId = parseInt(this.$route.params.id);
       eventService
@@ -229,21 +186,7 @@ export default {
         this.getEvent();
       });
     },
-    submitSong(songId, playlistId) {
-      axios
-        .post("/api/add-song-to-playlist", {
-          songId: songId,
-          playlistId: playlistId,
-        })
-        .then((response) => {
-          this.$store.commit(response.data);
-        });
-    },
-  },
-  created() {
-    this.getEvent();
-    this.getAllUsers();
-  },
+  }
 };
 </script>
 
