@@ -21,30 +21,12 @@
         <button class="submit-created" type="submit">Submit</button>
       </form>
     </div>
-    <!-- <input type="text" v-model="searchText" placeholder="Search Events"/>
-    <br /><br />
-    <div v-for="event in $store.state.events" :key="event.id">
-     <h3>Event: {{ event.name }}</h3>
-      </div> 
-    <table>
-      <tbody>
-        <tr v-for="event in filterEvents" :key="event.id">
-          <td>{{ event.name }}</td>
-          <td>{{ event.date }}</td>
-          <td>{{ event.id }}</td>
-          <td>
-            <router-link :to="{ name: 'event-detail', params: { id: event.id } }">View Details</router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
+    
   </div>
 </template>
 
 <script>
 import eventService from "../services/EventService";
-// import playlistService from "../services/PlaylistService";
-// import authService from "../services/AuthService";
 
 export default {
   name: "event-detail",
