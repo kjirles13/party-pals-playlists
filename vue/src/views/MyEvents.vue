@@ -2,34 +2,30 @@
   <div class="Events">
     <h1>My Events</h1>
     <events />
-    <myEvents />  
+    <DjEvent />  
   </div>
 </template>
 
 <script>
-import myEvents from "../components/DJEventView.vue";
-import events from "../components/EventList.vue";
-import eventService from "../services/EventService";
+import DjEvent from "../components/DJEventView.vue";
+ import events from "../components/EventList.vue";
+
+
+
 
 export default {
   name: "MyEvents",
 
   components: {
-    events,
-    myEvents,
+     events,
+    DjEvent,
   },
   data() {
     return {
       songs: [],
     };
   },
-  created() {
-    eventService.getDJEvents(this.$store.state.user.username).then((response) => {
-      if (response.status == 200) {
-        this.djEvents = response.data;
-      }
-    });
-  },
+  
 methods: {
 }
   

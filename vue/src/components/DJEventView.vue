@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="EventContainer">
     <button v-if="isDJ" @click="createForm">Create Event</button>
-
+          
     <div class="create" v-if="isCreating">
       <form v-on:submit.prevent="createEvent">
         <label>Event Title</label>
@@ -22,15 +22,10 @@
       </form>
     </div>
       <h1>My Songs</h1>
-
     <div id="song-container">
       <div id="current-songs">
         <h2>Current Playlist</h2>
-        <song-display
-          v-for="song in this.songs"
-          :key="song.song_id"
-          :song="song"
-        />
+        <song-display v-for="song in this.songs" :key="song.song_id" :song="song"/>
       </div>
       <div id="search-page">
         <h2>Add Songs</h2>
@@ -106,6 +101,7 @@ import spotifyService from "../services/SpotifyService.js";
 import songService from "../services/SongService";
 import SongDisplay from "@/components/SongDisplay.vue";
 
+
 export default {
   name: "event-detail",
   components: {
@@ -113,6 +109,7 @@ export default {
   },
   data() {
     return {
+      djEvents: [],
       isShowing: false,
       songs: [],
       searchTracks: {
@@ -153,11 +150,25 @@ export default {
     isDJ() {
       return this.$store.state.user.username === this.event.djUsername;
     },
+
   },
   methods: {
     getSongs() {
       songService.getSongs(this.$store.state.user.username).then((response) => {
         this.songs = response.data;
+    });
+    
+    },
+    getAllEvents(){
+    eventService.getAllEvents().then((response) => {
+      if (response.status == 200) {
+        this.djEvents = response.data.filter(event => {
+          return event.djUsername === this.$store.state.user.username;
+        });
+        this.$store.commit("SET_EVENTS", this.djEvents) 
+
+      }
+    
     });
     },
     searchForTrack() {
@@ -229,8 +240,8 @@ export default {
         .createEvent(this.event)
         .then((response) => {
           if (response.status === 201) {
+            this.getAllEvents();
             this.isCreating = false;
-            this.getEvents();
             this.event = {
               name: "",
               description: "",
@@ -249,12 +260,9 @@ export default {
         .catch((error) => {
           this.error = error.response.data.message;
         });
+      
     },
-    getDJEvents() {
-      eventService.getDJEvents().then((response) => {
-        this.djEvents = response.data;
-      });
-    },
+    
      getSpotifyToken() {
       spotifyService.getToken().then((response) => {
         spotifyService.setAccessToken(response.data.access_token);
@@ -269,6 +277,8 @@ export default {
   created() {
     this.getSpotifyToken();
     this.getSongs();
+    this.getAllEvents();
+    
   },
 };
 </script>

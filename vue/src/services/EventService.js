@@ -5,9 +5,7 @@ export default {
   getAllEvents() {
     return axios.get('/events');
   },
-  getDJEvents(){
-    return axios.get(`/events/user`);
-  },
+  
   getEventById(eventId) {
     return axios.get(`/events/${eventId}`);
   },

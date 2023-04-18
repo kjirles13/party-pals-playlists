@@ -9,10 +9,7 @@
             <td class="event-title">{{ event.name }}</td>
             <td>{{ event.date }}</td>
             <td>
-              <router-link
-                :to="{ name: 'event-detail', params: { id: event.id } }"
-                >View Details</router-link
-              >
+              <router-link :to="{ name: 'event-detail', params: { id: event.id } }">View Details</router-link>
             </td>
           </tr>
         </tbody>
