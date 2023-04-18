@@ -10,9 +10,9 @@
       <label>Event Description</label>
       <input type="text" v-model="event.description" />
       <label>Event Time</label>
-      <input type="text" v-model="event.time" />
+      <input type="time" v-model="event.time" />
       <label>Event Date</label>
-      <input type="text" v-model="event.date" />
+      <input type="date" v-model="event.date" />
       <label>Event Theme</label>
       <input type="text" v-model="event.theme" />
       <button class="submit-edit" @click="updateEventDetails" type="submit">
@@ -69,6 +69,7 @@
             <span>{{ song.dislikes }}</span>
             <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{ disabled: song.clicked || clickedSongs.includes(song.id),}"/>
           </div>
+          <button v-if="isHost" @click="vetoSong(song.id)" :disabled="song.clicked || clickedSongs.includes(song.id)">Veto</button>
         </div>
       </song-display>
     </div>
@@ -125,6 +126,16 @@ export default {
     },
   },
   methods: {
+    vetoSong(songId) {
+playlistService.vetoSong(this.event.playlist.playlistId, songId)
+.then(() => {
+  this.getEvent();
+})
+.catch((error) =>{
+  console.error(error);
+  this.error = "Failed to veto song.";
+});
+    },
     getEvent() {
       const eventId = parseInt(this.$route.params.id);
       eventService
@@ -165,6 +176,9 @@ export default {
       this.isEditing = !this.isEditing;
     },
     updateEventDetails() {
+      const date = new Date(this.event.date + " " + this.event.time);
+      const militaryTime = date.getHours() + ":" + date.getMinutes() + ":00";
+      this.event.time = militaryTime;
       const eventId = parseInt(this.$route.params.id);
       eventService
         .updateEvent(this.event, eventId)
