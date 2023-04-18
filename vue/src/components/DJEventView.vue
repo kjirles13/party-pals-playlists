@@ -41,7 +41,18 @@
     <div id="song-container">
       <div id="current-songs">
         <h2>Current Playlist</h2>
-        <song-display v-for="song in this.songs" :key="song.song_id" :song="song"/>
+        <div v-for="song in this.songs" :key="song.song_id">
+          <song-display  :song="song"/>
+          <button type="button" @click="deleteSong(song.id)">
+            Delete
+          </button>
+          <!-- <input
+                type="button"
+                id="add"
+                v-bind:value="song.id"
+                v-model="songId"
+              /> -->
+        </div>
       </div>
       <div id="search-page">
         <h2>Add Songs</h2>
@@ -82,7 +93,7 @@
                 v-bind:value="song.id"
                 v-model="songId"
               />
-              <form v-on:submit.prevent="addSong()" id="add-song" v-if="song.id === songId">
+              <form id="add-song" v-on:submit.prevent="addSong()" v-if="song.id === songId">
               <select name="rating" id="rating" v-model="rating">
                 <option value="">Rating</option>
                 <option value="1">1 Star</option>
@@ -91,7 +102,7 @@
                 <option value="4">4 Stars</option>
                 <option value="5">5 Stars</option>
               </select>
-              <select v-model="genreId" id="genre">
+              <select id="genre" v-model="genreId" >
                 <option value="">Choose a genre</option>
                 <option
                   v-for="genre in genres"
@@ -236,6 +247,24 @@ export default {
       });
       this.falseIsShowing();
       this.songs.unshift(addedSong);
+      this.songId = 0;
+      this.reset();
+    },
+    resetForm() {  
+      document.getElementById("rating").selectedIndex = 0;
+      document.getElementById("genre").selectedIndex = 0;
+
+    },
+    deleteSong(songId) {
+      const confirmation = confirm("Are you sure you want to delete this song?");
+      if (confirmation) {
+        songService.deleteSongFromDjList(songId).then(response => {
+          if (response.status === 204) {
+            alert("Song successfully deleted");
+            this.getSongs();
+          }
+        })
+      }
     },
     falseIsShowing() {
       this.isShowing = false;
