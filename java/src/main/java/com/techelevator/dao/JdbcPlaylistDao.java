@@ -195,13 +195,23 @@ public class JdbcPlaylistDao implements PlaylistDao{
     }
 
     @Override
-    public void vetoSong(int playlistId, String songId) {
-
+    public void vetoSong(int playlistId, String songId, int userId) {
+        if (verifyUser(userId, playlistId)) {
+            String sql = "UPDATE playlist_song SET vetoed = true WHERE playlist_id = ? AND song_id = ?";
+            jdbcTemplate.update(sql, playlistId, songId);
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are unauthorized to modify this playlist");
+        }
     }
 
     @Override
-    public void submitSong(int playlistId, String songId) {
-
+    public void submitSong(int playlistId, String songId, int userId) {
+if (verifyUser(userId, playlistId)){
+    String sql = "UPDATE playlist_song SET submitted = true WHERE playlist_id = ? AND song_id = ?";
+    jdbcTemplate.update(sql, playlistId, songId);
+} else {
+    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are unauthorized to modify this playlist");
+}
     }
 
 //    @Override
