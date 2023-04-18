@@ -1,26 +1,5 @@
 <template>
   <div>
-    <button v-if="isDJ" @click="createForm">Create Event</button>
-
-    <div class="create" v-if="isCreating">
-      <form v-on:submit.prevent="createEvent">
-        <label>Event Title</label>
-        <input type="text" v-model="event.name" />
-        <label>Event Description</label>
-        <input type="text" v-model="event.description" />
-        <label>Event Time</label>
-        <input type="time" v-model="event.time" />
-        <label>Event Date</label>
-        <input type="date" v-model="event.date" />
-        <label>Event Theme</label>
-        <input type="text" v-model="event.theme" />
-        <label>Playlist Name</label>
-        <input type="text" v-model="event.playlist.name" />
-        <label>Playlist Description</label>
-        <input type="text" v-model="event.playlist.description" />
-        <button class="submit-created" type="submit">Submit</button>
-      </form>
-    </div>
     <div>
       <input type="text" v-model="searchText" placeholder="Search Events" />
       <br /><br />
@@ -50,21 +29,7 @@ export default {
   name: "EventList",
   data() {
     return {
-      isCreating: false,
       searchText: "",
-      event: {
-        name: "",
-        description: "",
-        time: "",
-        date: "",
-        theme: "",
-        djUsername: this.$store.state.user.username,
-        playlist: {
-          name: "",
-          description: "",
-          spotifyId: " ",
-        },
-      },
     };
   },
   computed: {
@@ -78,38 +43,6 @@ export default {
     },
   },
   methods: {
-    createEvent() {
-      const date = new Date(this.event.date + " " + this.event.time);
-      const militaryTime = date.getHours() + ":" + date.getMinutes() + ":00";
-      this.event.time = militaryTime;
-      eventService
-        .createEvent(this.event)
-        .then((response) => {
-          if (response.status === 201) {
-            this.isCreating = false;
-            this.getEvents();
-            this.event = {
-              name: "",
-              description: "",
-              time: "",
-              date: "",
-              theme: "",
-              djUsername: this.$store.state.user.username,
-              playlist: {
-                name: "",
-                description: "",
-                spotifyId: " ",
-              },
-            };
-          }
-        })
-        .catch((error) => {
-          this.error = error.response.data.message;
-        });
-    },
-    createForm() {
-      this.isCreating = !this.isCreating;
-    },
     getEvents() {
       eventService.getAllEvents().then((response) => {
         this.$store.commit("SET_EVENTS", response.data);
