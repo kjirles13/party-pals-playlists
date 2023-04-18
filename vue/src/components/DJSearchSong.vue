@@ -169,6 +169,10 @@ export default {
 .add-song {
   display: inline-block;
   margin-left: 20px;
+
+}
+#search {
+  text-align: center;
 }
 #add {
   margin-right: 10px;
@@ -183,11 +187,16 @@ export default {
 #rating {
   width: 40px;
   margin-left: 10px;
+  margin-top: 20px;
+}
+#genre {
+  margin-top: 5px;
 }
 #genre-label {
   display: inline-block;
   margin-left: 10px;
   margin-right: 10px;
+  margin-bottom: 10px;
   font-size: 13px;
 }
 #search-submit {
@@ -199,5 +208,12 @@ export default {
   display: flex;
   flex-direction: column;
   font-size: 20px;
+}
+#submit-song{
+  text-align: center;
+}
+#save {
+  display: block;
+  margin: 0 auto 20px auto;
 }
 </style>
