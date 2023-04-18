@@ -27,7 +27,7 @@
       <p></p>
       <h4>Date: {{ event.date }}</h4>
       <p></p>
-      <h4>Time: {{ event.time }}</h4>
+      <h4>Time: {{ formattedTime }}</h4>
     </div>
     <div>
       <p v-if="event.hosts.length === 1">Your host is:</p>
@@ -99,6 +99,7 @@ import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
 import authService from "../services/AuthService";
 import PlaylistService from '../services/PlaylistService';
+import moment from 'moment';
 
 export default {
   name: "event-detail",
@@ -123,6 +124,9 @@ export default {
     this.getAllUsers();
   },
   computed: {
+    formattedTime() {
+    return moment(this.event.time, "HH:mm").format("h:mm A");
+  },
     isDj() {
       return this.$store.state.user.username === this.event.djUsername;
     },
