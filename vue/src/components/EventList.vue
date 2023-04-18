@@ -8,7 +8,6 @@
           <tr v-for="event in filterEvents" :key="event.id">
             <td class="event-title">{{ event.name }}</td>
             <td>{{ event.date }}</td>
-            <td>{{ event.id }}</td>
             <td>
               <router-link
                 :to="{ name: 'event-detail', params: { id: event.id } }"
@@ -38,9 +37,6 @@ export default {
         return event.name.toLowerCase().includes(this.searchText.toLowerCase());
       });
     },
-    // isDJ() {
-    //   return this.$store.state.user.authorities[0].name === "ROLE_DJ";
-    // },
   },
   methods: {
     getEvents() {
@@ -49,9 +45,9 @@ export default {
       });
     },
   },
-  // created() {
-  //     this.getEvents();
-  //   },
+  created() {
+      this.getEvents();
+    },
 };
 </script>
 

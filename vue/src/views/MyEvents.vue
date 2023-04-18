@@ -1,25 +1,16 @@
 <template>
   <div class="Events">
     <h1>My Events</h1>
-    <myEvents />
     <events />
-
-  <h1>My Songs</h1>
-  <song-display
-     v-for="song in this.songs"
-        :key="song.song_id"
-        :song="song"/>
-        
-    
+    <myEvents />  
   </div>
 </template>
 
 <script>
 import myEvents from "../components/DJEventView.vue";
 import events from "../components/EventList.vue";
-import songService from "../services/SongService";
+// import songService from "../services/SongService";
 import eventService from "../services/EventService";
-import songDisplay from "../components/SongDisplay.vue";
 
 export default {
   name: "MyEvents",
@@ -27,10 +18,6 @@ export default {
   components: {
     events,
     myEvents,
-    songDisplay,
-  },
-  mounted() {
-    document.title = "Events";
   },
   data() {
     return {
@@ -38,11 +25,7 @@ export default {
     };
   },
   created() {
-    songService.getSongs(this.$store.state.user.username).then((response) => {
-      if (response.status == 200) {
-        this.songs = response.data;
-      }
-    });
+    // this.getSongs();
     this.getEvents();
 
     eventService.getDJEvents(this.$store.state.user.username).then((response) => {
@@ -52,7 +35,6 @@ export default {
     });
     
   },
-
 methods: {
   getEvents() {
       let allEvents;
@@ -61,13 +43,27 @@ methods: {
       eventService.getAllEvents().then((response) => {
         allEvents = response.data;
       });
-      const filteredEvents = allEvents.filter((event) => event.djUsername === currentUsername);
+
+      const filteredEvents = allEvents.filter((event) => {
+        if (event.djUsername === currentUsername) {
+          return event;
+        }});
       this.$store.commit("SET_EVENTS", filteredEvents);
-    }
+    },
+    // getSongs() {
+    //   songService.getSongs(this.$store.state.user.username).then((response) => {
+    //   if (response.status == 200) {
+    //     this.songs = response.data;
+    //   }
+    // });
+    // }
 }
   
 };
 </script>
 
-<style>
+<style scoped>
+h1 {
+  text-align: center;
+}
 </style>
