@@ -59,8 +59,18 @@
     </div>
     <h2>{{ event.playlist.name }}</h2>
     <div class="song-info">
-      <song-display v-for="song in event.playlist.songs" :key="song.song_id" :song="song">
-        <div style=" display: flex; flex-direction: column; justify-content: space-between;">
+      <song-display
+        v-for="song in event.playlist.songs"
+        :key="song.song_id"
+        :song="song"
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          "
+        >
           <div id="likes">
             <span>{{ song.likes }}</span>
             <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
