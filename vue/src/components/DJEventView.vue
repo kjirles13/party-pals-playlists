@@ -1,24 +1,40 @@
 <template>
   <div class="EventContainer">
-    <button v-if="isDJ" @click="createForm">Create Event</button>
+    <button v-if="isDJ" @click="createForm" class="create">Create Event</button>
           
     <div class="create" v-if="isCreating">
-      <form v-on:submit.prevent="createEvent">
-        <label>Event Title</label>
-        <input type="text" v-model="event.name" />
-        <label>Event Description</label>
-        <input type="text" v-model="event.description" />
-        <label>Event Time</label>
-        <input type="time" v-model="event.time" />
-        <label>Event Date</label>
-        <input type="date" v-model="event.date" />
-        <label>Event Theme</label>
-        <input type="text" v-model="event.theme" />
-        <label>Playlist Name</label>
-        <input type="text" v-model="event.playlist.name" />
-        <label>Playlist Description</label>
-        <input type="text" v-model="event.playlist.description" />
-        <button class="submit-created" type="submit">Submit</button>
+      <form v-on:submit.prevent="createEvent" id="create-event">
+        <div class="create-input">
+          <label>Event Title:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.name" />
+        </div>
+        <div class="create-input">
+          <label>Event Description:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.description" />
+        </div>
+        <div class="create-input">
+          <label>Event Time:&nbsp;&nbsp;&nbsp;</label>
+          <input type="time" v-model="event.time" />
+        </div>
+        <div class="create-input">
+          <label>Event Date:&nbsp;&nbsp;&nbsp;</label>
+          <input type="date" v-model="event.date" />
+        </div>
+        <div class="create-input">
+          <label>Event Theme:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.theme" />
+        </div>
+        <div class="create-input">
+          <label>Playlist Name:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.playlist.name" />
+        </div>
+        <div class="create-input">
+          <label>Playlist Description:&nbsp;&nbsp;&nbsp;</label>
+          <input type="text" v-model="event.playlist.description" />
+        </div>
+        <div class="create-input">
+          <button class="submit-created" type="submit" >Submit</button>
+        </div>
       </form>
     </div>
       <h1>My Songs</h1>
@@ -41,8 +57,9 @@
                 name="input"
                 placeholder="Track"
                 v-model="search.track"
+                class="search-input"
               />
-              <input type="text" placeholder="Artist" v-model="search.artist" />
+              <input type="text" placeholder="Artist" v-model="search.artist" class="search-input"/>
               <br /><br />
               <button type="submit">
                 Search
@@ -410,5 +427,24 @@ h1 {
 }
 h2 {
   text-align: center;
+}
+button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.search-input {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.create-input {
+  display: block;
+  margin-bottom: 5px;
+}
+.create {
+  margin-top: 20px;
+}
+.submit-created {
+  margin-top: 10px;
+  width: 300px;
 }
 </style>
