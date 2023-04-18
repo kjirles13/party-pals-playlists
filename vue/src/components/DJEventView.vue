@@ -255,14 +255,16 @@ export default {
         this.djEvents = response.data;
       });
     },
-    getEvents() {
-      let allEvents;
-      let currentUsername = this.$store.state.user.username;
-
-      eventService.getAllEvents().then((response) => {
-        allEvents = response.data;
+     getSpotifyToken() {
+      spotifyService.getToken().then((response) => {
+        spotifyService.setAccessToken(response.data.access_token);
       });
-    },
+      songService.getGenres().then((response) => {
+        if (response.status === 200) {
+          this.genres = response.data;
+        }
+      });
+     },
   },
   created() {
     this.getSpotifyToken();
