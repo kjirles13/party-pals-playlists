@@ -1,6 +1,27 @@
 <template>
   <div>
-    <input type="text" v-model="searchText" placeholder="Search Events"/>
+    <button v-if="isDJ" @click="createForm">Create Event</button>
+
+    <div class="create" v-if="isCreating">
+      <form v-on:submit.prevent="createEvent">
+        <label>Event Title</label>
+        <input type="text" v-model="event.name" />
+        <label>Event Description</label>
+        <input type="text" v-model="event.description" />
+        <label>Event Time</label>
+        <input type="time" v-model="event.time" />
+        <label>Event Date</label>
+        <input type="date" v-model="event.date" />
+        <label>Event Theme</label>
+        <input type="text" v-model="event.theme" />
+        <label>Playlist Name</label>
+        <input type="text" v-model="event.playlist.name" />
+        <label>Playlist Description</label>
+        <input type="text" v-model="event.playlist.description" />
+        <button class="submit-created" type="submit">Submit</button>
+      </form>
+    </div>
+    <!-- <input type="text" v-model="searchText" placeholder="Search Events"/>
     <br /><br />
     <div v-for="event in $store.state.events" :key="event.id">
      <h3>Event: {{ event.name }}</h3>
@@ -16,124 +37,93 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
   </div>
 </template>
 
 <script>
 import eventService from "../services/EventService";
-import playlistService from "../services/PlaylistService";
-
-import axios from "axios";
-import authService from "../services/AuthService";
+// import playlistService from "../services/PlaylistService";
+// import authService from "../services/AuthService";
 
 export default {
   name: "event-detail",
-  components: {
-  
-  },
+  components: {},
   data() {
     return {
+      isCreating: false,
       user: null,
       isVisible: false,
       isLoading: true,
       isEditing: false,
-      event: {},
       error: "",
       clickedSongs: [],
+      event: {
+        name: "",
+        description: "",
+        time: "",
+        date: "",
+        theme: "",
+        djUsername: this.$store.state.user.username,
+        playlist: {
+          name: "",
+          description: "",
+          spotifyId: " ",
+        },
+      },
     };
-  },
-  created() {
-    this.getEvent();
   },
   computed: {
     isDJ() {
       return this.$store.state.user.username === this.event.djUsername;
     },
-    isHost() {
-      let isHost = false;
-      this.event.hosts.forEach((host) => {
-        if (host.name === this.$store.state.user.username) {
-          isHost = true;
-        }
-      })
-      return isHost;
-    }
   },
   methods: {
-    getEvent() {
-      const eventId = parseInt(this.$route.params.id);
+    createForm() {
+      this.isCreating = !this.isCreating;
+    },
+    createEvent() {
+      const date = new Date(this.event.date + " " + this.event.time);
+      const militaryTime = date.getHours() + ":" + date.getMinutes() + ":00";
+      this.event.time = militaryTime;
       eventService
-        .getEventById(eventId)
+        .createEvent(this.event)
         .then((response) => {
-          this.event = response.data;
+          if (response.status === 201) {
+            this.isCreating = false;
+            this.getEvents();
+            this.event = {
+              name: "",
+              description: "",
+              time: "",
+              date: "",
+              theme: "",
+              djUsername: this.$store.state.user.username,
+              playlist: {
+                name: "",
+                description: "",
+                spotifyId: " ",
+              },
+            };
+          }
         })
         .catch((error) => {
-          console.log(error);
-          this.isLoading = false;
-          this.error = "Error loading event";
+          this.error = error.response.data.message;
         });
     },
-    getAllUsers() {
-      authService.getAllUsers().then((response) => {
-        if (response.status === 200) {
-          this.users = response.data;
-        }
+    getEvents() {
+      let allEvents;
+      let currentUsername = this.$store.state.user.username;
+
+      eventService.getAllEvents().then((response) => {
+        allEvents = response.data;
       });
+      const filteredEvents = allEvents.filter((event) => event.djUsername === currentUsername);
+      this.$store.commit("SET_EVENTS", filteredEvents);
     },
-    incrementLikes(songId) {
-      if (this.clickedSongs.includes(songId)) {
-        return;
-      }
-      playlistService.addLikes(this.event.playlist.playlistId, songId);
-      this.clickedSongs.push(songId);
-      this.getEvent();
-    },
-    decrementLikes(songId) {
-      if (this.clickedSongs.includes(songId)) {
-        return;
-      }
-      playlistService.deleteLikes(this.event.playlist.playlistId, songId);
-      this.clickedSongs.push(songId);
-      this.getEvent();
-    },
-    editEvent() {
-      this.isEditing = !this.isEditing;
-    },
-    updateEventDetails() {
-      const eventId = parseInt(this.$route.params.id);
-      eventService
-        .updateEvent(this.event, eventId)
-        .then((response) => {
-          console.log("Event updated successfully:", response);
-          this.isEditing = false;
-        })
-        .catch((error) => {
-          console.log("Error updating event:", error);
-        });
-    },
-    deleteHost(hostName) {
-      eventService
-        .removeHostFromEvent(this.event.id, hostName)
-        .then(() => {
-            this.getEvent();
-        });
-    },
-    addHost(name) {
-      eventService.addHostToEvent(this.event.id, name).then(() => {
-        this.getEvent();
-      })
-    }
   },
-  submitSong(songId, playlistId) {
-    axios
-      .post("/api/add-song-to-playlist", {
-        songId: songId,
-        playlistId: playlistId,
-      })
-      .then((response) => {
-        this.$store.commit(response.data);
-      });
+  created() {
+    this.getEvents();
   },
 };
 </script>
