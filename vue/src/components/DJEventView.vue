@@ -190,7 +190,6 @@ export default {
         });
         this.$store.commit("SET_EVENTS", djEvents) 
       }
-    
     });
     },
     searchForTrack() {
