@@ -8,7 +8,7 @@
           <label>Event Title:&nbsp;&nbsp;&nbsp;</label>
           <input type="text" v-model="event.name" />
         </div>
-        <div class="create-input">
+        <div class="create-input">  
           <label>Event Description:&nbsp;&nbsp;&nbsp;</label>
           <input type="text" v-model="event.description" />
         </div>

@@ -50,7 +50,7 @@
     <div id="song-container">
       <div class="song-info">
       <h2>{{ event.playlist.name }}</h2>
-      <div v-for="song in event.playlist.songs" :key="song.id">
+      <div v-for="song in event.playlist.songs" :key="song.id" >
         <song-display :song="song">
         <div style=" display: flex; flex-direction: column; justify-content: space-between;">
           <div id="likes">
