@@ -33,6 +33,18 @@
           <input type="text" v-model="event.playlist.description" />
         </div>
         <div class="create-input">
+          <select id="genre-create" v-model="event.playlist.genres" multiple>
+                <option value="">Choose a genre</option>
+                <option
+                  v-for="genre in allGenres"
+                  :key="genre.id"
+                  v-bind:value="genre"
+                >
+                  {{ genre.name }}
+                </option>
+              </select>
+          </div>
+        <div class="create-input">
           <button class="submit-created" type="submit" >Submit</button>
         </div>
       </form>
@@ -96,12 +108,12 @@
                 <option value="4">4 Stars</option>
                 <option value="5">5 Stars</option>
               </select>
-              <select id="genre" v-model="genreId" >
+              <select id="genre" v-model="event.playlist.genres" multiple>
                 <option value="">Choose a genre</option>
                 <option
-                  v-for="genre in genres"
+                  v-for="genre in allGenres"
                   :key="genre.id"
-                  v-bind:value="genre.id"
+                  v-bind:value="genre"
                 >
                   {{ genre.name }}
                 </option>
@@ -141,8 +153,7 @@ export default {
         track: "",
         artist: "",
       },
-      genres: [],
-      genreId: "",
+      allGenres: [],
       rating: "",
       songId: "",
       isCreating: false,
@@ -157,8 +168,8 @@ export default {
           name: "",
           description: "",
           spotifyId: " ",
+          genres: []
         },
-        selectedOption: null,
       },
     };
   },
@@ -215,9 +226,6 @@ export default {
       if (!this.rating) {
         this.rating = 0;
       }
-      const genre = this.genres.find((item) => {
-        return item.id === this.genreId;
-      });
       const addedSong = {
         id: song.id,
         name: song.name,
@@ -226,7 +234,7 @@ export default {
         rating: this.rating,
         likes: 0,
         dislikes: 0,
-        genres: [genre],
+        genres: this.event.playlist.genres,
         artists: song.artists,
       };
       songService.addSongToDjList(addedSong).then((response) => {
@@ -238,6 +246,7 @@ export default {
         }
       });
       this.falseIsShowing();
+      this.selectedGenres = [];
       this.songId = 0;
     },
     deleteSong(songId) {
@@ -283,6 +292,7 @@ export default {
                 spotifyId: " ",
               },
             };
+            this.selectedGenres = [];
           }
         })
         .catch((error) => {
@@ -293,17 +303,20 @@ export default {
       spotifyService.getToken().then((response) => {
         spotifyService.setAccessToken(response.data.access_token);
       });
-      songService.getGenres().then((response) => {
+     },
+     getAllGenres() {
+       songService.getGenres().then((response) => {
         if (response.status === 200) {
-          this.genres = response.data;
+          this.allGenres = response.data;
         }
       });
-     },
+     }
   },
   created() {
     this.getSpotifyToken();
     this.getSongs();
-    this.getAllEvents(); 
+    this.getAllEvents();
+    this.getAllGenres();
   },
 };
 </script>
