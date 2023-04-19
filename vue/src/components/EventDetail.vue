@@ -46,6 +46,9 @@
         </option>
       </select>
       <button @click="addHost">Add</button>
+      <div v-for="genre in event.playlist.genres" :key="genre.id">
+        <p>{{genre.name}}&nbsp;</p>
+      </div>
     </div>
     <div id="song-container">
       <div class="song-info">
