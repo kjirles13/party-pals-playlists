@@ -56,11 +56,12 @@
       </select>
       <button @click="addHost">Add</button>
     </div>
-    <h2>{{ event.playlist.name }}</h2>
-    <div class="song-info">
+    <div id="song-container">
+      <div class="song-info">
+      <h2>{{ event.playlist.name }}</h2>
       <song-display
         v-for="song in event.playlist.songs"
-        :key="song.song_id"
+        :key="song.id"
         :song="song"
       >
         <div
@@ -107,6 +108,13 @@
         </div>
       </song-display>
     </div>
+    <div id="dj-songs">
+      <h2>Available Songs</h2>
+      <div v-for="song in availableSongs" :key="song.id">
+        <song-display :song="song"></song-display>
+      </div>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -114,9 +122,9 @@
 import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
-import axios from "axios";
 import authService from "../services/AuthService";
 import moment from 'moment';
+import songService from '../services/SongService';
 
 export default {
   name: "event-detail",
@@ -133,6 +141,7 @@ export default {
       clickedSongs: [],
       selectedHost: "",
       users: [],
+      availableSongs: []
     };
   },
   computed: {
@@ -167,6 +176,13 @@ export default {
     },
   },
   methods: {
+    getAvailableSongs() {
+      songService.getSongs(this.event.djUsername).then(response => {
+        if (response.status === 200) {
+          this.availableSongs = response.data;
+        }
+      })
+    },
     vetoSong(songId) {
         playlistService.vetoSong(this.event.playlist.playlistId, songId).then(response => {
           if (response.status === 200) {
@@ -174,12 +190,13 @@ export default {
           }
         })
     },
-    getEvent() {
+    getEvent(callBack) {
       const eventId = parseInt(this.$route.params.id);
       eventService
         .getEventById(eventId)
         .then((response) => {
           this.event = response.data;
+          callBack();
         })
         .catch((error) => {
           console.log(error);
@@ -235,25 +252,19 @@ export default {
         this.getEvent();
       });
     },
-    submitSong(songId, playlistId) {
-      axios
-        .post("/api/add-song-to-playlist", {
-          songId: songId,
-          playlistId: playlistId,
-        })
-        .then((response) => {
-          this.$store.commit(response.data);
-        });
-    },
   },
   created() {
-    this.getEvent();
+    this.getEvent(this.getAvailableSongs);
     this.getAllUsers();
   },
 };
 </script>
 
 <style scoped>
+#song-container {
+  display: flex;
+  justify-content: space-evenly;
+}
 #theme-date-time {
   display: flex;
   justify-content: center;

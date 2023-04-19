@@ -7,10 +7,8 @@ import Register from '../views/Register.vue'
 import store from '../store/index'
 import Events from '../views/Events.vue'
 import EventDetail from '../components/EventDetail.vue'
-
 import MyEvents from '../views/MyEvents.vue'
 import SongSearch from '../views/MyEvents.vue'
-import Account from '../views/Account.vue'
 
 Vue.use(Router)
 
@@ -58,11 +56,6 @@ const router = new Router({
       name: "SongSearch",
       component: SongSearch,
     },
-    {
-      path: "/account",
-      name: "account",
-      component: Account,
-    }
   ]
 })
 
