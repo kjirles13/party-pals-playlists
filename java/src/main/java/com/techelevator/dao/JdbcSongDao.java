@@ -203,7 +203,12 @@ public class JdbcSongDao implements SongDao {
         String sql = "DELETE FROM public.dj_song " +
                 "WHERE song_id = ? " +
                 "AND dj_id = ?;";
+        jdbcTemplate.update(sql, songId, userId);
 
+        sql = "DELETE FROM public.playlist_song " +
+                "USING dj_song " +
+                "WHERE playlist_song.song_id = ? " +
+                "AND dj_song.dj_id = ?;";
         jdbcTemplate.update(sql, songId, userId);
     }
 
