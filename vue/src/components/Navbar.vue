@@ -17,26 +17,22 @@
 import { mapState } from "vuex";
 export default {
   name: "navbar",
-
   computed: {
   ...mapState(["token"]),
   loggedIn() {
     return this.token !== "";
   },
 },
-
 methods: {
   logout() {
     this.$store.commit("LOGOUT");
     this.$router.push("/login");
   }
 }
-
 }
 </script>
 
 <style scoped>
-
 .nav-bar {
   font-family:sans-serif;
   top: 0;

@@ -14,7 +14,6 @@
       </head>
     </div>
 </template>
-
 <script>
 import Navigation from './views/Navigation.vue'
 

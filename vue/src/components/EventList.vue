@@ -51,7 +51,6 @@ export default {
               ...event,
               formattedDate: moment(event.date).format('MMMM Do, YYYY'),
               dj: event.djUsername,
-            //   host: event.host,
           }
       });
     },
@@ -131,6 +130,5 @@ tr:hover {
     text-decoration: none;
     color: black !important;
 }
-
 
 </style>
