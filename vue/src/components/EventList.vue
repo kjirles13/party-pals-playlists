@@ -1,26 +1,38 @@
 <template>
-  <div>
+
+<div>
     <div>
       <input type="text" v-model="searchText" placeholder="Search Events" />
       <br /><br />
       <table>
+        <thead>
+          <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>DJ</th>
+          </tr>
+        </thead>
         <tbody>
           <tr v-for="event in filterEvents" :key="event.id">
-            <td class="event-title">{{ event.name }}</td>
-            <td>{{ event.date }}</td>
-            <td>
-              <router-link :to="{ name: 'event-detail', params: { id: event.id } }">View Details</router-link>
+            <td class="event-title">
+              <router-link :to="{ name: 'event-detail', params: { id: event.id } }" class="event-link">
+                {{ event.name }}
+              </router-link>
             </td>
+            <td>{{ event.formattedDate }}</td>
+            <td>{{ event.djUsername }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+
+
 </template>
 
 <script>
 import eventService from "../services/EventService";
-
+import moment from 'moment';
 export default {
   name: "EventList",
   data() {
@@ -29,9 +41,19 @@ export default {
     };
   },
   computed: {
+      formattedDate(){
+     return moment(this.event.date).format('MMMM Do, YYYY');
+  },
     filterEvents() {
       return this.$store.state.events.filter((event) => {
         return event.name.toLowerCase().includes(this.searchText.toLowerCase());
+      }).map((event) => {
+          return {
+              ...event,
+              formattedDate: moment(event.date).format('MMMM Do, YYYY'),
+              dj: event.djUsername,
+            //   host: event.host,
+          }
       });
     },
   },
@@ -49,6 +71,20 @@ export default {
 </script>
 
 <style scoped>
+.event-hosts {
+  vertical-align: middle;
+  margin-bottom: 10px;
+  padding-top: 10px;
+}
+@media (max-width: 768px) {
+  .event-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  table {
+  width: 100%;
+}
+}
 .banner-clickable {
   position: relative;
 }
@@ -68,16 +104,31 @@ table {
 th,
 td {
   text-align: left;
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
 }
 
 th {
-  background-color: #4caf50;
+  background-color: #609461;
   color: white;
 }
 .event-title {
   font-size: 18px;
   font-weight: bold;
 }
+tr:link {
+    text-decoration: none;
+}
+tr:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.event-link {
+    text-decoration: none;
+}
+
+
 </style>
