@@ -66,7 +66,7 @@ ul {
   color: rgb(5, 0, 0);
 }
 .nav-bar a:hover {
-  color: #61b292;
+  color: #36584b;
 }
 
 .nav {
