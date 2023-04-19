@@ -34,23 +34,14 @@
       <div v-if="event.hosts.length">
         <div v-for="host in event.hosts" :key="host.id">
           <p class="host-name">{{ host.name }}</p>
-          <span
-            style="color: #8b0000; cursor: pointer"
-            v-on:click="deleteHost(host.name)"
-            v-if="isDj"
-            >x</span
-          >
+          <span style="color: #8b0000; cursor: pointer" v-on:click="deleteHost(host.name)" v-if="isDj">x</span>
         </div>
       </div>
     </div>
     <div v-if="isDj">
       <label for="host-select">Add Host:</label>
       <select id="host-select" v-model="selectedHost">
-        <option
-          v-for="user in availableHosts"
-          :value="user.username"
-          v-bind:key="user.id"
-        >
+        <option v-for="user in availableHosts" :value="user.username" v-bind:key="user.id">
           {{ user.username }}
         </option>
       </select>
@@ -59,61 +50,29 @@
     <div id="song-container">
       <div class="song-info">
       <h2>{{ event.playlist.name }}</h2>
-      <song-display
-        v-for="song in event.playlist.songs"
-        :key="song.id"
-        :song="song"
-      >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-          "
-        >
+      <song-display v-for="song in event.playlist.songs" :key="song.id" :song="song">
+        <div style=" display: flex; flex-direction: column; justify-content: space-between;">
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img
-              src="../images/thumbs-up.png"
-              alt="Likes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="incrementLikes(song.id)"
-              :class="{
-                disabled: song.clicked || clickedSongs.includes(song.id),
-              }"
-            />
+            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img
-              src="../images/thumbs-down.png"
-              alt="Dislikes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="decrementLikes(song.id)"
-              :class="{
-                disabled: song.clicked || clickedSongs.includes(song.id),
-              }"
-            />
+            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
           </div>
-          <button
-            v-if="isHost"
-            @click="vetoSong(song.id)"
-          >Veto</button>
+          <button v-if="isHost" @click="vetoSong(song.id)">Veto</button>
         </div>
       </song-display>
-    </div>
-    <div id="dj-songs">
-      <h2>Available Songs</h2>
-      <div v-for="song in availableSongs" :key="song.id">
-        <song-display :song="song"></song-display>
       </div>
-    </div>
+      <div id="dj-songs">
+        <h2>Available Songs</h2>
+        <div v-for="song in availableSongs" :key="song.id">
+          <div class="song-item">
+          <song-display :song="song"></song-display>
+          <button @click="submitSong(song.id)">Submit to Playlist</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -141,7 +100,8 @@ export default {
       clickedSongs: [],
       selectedHost: "",
       users: [],
-      availableSongs: []
+      availableSongs: [],
+      playlist: []
     };
   },
   computed: {
@@ -252,6 +212,15 @@ export default {
         this.getEvent();
       });
     },
+    submitSong(songId) {
+      playlistService.addSongToPlaylist(this.event.playlist.playlistId, songId).then(response => {
+         if (response.status === 200) {
+            alert("Song successfully added");
+            this.getEvent();
+          }
+      })
+    
+  }
   },
   created() {
     this.getEvent(this.getAvailableSongs);
