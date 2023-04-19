@@ -34,78 +34,48 @@
       <div v-if="event.hosts.length">
         <div v-for="host in event.hosts" :key="host.id">
           <p class="host-name">{{ host.name }}</p>
-          <span
-            style="color: #8b0000; cursor: pointer"
-            v-on:click="deleteHost(host.name)"
-            v-if="isDj"
-            >x</span
-          >
+          <span style="color: #8b0000; cursor: pointer" v-on:click="deleteHost(host.name)" v-if="isDj">x</span>
         </div>
       </div>
     </div>
     <div v-if="isDj">
       <label for="host-select">Add Host:</label>
       <select id="host-select" v-model="selectedHost">
-        <option
-          v-for="user in availableHosts"
-          :value="user.username"
-          v-bind:key="user.id"
-        >
+        <option v-for="user in availableHosts" :value="user.username" v-bind:key="user.id">
           {{ user.username }}
         </option>
       </select>
       <button @click="addHost">Add</button>
     </div>
-    <h2>{{ event.playlist.name }}</h2>
-    <div class="song-info">
-      <song-display
-        v-for="song in event.playlist.songs"
-        :key="song.song_id"
-        :song="song"
-      >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-          "
-        >
+    <div id="song-container">
+      <div class="song-info">
+      <h2>{{ event.playlist.name }}</h2>
+      <div v-for="song in event.playlist.songs" :key="song.id">
+        <song-display :song="song">
+        <div style=" display: flex; flex-direction: column; justify-content: space-between;">
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img
-              src="../images/thumbs-up.png"
-              alt="Likes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="incrementLikes(song.id)"
-              :class="{
-                disabled: song.clicked || clickedSongs.includes(song.id),
-              }"
-            />
+            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id) || isDj}" />
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img
-              src="../images/thumbs-down.png"
-              alt="Dislikes"
-              width="15"
-              height="15"
-              class="thumb"
-              style="margin-bottom: 10px; cursor: pointer"
-              @click="decrementLikes(song.id)"
-              :class="{
-                disabled: song.clicked || clickedSongs.includes(song.id),
-              }"
-            />
+            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id) || isDj}" />
           </div>
-          <button
-            v-if="isHost"
-            @click="vetoSong(song.id)"
-          >Veto</button>
+          <button v-if="isHost" @click="vetoSong(song.id)">Veto</button>
         </div>
       </song-display>
+        <button @click="removeSong(song.id)" v-if="isDj">Remove from Playlist</button>
+      </div>
+      </div>
+      <div id="dj-songs">
+        <h2>Available Songs</h2>
+        <div v-for="song in availableSongs" :key="song.id">
+          <div class="song-item">
+          <song-display :song="song"></song-display>
+          <button @click="submitSong(song.id)" v-if="isDj || isHost">Submit to Playlist</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -114,9 +84,9 @@
 import eventService from "../services/EventService";
 import playlistService from "../services/PlaylistService";
 import SongDisplay from "@/components/SongDisplay.vue";
-import axios from "axios";
 import authService from "../services/AuthService";
 import moment from 'moment';
+import songService from '../services/SongService';
 
 export default {
   name: "event-detail",
@@ -133,6 +103,8 @@ export default {
       clickedSongs: [],
       selectedHost: "",
       users: [],
+      availableSongs: [],
+      playlist: []
     };
   },
   computed: {
@@ -167,6 +139,17 @@ export default {
     },
   },
   methods: {
+    getAvailableSongs() {
+      songService.getSongs(this.event.djUsername).then(response => {
+        if (response.status === 200) {
+          this.availableSongs = response.data.filter(song => {
+            if (this.event.playlist.songs.filter(a => a.id === song.id).length === 0) {
+              return song;
+            }
+          });
+        }
+      })
+    },
     vetoSong(songId) {
         playlistService.vetoSong(this.event.playlist.playlistId, songId).then(response => {
           if (response.status === 200) {
@@ -174,12 +157,13 @@ export default {
           }
         })
     },
-    getEvent() {
+    getEvent(callBack) {
       const eventId = parseInt(this.$route.params.id);
       eventService
         .getEventById(eventId)
         .then((response) => {
           this.event = response.data;
+          callBack();
         })
         .catch((error) => {
           console.log(error);
@@ -224,6 +208,7 @@ export default {
         .catch((error) => {
           console.log("Error updating event:", error);
         });
+        this.isEditing();
     },
     deleteHost(hostName) {
       eventService.removeHostFromEvent(this.event.id, hostName).then(() => {
@@ -235,25 +220,36 @@ export default {
         this.getEvent();
       });
     },
-    submitSong(songId, playlistId) {
-      axios
-        .post("/api/add-song-to-playlist", {
-          songId: songId,
-          playlistId: playlistId,
-        })
-        .then((response) => {
-          this.$store.commit(response.data);
-        });
+    submitSong(songId) {
+      playlistService.addSongToPlaylist(this.event.playlist.playlistId, songId).then(response => {
+         if (response.status === 200) {
+            alert("Song successfully added");
+            this.getEvent(this.getAvailableSongs);
+          }
+      })
+  },
+  removeSong(songId) {
+      playlistService.removeSongFromPlaylist(this.event.playlist.playlistId, songId).then(response => {
+         if (response.status === 204) {
+            alert("Song successfully removed");
+            this.getEvent(this.getAvailableSongs);
+          }
+      })
+
     },
   },
   created() {
-    this.getEvent();
+    this.getEvent(this.getAvailableSongs);
     this.getAllUsers();
   },
 };
 </script>
 
 <style scoped>
+#song-container {
+  display: flex;
+  justify-content: space-evenly;
+}
 #theme-date-time {
   display: flex;
   justify-content: center;

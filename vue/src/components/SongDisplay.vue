@@ -36,7 +36,6 @@ export default {
     return {
     };
   },
-  
   methods: {
     setVolume(event) {
       event.target.volume = 0.2;
