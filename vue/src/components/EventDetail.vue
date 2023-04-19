@@ -69,7 +69,7 @@
         <div v-for="song in availableSongs" :key="song.id">
           <div class="song-item">
           <song-display :song="song"></song-display>
-          <button @click="submitSong(song.id)">Submit to Playlist</button>
+          <button @click="submitSong(song.id)" v-if="isDj || isHost">Submit to Playlist</button>
           </div>
         </div>
       </div>
