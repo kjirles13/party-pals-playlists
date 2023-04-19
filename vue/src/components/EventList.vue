@@ -1,6 +1,6 @@
 <template>
-
-<div>
+<body>
+  <div>
     <div>
       <input type="text" v-model="searchText" placeholder="Search Events" />
       <br /><br />
@@ -26,8 +26,7 @@
       </table>
     </div>
   </div>
-
-
+</body>
 </template>
 
 <script>
@@ -94,11 +93,13 @@ export default {
 
 .event-list {
   margin-top: 20px;
+  margin-bottom: 50px;
 }
 
 table {
   border-collapse: collapse;
   width: 100%;
+  height: 100%;
 }
 
 th,
