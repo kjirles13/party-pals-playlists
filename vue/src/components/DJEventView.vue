@@ -46,12 +46,6 @@
           <button type="button" @click="deleteSong(song.id)">
             Delete
           </button>
-          <!-- <input
-                type="button"
-                id="add"
-                v-bind:value="song.id"
-                v-model="songId"
-              /> -->
         </div>
       </div>
       <div id="search-page">

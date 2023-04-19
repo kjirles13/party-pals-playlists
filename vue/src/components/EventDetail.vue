@@ -208,6 +208,7 @@ export default {
         .catch((error) => {
           console.log("Error updating event:", error);
         });
+        this.isEditing();
     },
     deleteHost(hostName) {
       eventService.removeHostFromEvent(this.event.id, hostName).then(() => {
