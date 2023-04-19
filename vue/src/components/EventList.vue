@@ -1,4 +1,5 @@
 <template>
+<body>
   <div>
     <div>
       <input type="text" v-model="searchText" placeholder="Search Events" />
@@ -16,6 +17,7 @@
       </table>
     </div>
   </div>
+</body>
 </template>
 
 <script>
@@ -49,26 +51,28 @@ export default {
 </script>
 
 <style scoped>
-.banner-clickable {
-  position: relative;
-}
-.banner img {
-  max-width: 100%;
+body {
+  background: url('C:\Users\Student\workspace\nlr-12-module-3-final-capstone-party-playlist\vue\src\images\background.png') !important;
+  background-repeat: no-repeat;
+  background-size: cover !important;
+  
 }
 
 .event-list {
   margin-top: 20px;
+  margin-bottom: 50px;
 }
 
 table {
   border-collapse: collapse;
   width: 100%;
+  height: 100%;
 }
 
 th,
 td {
   text-align: left;
-  padding: 8px;
+  padding: 20px;
   border-bottom: 1px solid #ddd;
 }
 
