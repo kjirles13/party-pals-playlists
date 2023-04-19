@@ -35,7 +35,7 @@ export default {
   position:relative;
   margin: 0;
   padding: 0;
-font-family: 'Fira Sans', sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   background:url('C:\Users\Student\workspace\nlr-12-module-3-final-capstone-party-playlist\vue\src\images\background.png') no-repeat center center fixed;
   background-size:cover;
   }
