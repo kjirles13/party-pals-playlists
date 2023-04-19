@@ -164,6 +164,7 @@ export default {
           description: "",
           spotifyId: " ",
         },
+        selectedOption: null,
       },
     };
   },
@@ -247,13 +248,12 @@ export default {
       this.falseIsShowing();
       this.songs.unshift(addedSong);
       this.songId = 0;
-      this.reset();
+      this.resetForm();
     },
-    resetForm() {  
-      document.getElementById("rating").selectedIndex = 0;
-      document.getElementById("genre").selectedIndex = 0;
-
-    },
+    // resetForm() {
+    //   const songForm = document.getElementById("add-song");
+    //   this.$refs.songForm.reset();
+    // },
     deleteSong(songId) {
       const confirmation = confirm("Are you sure you want to delete this song?");
       if (confirmation) {
@@ -375,7 +375,7 @@ input {
   margin-left: 10px;
 }
 #rating {
-  width: 40px;
+  min-width: 40px;
   margin-left: 10px;
   margin-top: 20px;
 }

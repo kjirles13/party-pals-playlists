@@ -50,19 +50,22 @@
     <div id="song-container">
       <div class="song-info">
       <h2>{{ event.playlist.name }}</h2>
-      <song-display v-for="song in event.playlist.songs" :key="song.id" :song="song">
+      <div v-for="song in event.playlist.songs" :key="song.id">
+        <song-display :song="song">
         <div style=" display: flex; flex-direction: column; justify-content: space-between;">
           <div id="likes">
             <span>{{ song.likes }}</span>
-            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
+            <img src="../images/thumbs-up.png" alt="Likes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="incrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id) || isDj}" />
           </div>
           <div id="dislikes">
             <span>{{ song.dislikes }}</span>
-            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id),}"/>
+            <img src="../images/thumbs-down.png" alt="Dislikes" width="15" height="15" class="thumb" style="margin-bottom: 10px; cursor: pointer" @click="decrementLikes(song.id)" :class="{disabled: song.clicked || clickedSongs.includes(song.id) || isDj}" />
           </div>
           <button v-if="isHost" @click="vetoSong(song.id)">Veto</button>
         </div>
       </song-display>
+        <button @click="removeSong(song.id)" v-if="isDj">Remove from Playlist</button>
+      </div>
       </div>
       <div id="dj-songs">
         <h2>Available Songs</h2>
@@ -139,7 +142,11 @@ export default {
     getAvailableSongs() {
       songService.getSongs(this.event.djUsername).then(response => {
         if (response.status === 200) {
-          this.availableSongs = response.data;
+          this.availableSongs = response.data.filter(song => {
+            if (this.event.playlist.songs.filter(a => a.id === song.id).length === 0) {
+              return song;
+            }
+          });
         }
       })
     },
@@ -216,11 +223,19 @@ export default {
       playlistService.addSongToPlaylist(this.event.playlist.playlistId, songId).then(response => {
          if (response.status === 200) {
             alert("Song successfully added");
-            this.getEvent();
+            this.getEvent(this.getAvailableSongs);
           }
       })
-    
-  }
+  },
+  removeSong(songId) {
+      playlistService.removeSongFromPlaylist(this.event.playlist.playlistId, songId).then(response => {
+         if (response.status === 204) {
+            alert("Song successfully removed");
+            this.getEvent(this.getAvailableSongs);
+          }
+      })
+
+    },
   },
   created() {
     this.getEvent(this.getAvailableSongs);
