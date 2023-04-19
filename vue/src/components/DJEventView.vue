@@ -81,7 +81,7 @@
               <button type="submit">
                 Search
               </button>
-              <button type="button" @click="falseIsShowing">Cancel</button>
+              <button type="button" @click="falseIsShowing(); resetMenus()">Cancel</button>
             </form>
           </div>
         </div>
@@ -108,7 +108,7 @@
                 <option value="4">4 Stars</option>
                 <option value="5">5 Stars</option>
               </select>
-              <select id="genre" v-model="event.playlist.genres" multiple>
+              <select id="genre-song" v-model="event.playlist.genres" multiple>
                 <option value="">Choose a genre</option>
                 <option
                   v-for="genre in allGenres"
@@ -182,8 +182,7 @@ export default {
     getSongs() {
       songService.getSongs(this.$store.state.user.username).then((response) => {
         this.songs = response.data;
-    });
-    
+    });  
     },
     getAllEvents(){
     eventService.getAllEvents().then((response) => {
@@ -246,7 +245,7 @@ export default {
         }
       });
       this.falseIsShowing();
-      this.selectedGenres = [];
+      this.resetMenus();
       this.songId = 0;
     },
     deleteSong(songId) {
@@ -290,14 +289,19 @@ export default {
                 name: "",
                 description: "",
                 spotifyId: " ",
+                genres: []
               },
             };
-            this.selectedGenres = [];
           }
         })
         .catch((error) => {
           this.error = error.response.data.message;
         });
+    },
+    resetMenus() {
+      this.event.playlist.genres = [];
+      this.rating = 0;
+      this.search = {};
     },
      getSpotifyToken() {
       spotifyService.getToken().then((response) => {
@@ -376,7 +380,7 @@ input {
   margin-left: 10px;
   margin-top: 20px;
 }
-#genre {
+#genre-song {
   margin-top: 5px;
   margin-left: 10px;
 }
