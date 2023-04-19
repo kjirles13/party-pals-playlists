@@ -205,6 +205,14 @@ public class JdbcSongDao implements SongDao {
                 "AND dj_id = ?;";
 
         jdbcTemplate.update(sql, songId, userId);
+
+        sql = "DELETE " +
+                "FROM playlist_song " +
+                "USING events " +
+                "WHERE playlist_song.playlist_id = events.playlist_id " +
+                "AND playlist_song.song_id = ? " +
+                "AND events.dj_id = ?";
+        jdbcTemplate.update(sql, songId, userId);
     }
 
     private Song mapRowToSong(SqlRowSet rs) {
