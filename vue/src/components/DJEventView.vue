@@ -87,7 +87,7 @@
                 v-bind:value="song.id"
                 v-model="songId"
               />
-              <form id="add-song" v-on:submit.prevent="addSong()" v-if="song.id === songId">
+              <form id="add-song" v-on:submit.prevent="addSong(getSongs)" v-if="song.id === songId">
               <select name="rating" id="rating" v-model="rating">
                 <option value="">Rating</option>
                 <option value="1">1 Star</option>
@@ -124,7 +124,7 @@ import SongDisplay from "@/components/SongDisplay.vue";
 
 
 export default {
-  name: "event-detail",
+  name: "my-events",
   components: {
     SongDisplay,
   },
@@ -166,9 +166,6 @@ export default {
     isDJ() {
       return this.$store.state.user.username === this.event.djUsername;
     },
-    currentSong() {
-      return this.searchTracks.tracks.items.indexOf(this.songId);
-    }
   },
   methods: {
     getSongs() {
@@ -211,7 +208,7 @@ export default {
       }
       this.trueIsShowing();
     },
-    addSong() {
+    addSong(callback) {
       const song = this.searchTracks.tracks.items.find((track) => {
         return track.id === this.songId;
       });
@@ -234,20 +231,15 @@ export default {
       };
       songService.addSongToDjList(addedSong).then((response) => {
         if (response.status === 201 || response.status === 200) {
+          callback();
           window.alert("Song successfully added");
         } else {
           window.alert("There was an issue adding this song to your playlist");
         }
       });
       this.falseIsShowing();
-      this.songs.unshift(addedSong);
       this.songId = 0;
-      this.resetForm();
     },
-    // resetForm() {
-    //   const songForm = document.getElementById("add-song");
-    //   this.$refs.songForm.reset();
-    // },
     deleteSong(songId) {
       const confirmation = confirm("Are you sure you want to delete this song?");
       if (confirmation) {
@@ -296,9 +288,7 @@ export default {
         .catch((error) => {
           this.error = error.response.data.message;
         });
-      
     },
-    
      getSpotifyToken() {
       spotifyService.getToken().then((response) => {
         spotifyService.setAccessToken(response.data.access_token);

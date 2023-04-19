@@ -22,7 +22,7 @@ public class JdbcSongDao implements SongDao {
         String songSql = "SELECT songs.song_id, songs.title, songs.spotify_link, songs.preview, dj_song.song_rating " +
                 "FROM public.songs " +
                 "LEFT JOIN dj_song ON dj_song.song_id = songs.song_id " +
-                "WHERE dj_song.dj_id = ?;";
+                "WHERE dj_song.dj_id = ?";
 
         SqlRowSet songResults = jdbcTemplate.queryForRowSet(songSql, userId);
 
