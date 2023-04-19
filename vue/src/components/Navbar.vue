@@ -43,7 +43,7 @@ methods: {
   left: 0;
   bottom: 0;
   width: 200px;
-  background-color: #f3d2bb;
+  background-color: #73caa0;
   border-color: black 20px;
   font-weight: bold;  
 }

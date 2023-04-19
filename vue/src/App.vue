@@ -66,14 +66,13 @@ header {
   align-items: center;
   height: 100px;
   width: 100%;
-  background-color: #f3d2bb;
+  background-color: #73caa0;
   text-align: center;
   top: 0px;
   z-index: 1; 
 }
 .p1{
   font-family: 'Righteous', cursive;
-
 }
 img {
   margin-right: 10px;

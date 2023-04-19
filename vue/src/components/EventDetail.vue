@@ -40,14 +40,13 @@
           <p v-if="event.hosts.length <= 1">Your host is:</p>
           <p v-else-if="event.hosts.length > 1">Your hosts are:</p>
           <div>
-            <div v-for="host in event.hosts" :key="host.id">
+            <div v-for="host in event.hosts" :key="host.id" style="display: flex; justify-content: space-evenly;">
               <p class="host-name">{{ host.name }}</p>
-              <span
+              <p
                 style="color: #8b0000; cursor: pointer"
                 v-on:click="deleteHost(host.name)"
                 v-if="isDj"
-                >x</span
-              >
+                >x</p>
             </div>
           </div>
         </div>
@@ -317,11 +316,6 @@ h2 {
   justify-content: space-evenly;
   font-size: 1.1rem;
 }
-/* .event-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
 .event-image {
   width: 100%;
   max-width: 600px;
@@ -334,9 +328,6 @@ h2 {
   align-items: center;
   margin-bottom: 1rem;
 }
-.event-details button:hover {
-  background-color: #f1d689;
-}
 #song-container {
   display: flex;
   justify-content: space-evenly;
@@ -348,29 +339,18 @@ h2 {
   text-align: center;
 }
 .hosts {
-  /* justify-content: space-around; */
-  /* max-width: 300px; */
-  background-color: #bdccc1;
+  background-color: #CCC6C4;
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
-  /* align-items: center; */
 }
 .theme-date-time {
   justify-content: space-around;
-  background-color: #bdccc1;
+  background-color: #CCC6C4;
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
 }
-/* #title-dj-descript {
-  justify-content: space-around;
-  background-color: #d1cbcb;
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-} */
 
 #theme-date-time h4 {
   font-size: 18px;
@@ -437,7 +417,7 @@ h2 {
 }
 
 .submit-edit:hover {
-  background-color: #ebaa7c;
+  background-color: #CCC6C4;
 }
 
 label {
@@ -455,7 +435,7 @@ input {
 }
 
 .title-dj-descript {
-  background-color: #bdccc1;
+  background-color: #73caa0;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -480,8 +460,8 @@ input {
 .edit-cancel {
   font-size: 16px;
   padding: 5px 10px;
-
-  background-color: #f3d2bb;
+  margin-bottom: 10px;
+  background-color: #ada09b;
   border: none;
   border-radius: 4px;
   cursor: pointer;
