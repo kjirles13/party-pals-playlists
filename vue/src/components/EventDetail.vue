@@ -411,13 +411,18 @@ h2 {
   padding: 3px 6px 3px 6px;
   margin-top: 10px;
   font-size: 16px;
-  background-color: #f3d2bb;
-  color: white;
+  background-color: #ada09b;
+  color: black;
   border: none;
+  margin-bottom: 20px;
 }
 
 .submit-edit:hover {
-  background-color: #CCC6C4;
+  background-color: #bbb5b3;
+}
+
+.edit-cancel:hover {
+  background-color: #bbb5b3;
 }
 
 label {
