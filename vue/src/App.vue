@@ -13,6 +13,7 @@
         <title/>
       </head>
     </div>
+    <body> 
 </template>
 
 <script>
@@ -27,15 +28,18 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap');
 #MainView {
   display: flex;
   flex-grow: 2;
   position: relative;
-  font-family: sans-serif;
+font-family: 'Fira Sans', sans-serif;
   width: 100%;
   height: 100%;
   background: radial-gradient(#e0fcd8, #fcfdfb);}
 .p1{
+  font-family: 'Righteous', cursive;
   display:flex;
   position: absolute;
   text-align: center;
@@ -67,8 +71,8 @@ header {
   z-index: 1; 
 }
 .p1{
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-size:x-large;
+  font-family: 'Righteous', cursive;
+
 }
 img {
   margin-right: 10px;
